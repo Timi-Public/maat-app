@@ -2,9 +2,9 @@
 
 A bright, mobile app prototype for prediction-market Agent execution and liquidity services. Open it on a phone for the app experience, or on a computer for a phone preview and screen board.
 
-Live preview: https://timi-public.github.io/forea-app/
+Live preview: https://timi-public.github.io/maat-app/
 
-Screen board: https://timi-public.github.io/forea-app/review.html
+Screen board: https://timi-public.github.io/maat-app/review.html
 
 ## Run locally
 
@@ -40,4 +40,4 @@ Public market titles, probabilities, liquidity, volume, order books and transact
 
 Some product details are intentionally marked as planned or proposed. The illustrative 4% liquidity fee is paid by the user; it is not a promised yield.
 
-Visual direction: bright, calm white/gray surfaces and green actions inspired by [Kalshi](https://kalshi.com/). Maat has its own brand and is not presented as a Kalshi or Polymarket product.
+Visual direction: from 2026-11-09 the approved design is a dark theme with blue gradient actions and a new M mark; it is being restored into this code (see [CONTRIBUTING.md](CONTRIBUTING.md)). Until then the code still shows the earlier bright white/gray-and-green look. Maat has its own brand and is not presented as a Polymarket product.

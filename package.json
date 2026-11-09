@@ -1,8 +1,8 @@
 {
-  "name": "forea-app",
+  "name": "maat-app",
   "version": "0.1.0",
   "private": true,
-  "description": "Forea mobile prediction-market app UI preview",
+  "description": "Maat mobile prediction-market app UI preview",
   "type": "module",
   "scripts": {
     "dev": "node scripts/serve.mjs",

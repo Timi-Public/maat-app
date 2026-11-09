@@ -53,6 +53,42 @@ window.Feedback=(()=>{
   function syncFrame(){const f=frame();for(const el of [root,screenPins])if(el)el.style.cssText=`left:${f.left}px;top:${f.top}px;width:${f.width}px;height:${f.height}px`}
 
   /* ---------- pins ---------- */
+  // A box follows the element it was drawn on. Saved coordinates alone drift when content above changes,
+  // when the screen is taller than the reviewer's, or when the fix removed the element.
+  const ownUI=el=>!!el?.closest?.('.fb-root,.fb-pins,.fb-capture');
+  const shown=el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0};
+  const txt=el=>(el.innerText||'').trim();
+  function findText(want){
+    const key=want.slice(0,24);
+    const hits=[...document.querySelectorAll('#app *,#overlay *')].filter(c=>!ownUI(c)&&c.textContent.includes(key)&&![...c.children].some(k=>k.textContent.includes(key)));
+    for(const h of hits)for(let c=h,i=0;c&&i<4;c=c.parentElement,i++)if(!ownUI(c)&&shown(c)&&(txt(c)===want||txt(c).slice(0,160)===want))return c;
+    return null;
+  }
+  function liveEl(n){
+    const a=n.data.anchor;if(!a?.selector)return null;
+    const wants=[a.text,n.new_text].map(s=>(s||'').trim()).filter(Boolean);
+    const fits=el=>!wants.length||wants.some(w=>txt(el)===w||txt(el).slice(0,160)===w);
+    let el=null;try{el=document.querySelector(a.selector)}catch{}
+    if(el&&(ownUI(el)||!shown(el)))el=null;
+    if(el&&fits(el))return el;
+    for(const w of wants)if(w.length>=4&&!/^[\d\s.,%+\-]+$/.test(w)){const f=findText(w);if(f)return f}
+    return el&&n.status!=='done'?el:null; // same place, different text: still useful while the note is pending
+  }
+  function where(n){
+    const b=n.data.box,m=main(),f=frame(),el=liveEl(n);
+    if(el){
+      const r=el.getBoundingClientRect(),inMain=m.contains(el),mr=m.getBoundingClientRect();
+      const W=inMain?m.clientWidth:f.width,k=b.mw?W/b.mw:1,w=Math.min(W,Math.max(24,b.w*k)),h=Math.max(24,b.h);
+      const cx=(r.left+r.right)/2-(inMain?mr.left:f.left),cy=(r.top+r.bottom)/2-(inMain?mr.top-m.scrollTop:f.top);
+      return {space:inMain?'main':'screen',x:Math.max(0,Math.min(W-w,cx-w/2)),y:Math.max(0,cy-h/2),w,h};
+    }
+    if(n.data.anchor?.selector&&n.status==='done')return null; // what it pointed at is gone, usually removed by the fix
+    const W=b.space==='main'?m.clientWidth:f.width,k=b.mw?W/b.mw:1;
+    const x=Math.max(0,Math.min(W-24,b.x*k)),w=Math.max(24,Math.min(W-x,b.w*k-(x-b.x*k))),H=n.data.height;
+    // Bottom chrome keeps its distance from the bottom edge on taller or shorter screens.
+    const y=b.space==='screen'&&H&&b.y+b.h/2>H/2?f.height-(H-b.y):b.y;
+    return {space:b.space,x,y:Math.max(0,y),w,h:Math.max(24,b.h)};
+  }
   function drawPins(){
     pins?.remove();screenPins&&(screenPins.innerHTML='');
     if(!key||!showPins)return;
@@ -61,13 +97,14 @@ window.Feedback=(()=>{
     if(!list.length)return;
     if(getComputedStyle(m).position==='static')m.style.position='relative';
     pins=document.createElement('div');pins.className='fb-pins';
+    const placed=[];
     for(const n of list){
-      const b=n.data.box,W=b.space==='main'?m.clientWidth:frame().width,k=b.mw?W/b.mw:1;
-      const x=Math.max(0,Math.min(W-24,b.x*k)),w=Math.max(24,Math.min(W-x,b.w*k-(x-b.x*k)));
+      const p=where(n);if(!p)continue;
+      const same=placed.filter(q=>q.space===p.space&&Math.abs(q.x-p.x)<16&&Math.abs(q.y-p.y)<16).length;placed.push(p);
       const el=document.createElement('button');el.type='button';el.className='fb-pin '+n.status;el.dataset.fbNote=n.id;
-      el.style.cssText=`left:${x}px;top:${Math.max(0,b.y)}px;width:${w}px;height:${Math.max(24,b.h)}px`;
-      el.innerHTML=`<span>${n.id}</span>`;el.setAttribute('aria-label',t('批注 ','Note ')+n.id);
-      (b.space==='main'?pins:screenPins).appendChild(el);
+      el.style.cssText=`left:${p.x}px;top:${p.y}px;width:${p.w}px;height:${p.h}px`;
+      el.innerHTML=`<span${same?` style="left:${4+same*30}px"`:''}>${n.id}</span>`;el.setAttribute('aria-label',t('批注 ','Note ')+n.id);
+      (p.space==='main'?pins:screenPins).appendChild(el);
     }
     m.appendChild(pins);
   }
@@ -164,7 +201,7 @@ window.Feedback=(()=>{
   }
   function focusNote(id){
     const n=notes.find(x=>x.id===id);if(!n)return;
-    const go=()=>{drawPins();const pin=document.querySelector(`[data-fb-note="${id}"]`);if(pin){if(n.data?.box?.space==='main'){const m=main();m.scrollTo({top:Math.max(0,n.data.box.y-120),behavior:'smooth'})}pin.classList.add('flash');setTimeout(()=>pin.classList.remove('flash'),1600)}};
+    const go=()=>{drawPins();const pin=document.querySelector(`[data-fb-note="${id}"]`);if(!pin){if(n.data?.box)toast(t('这条指向的内容已改动，不再显示框','What this note pointed at has changed, so there is no box to show'));return}if(pin.parentElement===pins)main().scrollTo({top:Math.max(0,pin.offsetTop-120),behavior:'smooth'});pin.classList.add('flash');setTimeout(()=>pin.classList.remove('flash'),1600)};
     open=false;renderUI();
     if(n.page!==page()){location.hash=n.page;setTimeout(go,450)}else go();
   }
@@ -231,7 +268,7 @@ window.Feedback=(()=>{
     if(w<12&&h<12){x-=22;y-=22;w=44;h=44}
     const rect={left:x,top:y,width:w,height:h,right:x+w,bottom:y+h};
     root.querySelector('.fb-capture')?.remove();
-    const under=document.elementFromPoint(x+w/2,y+h/2);
+    const under=document.elementsFromPoint(x+w/2,y+h/2).find(el=>!ownUI(el)); // not an existing box or the Notes button
     draft={kind:'box',rect,box:place(rect),anchor:anchorOf(under)};mode=null;renderUI();
   }
   function disable(){key='';try{localStorage.removeItem(KEY)}catch{}root?.remove();pins?.remove();screenPins?.remove();root=null}
@@ -251,6 +288,8 @@ window.Feedback=(()=>{
     addEventListener('keydown',e=>{if(e.key==='Escape'&&(mode||draft)){e.stopImmediatePropagation();restorePreview();mode=null;draft=null;open=true;renderUI()}},true);
     addEventListener('hashchange',()=>{renderUI();setTimeout(drawPins,60)});
     new MutationObserver(()=>{if(!document.querySelector('#main > .fb-pins'))drawPins()}).observe(document.getElementById('app'),{childList:true});
+    // Boxes on the More popover and other sheets appear only while that layer is open.
+    let redraw=0;const ov=document.getElementById('overlay');if(ov)new MutationObserver(()=>{cancelAnimationFrame(redraw);redraw=requestAnimationFrame(drawPins)}).observe(ov,{childList:true,subtree:true});
     await refresh();
     timer=setInterval(()=>{if(!document.hidden)refresh()},60000);
   }

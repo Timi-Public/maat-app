@@ -142,7 +142,7 @@ function header(){
     // Leo 11-05 #8 #46 stands: Tokenomics is the special centre item, no separate swap button.
     ['home',t('总览','Overview',{vi:'Tổng quan',ko:'개요'}),'grid',t('总览','Overview',{vi:'Tổng quan',ko:'개요'})],
     ['agent',t('智能交易','Agent',{vi:'Agent',ko:'에이전트'}),'agent',t('智能交易','Agent Trading',{vi:'Giao dịch Agent',ko:'에이전트 트레이딩'})],
-    ['tokenomics',t('代币','Tokenomics',{vi:'Token',ko:'토큰'}),'coin-swap',t('代币经济','Tokenomics',{vi:'Tokenomics',ko:'토크노믹스'})],
+    ['tokenomics',t('代币','Token',{vi:'Token',ko:'토큰'}),'token',t('代币经济','Tokenomics',{vi:'Tokenomics',ko:'토크노믹스'})],
     ['liquidity',t('流动性','Liquidity',{vi:'Thanh khoản',ko:'유동성'}),'drop',t('流动性市场','Liquidity Marketplace',{vi:'Thị trường thanh khoản',ko:'유동성 마켓'})],
     ['account',t('账户','Account',{vi:'Tài khoản',ko:'계정'}),'wallet',t('账户','Account',{vi:'Tài khoản',ko:'계정'})]
   ];

@@ -137,6 +137,8 @@ window.Feedback=(()=>{
     const a=document.activeElement;if(a?.dataset?.fbInput&&root.contains(a))focusKeep={name:a.dataset.fbInput,start:a.selectionStart,end:a.selectionEnd};
     const count=notes.filter(n=>n.page===page()&&n.status!=='closed').length;
     root.innerHTML=`<button class="fb-fab" data-fb="toggle" aria-expanded="${open}">${window.icon?icon('chat','',19):''}${t('批注','Notes')}${count?`<span>${count}</span>`:''}</button>${open&&!mode&&!draft?`<section class="fb-panel" role="dialog" aria-label="${t('批注','Notes')}">${panelHTML()}</section>`:''}${mode?`<div class="fb-hint"><span>${mode==='box'?t('拖动框出要改的地方','Drag a box around what needs changing'):t('点一段文字，或先选中要改的几个字','Tap text, or select the exact words first')}</span><button data-fb="cancel">${t('取消','Cancel')}</button></div>`:''}${draft?composeHTML():''}`;
+    // The Notes button never sits on the page: beside the phone on the framed preview, otherwise in the top prototype bar.
+    {let framed=false;try{framed=window.parent!==window&&typeof window.parent.MaatNotes==='function'}catch{}root.classList.toggle('fb-framed',framed);if(framed)try{window.parent.MaatNotes({label:t('批注','Notes'),count,open})}catch{}}
     if(mode==='box')root.insertAdjacentHTML('beforeend','<div class="fb-capture"><div class="fb-rect" hidden></div></div>');
     if(draft?.rect){const f=frame(),r=clip(draft.rect,f)||draft.rect;root.insertAdjacentHTML('beforeend',`<div class="fb-rect" style="left:${r.left-f.left}px;top:${r.top-f.top}px;width:${r.width}px;height:${r.height}px"></div>`)}
     const f=focusKeep&&root.querySelector(`.fb-compose [data-fb-input="${focusKeep.name}"]`);

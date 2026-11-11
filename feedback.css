@@ -70,3 +70,8 @@
 .fb-rules-mod{font-size:12px;color:var(--muted);font-weight:600;margin:14px 0 2px}
 .fb-page-rules .fb-rule{padding:10px 0}
 .fb-page-rules .fb-rule p{font-size:12px}
+/* The Notes button stays off the page: hidden when the framed preview shows it beside the phone, otherwise in the prototype bar. */
+.fb-framed .fb-fab{display:none}
+.fb-fab{left:auto;right:8px;top:0;bottom:auto;min-height:25px;height:25px;padding:0 9px;gap:5px;border-radius:0 0 9px 9px;font-size:10px;font-weight:650;box-shadow:none}
+.fb-fab svg{width:13px;height:13px}
+.fb-fab span{min-width:15px;height:15px;padding:0 4px;font-size:9px}

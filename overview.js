@@ -24,7 +24,7 @@ window.Overview=(()=>{
     return `<svg class="ov-hero-svg" viewBox="0 0 320 140" aria-hidden="true"><path class="net" d="${links}${spokes}"/>${net.map(([x,y])=>`<circle class="net-node" cx="${x}" cy="${y}" r="1.6"/>`).join('')}<path class="base" d="M8 112H312"/><path class="line" d="${smooth(pts)}"/><path class="flow" pathLength="100" d="${smooth(pts)}"/>${pts.map(([x,y],i)=>[0,3,6,9].includes(i)?`<circle class="node big n${[0,3,6,9].indexOf(i)}" cx="${x}" cy="${y}" r="5.5"/>`:`<circle class="node" cx="${x}" cy="${y}" r="2.6"/>`).join('')}</svg>`;
   }
   function hero(){
-    return `<article class="ov-hero" data-card="hero"><div class="ov-tags"><i class="ov-live"></i><span>Polymarket</span><span>Polygon</span><span>AI Agent</span></div>`
+    return `<article class="ov-hero" data-card="hero">`
       +`<h1>${t('预测市场智能交易<br>与流动性网络','AI trading and liquidity network for prediction markets')}</h1>`
       +`<p>${t('基于 Polymarket 的 AI Agent 交易与流动性服务，覆盖市场分析、自动执行、风险管理与链上资产管理','AI agent trading and liquidity services on Polymarket: market analysis, automated execution, risk management and onchain asset management')}</p>`
       +`<div class="ov-visual"><div class="ov-visual-labels"><span>${icon('brain','',15)}${t('AI 智能分析','AI analysis')}</span><span>${icon('waves','',15)}${t('预测市场流动性','Market liquidity')}</span></div>${heroArt()}<div class="ov-steps"><span>${t('数据分析','Analysis')}</span>${icon('chevron','',11)}<span>${t('信号决策','Decisions')}</span>${icon('chevron','',11)}<span>${t('自动执行','Execution')}</span></div></div>`

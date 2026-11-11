@@ -147,3 +147,13 @@
 
 /* 11-06 走查 #12: button rows align with link rows */
 .ov-footer-links button,.ov-sec-rows button,.ov-sec-grid button{padding-left:0;padding-right:0}
+/* Leo PRD 11-10 §4 / §5.1: steady scrolling feeds (Overview Live Market Activity, Agent AI Signals) and service status cards */
+.ticker .activity-scroll{animation-duration:var(--ticker-dur,48s)}
+.ov-feed.ov-trades{height:340px}
+.ov-feed.ov-signals{height:420px}
+.signal-feed{height:430px;margin-top:-6px}
+.ticker .signal-row,.ticker .tape-row{border-top:1px solid var(--line)}
+.signal-row .signal-time{display:block;margin-top:10px;font-size:11px;color:var(--quiet);font-variant-numeric:tabular-nums}
+.ov-stat strong.ov-status{display:flex;align-items:center;gap:7px;font-size:20px}
+.ov-stat strong.ov-status .ov-live{flex-shrink:0}
+.ov-stat strong.ov-status.warn i{width:7px;height:7px;border-radius:50%;background:var(--amber)}

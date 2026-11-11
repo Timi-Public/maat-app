@@ -16,10 +16,9 @@ window.Insights = (() => {
   function funnel() {
     const rows = [
       [t('监测市场', 'Markets monitored'), Engine.monitored(), 'monitored', false],
-      [t('候选市场', 'Candidates'), Engine.candidates(), 'candidates', true],
+      [t('候选信号', 'Candidate signals'), Engine.candidates(), 'candidates', true],
       [t('有效交易信号', 'Valid signals'), Engine.signals(), 'signals', true],
-      [t('通过风控', 'Passed risk checks'), Engine.passed(), 'passed', true],
-      [t('待执行信号', 'Queued signals'), Engine.pending(), 'pending', true]
+      [t('通过风控', 'Passed risk checks'), Engine.passed(), 'passed', true]
     ];
     return `<article class="panel ins-funnel" data-card="signal-funnel">
       <div class="panel-head"><h2>Signal Funnel</h2></div>
@@ -82,7 +81,7 @@ window.Insights = (() => {
         <div class="between"><span>${label}<small>${src}</small></span><b>${value}</b></div>
         <div class="ins-bar thin"><span style="width:${Math.round(f[key])}%"></span></div>
       </div>`).join('')}</div>
-      <div class="source"><span>${t('信号生成', 'Signal generated')} ${U.stamp(Engine.signalTime())} UTC+8 · ${t('5M 更新', 'Updates every 5M')}</span><a href="#sources">Polymarket · ${U.captureTime()}${icon('chevron', '', 10)}</a></div>
+      <div class="source"><span>${t('信号生成', 'Signal generated')} ${U.stamp(Engine.signalTime())} UTC+8 · ${t('30M 更新', 'Updates every 30M')}</span><a href="#sources">Polymarket · ${U.captureTime()}${icon('chevron', '', 10)}</a></div>
     </article>`;
   }
 

@@ -1,7 +1,7 @@
-/* Overview (Leo 11-03): Hero · Platform Statistics · Core Products · AI Infrastructure ·
-   Live Market Activity · Tokenomics · Ecosystem · Security & Transparency · Footer.
-   Real: monitored markets (Polymarket open events), 24H volume of the market sample, token supply.
-   Demo: signals, markets in service, signal and service feeds (all shared with Agent / Liquidity pages).
+/* Overview (Leo 11-03 layout; figures per Leo PRD 11-10 §4): Hero · Platform Statistics · Core Products ·
+   AI Infrastructure · Live Market Activity · Tokenomics · Ecosystem · Security & Transparency · Footer.
+   Real (snapshot): Polymarket 24H volume, high-liquidity market count, monitored markets, public trades, token supply.
+   Demo: candidate / valid signals, markets in service, signal and service feeds (shared with Agent / Liquidity pages).
    Unknown platform figures stay "—"; contract and audit rows state they are not deployed / published. */
 window.Overview=(()=>{
   const t=(zh,en)=>U.t(zh,en);
@@ -31,10 +31,12 @@ window.Overview=(()=>{
       +`<div class="ov-hero-actions"><a class="btn ov-primary" href="#agent">${t('开始智能交易','Start Agent Trading')}${icon('arrow','',13)}</a><a class="btn ov-secondary" href="#liquidity">${t('探索流动性市场','Explore liquidity')}${icon('arrow','',13)}</a></div>`
       +`</article>`;
   }
+  // Leo PRD 11-10 §4: Polymarket 24H volume, high-liquidity markets (liquidity ≥ 100K), and the two products' service status.
   function stats(){
-    const p=Engine.platform(),big=n=>U.money(n,true);
-    const cards=[[t('平台管理资产','Assets managed'),big(p.assets),'USDC','wallet'],[t('累计交易额','Cumulative volume'),big(p.volume),'USDC','chart'],[t('活跃交易盘口','Active markets'),U.money(p.markets,false,0),t('个','markets'),'pulse'],[t('流动性服务规模','Liquidity in service'),big(p.liquidity),'USDC','waves']];
-    return `<section class="ov-stats" aria-label="${t('平台实时数据','Platform statistics')}">${cards.map(([l,v,u,ic])=>`<article class="panel ov-stat"><div class="between"><span class="label">${l}</span>${icon(ic,'muted',17)}</div><strong>${v}</strong><small>${u}</small></article>`).join('')}</section>`;
+    const sum=D.summary,volume=sum.globalVolume24hr??sum.sampleVolume24hr,active=sum.eligibleEventCount??D.markets.filter(U.eligible).length;
+    const status=on=>on?`<strong class="ov-status"><i class="ov-live"></i>${t('运行中','Running')}</strong>`:`<strong class="ov-status warn"><i></i>${t('维护中','Maintenance')}</strong>`;
+    const cards=[[t('市场 24 小时交易额','Market 24H volume'),`<strong>${U.money(volume,true)}</strong><small>USDC</small>`,'chart'],[t('活跃交易盘口','Active markets'),`<strong>${U.money(active,false,0)}</strong><small>${t('个','markets')}</small>`,'pulse'],['Agent Trading',status(!S.maintenance)+`<small>${t('运行状态','Service status')}</small>`,'agent'],['Liquidity Marketplace',status(!S.maintenance)+`<small>${t('运行状态','Service status')}</small>`,'waves']];
+    return `<section class="ov-stats" aria-label="${t('平台实时数据','Platform statistics')}">${cards.map(([l,v,ic])=>`<article class="panel ov-stat"><div class="between"><span class="label">${l}</span>${icon(ic,'muted',17)}</div>${v}</article>`).join('')}</section>`;
   }
   function productHead(ic,title,sub,href){
     return `<a class="ov-product-head" href="${href}"><span class="metric-icon">${icon(ic,'',20)}</span><div><h3>${title}</h3><span>${sub}</span></div>${icon('chevron','muted',15)}</a>`;
@@ -51,8 +53,8 @@ window.Overview=(()=>{
     const agent=`<article class="panel ov-product" data-card="ov-agent">${productHead('agent','Agent Trading',t('AI 智能代理交易','AI agent trading'),'#agent')}<h4>${t('AI Agent 自动交易预测市场','An AI agent trades prediction markets for you')}</h4><p>${t('通过 AI Agent 持续分析 Polymarket 市场数据，识别交易信号，执行自动化交易与做市策略，并结合风险控制机制管理交易过程','The AI agent keeps analysing Polymarket data, spots trading signals, runs automated trading and market-making strategies, and manages every trade with risk controls')}</p>${signalArt()}`
       +`<div class="ov-spec"><div class="between ov-spec-head"><span>${t('智能交易系统','Trading system')}</span></div><div class="ov-spec-grid">`
       +`<div><span class="label">${t('监测盘口','Markets monitored')}</span><b>${money(Engine.monitored()??D.markets.length,false,0)}</b><small>${t('个','markets')}</small></div>`
-      +`<div><span class="label">${t('有效信号','Valid signals')}</span><b data-engine="signals">${Engine.signals()}</b><small>${t('条','signals')}</small></div>`
-      +`<div><span class="label">${t('24小时成交','24H volume')}</span><b>${money(D.summary.sampleVolume24hr,true)}</b><small>USDC</small></div></div>`
+      +`<div><span class="label">${t('候选信号','Candidate signals')}</span><b data-engine="candidates">${Engine.candidates()}</b><small>${t('条','signals')}</small></div>`
+      +`<div><span class="label">${t('有效信号','Valid signals')}</span><b data-engine="signals">${Engine.signals()}</b><small>${t('条','signals')}</small></div></div>`
       +`<div class="between ov-spec-foot"><span class="row">${icon('clock','',15)}${t('8 小时运行周期','8H run cycle')}</span><span class="ov-chip">${t('自动化交易','Automated')}</span></div></div>`
       +`<a class="btn secondary block" href="#agent">${t('进入智能交易','Open Agent Trading')}${icon('arrow','',14)}</a></article>`;
     const liquidity=`<article class="panel ov-product" data-card="ov-liquidity">${productHead('waves','Liquidity Marketplace',t('预测市场流动性服务','Prediction market liquidity'),'#liquidity')}<h4>${t('为预测市场提供流动性支持','Liquidity support for prediction markets')}</h4><p>${t('选择指定 Polymarket 交易盘口，提供基础流动性并支付服务费用，由平台结合配套资金与自动化做市系统，为目标盘口提供流动性支持','Choose a Polymarket market, provide base liquidity and pay a service fee; the platform adds matching capital and automated market making to support that market')}</p>${depthArt()}`
@@ -68,14 +70,14 @@ window.Overview=(()=>{
     const nodes=[['radar','Market Intelligence','市场数据分析','采集预测价格、交易量、订单簿深度与市场流动性信息','Collects prediction prices, volume, order book depth and liquidity'],['brain','AI Signal Engine','智能信号引擎','基于量化指标与模型分析识别交易机会，生成策略信号','Finds opportunities with quantitative indicators and models, and generates strategy signals'],['shield','Risk Management','风险管理系统','对交易成本、资金敞口、仓位限制及执行条件进行校验','Checks trading costs, exposure, position limits and execution conditions'],['swap','Execution Engine','自动交易执行','统一管理订单提交、成交跟踪、撤单与交易结果核算','Handles order submission, fill tracking, cancellation and trade settlement']];
     return `<section class="ov-section">${head(t('AI 驱动的交易基础设施','AI-driven trading infrastructure'),t('从市场数据到订单执行，一套系统完成交易决策、自动执行与风险管理','From market data to order execution, one system handles trading decisions, automated execution and risk management'))}<article class="panel ov-infra">${nodes.map(([ic,en,zh,dz,de])=>`<div class="ov-node"><span class="ov-node-icon">${icon(ic,'',19)}</span><div><h3>${en}</h3>${S.lang==='zh'?`<span class="ov-node-sub">${zh}</span>`:''}<p>${t(dz,de)}</p></div></div>`).join('')}<a class="ov-row-link" href="#agent/analysis"><span>${t('探索智能分析与引擎监控','Explore Intelligence and Monitoring')}</span>${icon('arrow','',14)}</a></article></section>`;
   }
-  function services(){
-    return `<div class="timeline">${U.activityItems().slice(0,3).map(U.activityRow).join('')}</div>`;
-  }
+  // Leo PRD 11-10 §4 Live Market Activity: three scrolling feeds styled like Agent 交易执行, Agent AI Signals
+  // and Liquidity Recent Activity. Trades are the latest Polymarket public order book fills (replaces the 11-03 empty state).
   function activity(){
     const tab=S.ovTab||0;
     const tabs=[t('交易动态','Trades'),t('交易信号','Signals'),t('流动性服务','Liquidity')];
-    const body=tab===0?`<div class="ov-empty">${icon('list','',22)}<b>${t('暂无成交','No trades yet')}</b><p>${t('已确认的预测市场成交记录将在这里按时间顺序展示','Confirmed prediction market trades will appear here in time order')}</p></div>`
-      :tab===1?`<div class="ov-signals">${Engine.signalSet().map((m,i)=>U.signalRow(m,i)).join('')}</div>`:services();
+    const trades=[...D.trades].sort((a,b)=>b.timestamp-a.timestamp).map(U.tapeRow).join('');
+    const body=tab===0?U.ticker(trades,'ov-feed ov-trades',60)
+      :tab===1?U.ticker(Engine.signalSet(10).map((m,i)=>U.signalRow(m,i)).join(''),'ov-feed ov-signals',80):U.activityFeed();
     const link=[['#agent/execution',t('查看完整交易数据','View all trade data')],['#agent',t('查看全部信号','View all signals')],['#liquidity',t('查看流动性市场','Open Liquidity Marketplace')]][tab];
     return `<article class="panel ov-activity" data-card="ov-activity"><div class="panel-head"><div class="row">${icon('chart','',19)}<h2>Live Market Activity</h2></div></div><div class="ov-tabs" role="tablist">${tabs.map((l,i)=>`<button role="tab" aria-selected="${tab===i}" class="${tab===i?'active':''}" data-action="ov-tab" data-value="${i}">${l}</button>`).join('')}</div><div class="ov-activity-body" role="tabpanel">${body}</div><a class="ov-row-link" href="${link[0]}"><span>${link[1]}</span>${icon('arrow','',14)}</a></article>`;
   }

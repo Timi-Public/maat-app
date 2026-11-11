@@ -12,19 +12,28 @@ window.Engine = (() => {
   const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
   const scale = (n, lo, hi, a, b) => a + clamp((n - lo) / (hi - lo), 0, 1) * (b - a);
 
-  // Leo 11-02 ranges: signals 30–150 over 10 min, latency 45–200 every 5 s,
-  // queue 25–100+ every 15 s, 24H risk blocks 10–55 every 10 s, positions 30–100, pending 9–35.
+  // Leo PRD 11-10 (§4, §5.1): candidates 90–200 every 30 min, larger in Polymarket's busy hours;
+  // valid signals are 10–20% of candidates and change with them; latency 45–200 ms every 5 s;
+  // queue 25–100+ every 15 s; 24H risk blocks start at 10 at 00:00 (UTC+8) and add 3 or 4 every 5 min, up to 980;
+  // positions 30–100 every 5 hours; markets in liquidity service are 10–20% of high-liquidity markets every 30 min.
+  const HALF_HOUR = 1800000;
   const monitored = () => D?.summary?.globalEventCount || null;
-  const signals = t => Math.round(walk('signals', 600000, 30, 150, t));
+  // Busy hours follow US trading activity on Polymarket (UTC 13–23 busy, 00–04 moderate, otherwise quiet).
+  const busy = t => { const h = new Date(t ?? Date.now()).getUTCHours(); return h >= 13 ? 1 : h <= 4 ? .5 : 0; };
+  const candidates = t => { const now = t ?? Date.now(), lo = 90 + busy(now) * 60; return step('candidates', HALF_HOUR, lo, lo + 50, now); };
+  const signals = t => { const now = t ?? Date.now(); return Math.max(1, Math.round(candidates(now) * (.1 + rnd('valid', Math.floor(now / HALF_HOUR)) * .1))); };
   const latency = t => step('latency', 5000, 45, 200, t);
-  const queued = t => step('queued', 15000, 25, 108, t);
-  const blocked = t => Math.round(walk('blocked', 600000, 10, 55, Math.floor((t ?? Date.now()) / 10000) * 10000));
-  const candidates = t => Math.round(walk('candidates', 600000, 260, 480, t));
-  const passed = t => { const s = signals(t); return s - Math.round(s * walk('pass', 600000, .1, .22, t)); };
-  const pending = t => Math.min(passed(t), step('pending', 480000, 9, 35, t));
-  // Leo 11-02, re-sent 11-05: positions are 8–13% of monitored markets (never above monitored); new value every 8 minutes.
-  const positions = t => { const m = monitored(); return m ? Math.round(m * (.08 + rnd('positions', Math.floor((t ?? Date.now()) / 480000)) * .05)) : step('positions', 480000, 30, 100, t); };
-  const activeServices = eligible => eligible ? Math.max(1, Math.round(eligible * walk('services', 1800000, .11, .17))) : 0;
+  const queued = t => { const n = step('queued', 15000, 25, 104, t); return n >= 100 ? '100+' : n; };
+  const blocked = t => {
+    const local = (t ?? Date.now()) + 8 * 3600000, day = Math.floor(local / 86400000), slots = Math.floor((local % 86400000) / 300000);
+    let n = 10; for (let i = 0; i < slots && n < 980; i++) n += rnd('blocked:' + day, i) < .5 ? 3 : 4;
+    return Math.min(980, n);
+  };
+  const passed = t => { const s = signals(t); return s - Math.round(s * walk('pass', HALF_HOUR, .1, .22, t)); };
+  // Market Monitor 待执行信号 uses the same valid-signal figure as Overview (Leo PRD 11-10 §5.1).
+  const pending = t => signals(t);
+  const positions = t => step('positions', 18000000, 30, 100, t);
+  const activeServices = eligible => eligible ? Math.max(1, Math.round(eligible * (.1 + rnd('services', Math.floor(Date.now() / HALF_HOUR)) * .1))) : 0;
 
   // Model estimate: 2–5 pp away from the market YES price, rounded to 0.1 pp so YES + NO = 100.
   const model = m => {
@@ -56,13 +65,14 @@ window.Engine = (() => {
   const risk = m => { const sp = spread(m); return m.liquidity < 300000 || daysLeft(m) < 2 || (sp != null && sp > .02) ? 'mid' : 'low'; };
   const decision = m => score(m) < 72 ? 'watch' : edge(m) > 0 ? 'yes' : 'no';
 
-  // AI Signals: three different events every 5 minutes (Leo 11-02).
-  const signalWindow = (t = Date.now()) => Math.floor(t / 300000);
-  const signalSet = (t = Date.now()) => {
-    const pool = U.featured(), groups = Math.max(1, Math.floor(pool.length / 3)), g = signalWindow(t) % groups;
-    return pool.slice(g * 3, g * 3 + 3);
+  // AI Signals (Leo PRD 11-10): hot events refreshed every 30 minutes, scrolling; Agent shows up to 20, Overview 10.
+  // Each signal is stamped with the time its event was read, a few minutes apart inside the window.
+  const signalWindow = (t = Date.now()) => Math.floor(t / HALF_HOUR);
+  const signalSet = (n = 20, t = Date.now()) => {
+    const pool = U.featured(), k = pool.length ? signalWindow(t) % pool.length : 0;
+    return pool.slice(k).concat(pool.slice(0, k)).slice(0, n);
   };
-  const signalTime = (t = Date.now()) => signalWindow(t) * 300000;
+  const signalTime = (i = 0, t = Date.now()) => { const w = signalWindow(t); let at = w * HALF_HOUR + HALF_HOUR; for (let j = 0; j <= i; j++) at -= Math.round((1 + rnd('sigt:' + w, j) * 2) * 60000); return Math.max(w * HALF_HOUR, at); };
   // Market Monitor (Leo 11-02, re-sent 11-05): three real events per subtab, rotating every 8 minutes.
   // 候选市场 = one 买入 YES, one 买入 NO, one 观望; 当前持仓 = three other events, held side follows the model.
   const monitorPool = (t = Date.now()) => { const pool = U.featured(), k = pool.length ? (Math.floor(t / 480000) * 3) % pool.length : 0; return pool.slice(k).concat(pool.slice(0, k)); };

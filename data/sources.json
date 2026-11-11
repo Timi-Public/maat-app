@@ -16,7 +16,8 @@
     "trades": "Public Data API v1 legacy endpoint used for this snapshot. transactionHash may link to polygonscan.com/tx/. Trades belong to public market participants, not PolyAgent.",
     "globalTradeCount24h": "Unavailable in bounded snapshot. Do not infer from the latest 8 trades or invent.",
     "eligibility": "Prototype threshold 50,000 applied to liquidityNum is a design assumption only, not a confirmed product or service approval.",
-    "tags": "Official market tags endpoint, not guessed categories."
+    "tags": "Official market tags endpoint, not guessed categories.",
+    "globalVolume24hr": "Polymarket 24h volume shown on Overview and Agent (Leo PRD 11-10): sum of event volume24hr over the top 2,100 open Gamma events by 24h volume, fetched 2026-11-11 04:54 UTC; events under about $300/day are not counted. A snapshot, not refreshed every 30 minutes until the backend reads the API."
   },
   "requests": [
     {

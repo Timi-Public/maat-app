@@ -20,7 +20,10 @@
     "globalEventCount": 21009,
     "eligibleEventCount": 1177,
     "eligibleEventRule": "open events with Gamma liquidity_min=100000",
-    "globalTradeCount24h": null
+    "globalTradeCount24h": null,
+    "globalVolume24hr": 52257190,
+    "globalVolume24hrFetchedAt": "2026-11-11T04:54:15Z",
+    "globalVolume24hrRule": "sum of volume24hr over the top 2,100 open Gamma events ranked by 24h volume (API offset cap); events below about $300/day are not counted"
   },
   "markets": [
     {

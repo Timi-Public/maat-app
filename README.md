@@ -32,7 +32,7 @@ Prepare demo USDC, choose a participation mode, inspect run/exit/resume/stopped 
 
 ## Data boundaries
 
-This is an interface preview. Optional OKX Wallet connection reads an address and checks Polygon only. It never requests signatures, approves tokens or moves funds. All pages and demo actions work as a guest. Accounts, balances, P&L, telemetry, services and swap quotes are labelled demonstrations.
+This is an interface preview. Wallet connection (Leo PRD 11-10 §2.4): inside a wallet app it connects automatically; elsewhere users pick a popular wallet (desktop extension, or a deep link on phones) or scan with WalletConnect. Only the address and network are read; a non-Polygon network gets a switch prompt. It never requests signatures, approves tokens or moves funds. Prototype parts: the WalletConnect scan is simulated with a local demo address (real pairing needs a WalletConnect project ID), and the referrer confirmation (§3) signs nothing and is stored on this device. All pages and demo actions work as a guest. Accounts, balances, P&L, telemetry, services and swap quotes are labelled demonstrations.
 
 Wallet activity is separate from the demo product ledger. No Polygon history provider is configured: address queries show an unavailable state and a PolygonScan link. Explicit layout samples can be opened with `?activity=preview#account/activity`; they are labelled samples and have no invented transaction links. A read-only `window.ForeaActivityProvider.list({address, chainId:137, cursor})` adapter is the integration boundary for a future history service.
 

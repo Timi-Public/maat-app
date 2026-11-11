@@ -43,7 +43,7 @@ window.Community=(()=>{
     const {t,esc}=U,link=inviteLink(),addr=S.walletAddress;
     const field=(ic,label,value,kind,empty)=>`<div class="iv-field"><span class="cm-label">${label}</span><div class="iv-value">${icon(ic,'',16)}${value?`<span class="iv-text">${esc(value)}</span><button class="icon-btn iv-copy" data-action="invite-copy" data-value="${kind}" aria-label="${t('复制','Copy')}">${icon('copy','',16)}</button>`:`<button class="text-link" data-action="wallet">${empty}</button>`}</div></div>`;
     return `<article class="panel invite-card" data-card="invite"><div class="panel-head"><div class="row">${icon('user-plus','',20)}<h2>Invite Friends</h2></div><button class="icon-btn" data-action="invite-share" aria-label="${t('分享邀请链接','Share invite link')}" ${link?'':'disabled'}>${icon('share','',18)}</button></div>`
-      +`<p class="iv-desc">${t('分享邀请链接、钱包地址或二维码海报，新用户加入即绑定邀请关系','Share your link, wallet address or QR poster; new users are linked to you when they join')}</p>`
+      +`<p class="iv-desc">${t('分享邀请链接、钱包地址或二维码海报，好友连接钱包并确认后绑定邀请关系','Share your link, wallet address or QR poster. Friends are linked to you once they connect and confirm')}</p>`
       +field('link',t('专属邀请链接','Your invite link'),link,'link',t('连接钱包后生成','Connect wallet to generate'))
       +field('wallet',t('邀请人钱包地址','Inviter wallet address'),addr&&addr.slice(0,10)+'…'+addr.slice(-8),'address',t('连接钱包后显示','Connect wallet to show'))
       +`<div class="iv-actions"><button class="btn secondary" disabled>${icon('qr','',16)}${t('邀请海报','Invite poster')}</button><button class="btn outline" data-action="invite-manage">${icon('users','',16)}${t('邀请管理','Manage invites')}</button></div></article>`;

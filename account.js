@@ -5,10 +5,13 @@ window.Account=(()=>{
   let draft=null,draftKey='';
   // 002 rules: the avatar is assigned at random from the library and cannot be changed (fixed per wallet);
   // the nickname can change once per calendar month.
-  const fixedAvatar=()=>S.walletAddress?Math.floor(Engine.hash(S.walletAddress.toLowerCase())*24):0;
+  const seed=a=>a?Math.floor(Engine.hash(String(a).toLowerCase())*24):0;
+  const fixedAvatar=()=>seed(S.walletAddress);
+  // Default nickname carries the address tail so referrers and members can be told apart (product choice, Leo did not specify).
+  const defaultName=a=>a?'Explorer '+String(a).slice(-4).toUpperCase():U.brand+' Explorer';
   const monthKey=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
   function profile(){
-    try{const p=JSON.parse(localStorage.getItem(key())||'{}');return {nickname:String(p.nickname||U.brand+' Explorer').slice(0,24),phone:String(p.phone||'').slice(0,24),avatar:fixedAvatar(),nickMonth:String(p.nickMonth||'')}}catch{return {nickname:U.brand+' Explorer',phone:'',avatar:fixedAvatar(),nickMonth:''}}
+    try{const p=JSON.parse(localStorage.getItem(key())||'{}');return {nickname:String(p.nickname||defaultName(S.walletAddress)).slice(0,24),phone:String(p.phone||'').slice(0,24),avatar:fixedAvatar(),nickMonth:String(p.nickMonth||'')}}catch{return {nickname:defaultName(S.walletAddress),phone:'',avatar:fixedAvatar(),nickMonth:''}}
   }
   function avatar(seed=profile().avatar){
     const [bg,ink]=palette[seed%palette.length],style=Math.floor(seed/8)%3;
@@ -33,7 +36,12 @@ window.Account=(()=>{
   }
   function renderProfile(){
     const {t,esc}=U;if(!draft||draftKey!==key()){draft=profile();draftKey=key()}
-    return `<section class="profile-page" data-screen-label="Personal profile"><div class="profile-page-heading"><a class="icon-btn" href="#account" aria-label="${t('返回账户','Back to account')}">${icon('chevron','back-icon',21)}</a><h1>${t('个人资料','Profile')}</h1></div><article class="panel profile-form"><div class="profile-avatar-editor"><span id="profile-avatar" class="personal-avatar large">${avatar(draft.avatar)}</span></div><label class="field-label" for="profile-nickname">${t('昵称','Nickname')}</label><input class="profile-input" id="profile-nickname" type="text" maxlength="24" value="${esc(draft.nickname)}" autocomplete="nickname" ${draft.nickMonth===monthKey()?'disabled':''}><p class="tiny muted profile-hint" data-row="nickname-rule">${draft.nickMonth===monthKey()?t(`本月已修改，下次可修改：${(()=>{const d=new Date();d.setMonth(d.getMonth()+1,1);return String(d.getMonth()+1).padStart(2,'0')+'-01'})()}`,'Changed this month. You can change it again next month'):t('昵称每个自然月可修改一次','You can change your nickname once a month')}</p><label class="field-label" for="profile-phone">${t('联系手机号','Contact phone')} <span class="quiet">${t('（选填）','(optional)')}</span></label><input class="profile-input" id="profile-phone" type="tel" maxlength="24" value="${esc(draft.phone)}" autocomplete="tel" placeholder="${t('含国家或地区区号','Include country code')}"><label class="field-label">${t('钱包地址','Wallet address')}</label><div class="profile-address"><span title="${esc(S.walletAddress||'')}">${S.walletAddress?esc(S.walletAddress.slice(0,10)+'…'+S.walletAddress.slice(-8)):t('尚未连接','Not connected')}</span><button class="icon-btn" data-action="copy-address" ${S.walletAddress?'':'disabled'} aria-label="${t('复制钱包地址','Copy wallet address')}">${icon('copy','',17)}</button></div><p id="profile-error" class="field-error" role="status"></p><button class="btn primary block" data-action="profile-save">${t('保存','Save')}</button></article></section>`;
+    return `<section class="profile-page" data-screen-label="Personal profile"><div class="profile-page-heading"><a class="icon-btn" href="#account" aria-label="${t('返回账户','Back to account')}">${icon('chevron','back-icon',21)}</a><h1>${t('个人资料','Profile')}</h1></div><article class="panel profile-form"><div class="profile-avatar-editor"><span id="profile-avatar" class="personal-avatar large">${avatar(draft.avatar)}</span></div><label class="field-label" for="profile-nickname">${t('昵称','Nickname')}</label><input class="profile-input" id="profile-nickname" type="text" maxlength="24" value="${esc(draft.nickname)}" autocomplete="nickname" ${draft.nickMonth===monthKey()?'disabled':''}><p class="tiny muted profile-hint" data-row="nickname-rule">${draft.nickMonth===monthKey()?t(`本月已修改，下次可修改：${(()=>{const d=new Date();d.setMonth(d.getMonth()+1,1);return String(d.getMonth()+1).padStart(2,'0')+'-01'})()}`,'Changed this month. You can change it again next month'):t('昵称每个自然月可修改一次','You can change your nickname once a month')}</p><label class="field-label" for="profile-phone">${t('联系手机号','Contact phone')} <span class="quiet">${t('（选填）','(optional)')}</span></label><input class="profile-input" id="profile-phone" type="tel" maxlength="24" value="${esc(draft.phone)}" autocomplete="tel" placeholder="${t('含国家或地区区号','Include country code')}"><label class="field-label">${t('钱包地址','Wallet address')}</label><div class="profile-address"><span title="${esc(S.walletAddress||'')}">${S.walletAddress?esc(S.walletAddress.slice(0,10)+'…'+S.walletAddress.slice(-8)):t('尚未连接','Not connected')}</span><button class="icon-btn" data-action="copy-address" ${S.walletAddress?'':'disabled'} aria-label="${t('复制钱包地址','Copy wallet address')}">${icon('copy','',17)}</button></div>${referrerRow()}<p id="profile-error" class="field-error" role="status"></p><button class="btn primary block" data-action="profile-save">${t('保存','Save')}</button></article></section>`;
+  }
+  function referrerRow(){
+    if(!S.walletAddress)return '';const {t,esc}=U,b=Wallet.bound();
+    const value=b?`<span title="${esc(b.inviter)}">${esc(Wallet.nickname(b.inviter))} · ${esc(b.inviter.slice(0,6)+'…'+b.inviter.slice(-4))}</span>${icon('lock','muted',15)}`:`<span class="muted">${t('未确认','Not confirmed')}</span>${S.connected?`<button class="text-link" data-action="ref-open">${t('去确认','Confirm')}</button>`:''}`;
+    return `<label class="field-label">${t('邀请人','Referrer')}</label><div class="profile-address profile-referrer" data-row="referrer">${value}</div>`;
   }
   function consumption(){
     Tokenomics.ensure();const {t,money}=U;
@@ -51,5 +59,5 @@ window.Account=(()=>{
     'copy-address':async()=>{if(!S.walletAddress)return;try{await navigator.clipboard.writeText(S.walletAddress);toast(U.t('地址已复制','Address copied'))}catch{toast(U.t('复制失败，请长按地址复制','Copy failed. Press and hold the address to copy'))}}
   };
   function onInput(e){if(draft&&e.target.id==='profile-nickname')draft.nickname=e.target.value;if(draft&&e.target.id==='profile-phone')draft.phone=e.target.value}
-  return {profile,avatar,card,portfolio,assetSummary,assetsHidden,renderProfile,consumption,actions,onInput};
+  return {profile,avatar,seed,defaultName,card,portfolio,assetSummary,assetsHidden,renderProfile,consumption,actions,onInput};
 })();

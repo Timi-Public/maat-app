@@ -156,7 +156,7 @@ window.Tokenomics=(()=>{
     'token-reverse':()=>{S.tokenSwapReverse=!S.tokenSwapReverse;S.tokenSwapAmount=0;render({preserve:true});document.getElementById('token-swap-amount')?.focus({preventScroll:true})},
     'token-slippage':()=>sheet(U.t('滑点容忍度','Slippage tolerance'),`<div class="tk-slippage">${[.1,.5,1].map(x=>`<button class="btn ${S.tokenSlippage===x?'primary':'secondary'}" data-action="token-set-slippage" data-value="${x}">${x}%</button>`).join('')}</div>`),
     'token-set-slippage':value=>{if(![.1,.5,1].includes(Number(value)))return;S.tokenSlippage=Number(value);closeOverlay();render({preserve:true})},
-    'token-swap-review':swapReview,'token-swap-confirm':swapConfirm,'token-deposit':deposit,'token-deposit-confirm':confirmDeposit,
+    'token-swap-review':v=>Wallet.gate()||swapReview(v),'token-swap-confirm':swapConfirm,'token-deposit':v=>Wallet.gate()||deposit(v),'token-deposit-confirm':confirmDeposit,
     'token-consumption-details':()=>{location.hash='account/consumption'}
   };
   return {stats,render:renderPage,swapMarkup,actions,onInput,ensure,quote,depositToProject,price:demoRate,tokenValue:amount=>amount*demoRate};

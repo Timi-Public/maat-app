@@ -74,11 +74,11 @@
 | 文件 | 管什么 | 设计能不能动 |
 |---|---|---|
 | `styles.css` | 全站样式变量和公共组件（`:root` / `[data-theme]` 有多层，后写的覆盖先写的） | 能 |
-| `overview.css` · `tokenomics.css` · `account.css` · `activity.css` · `insights.css` | 各页样式 | 能 |
+| `overview.css` · `tokenomics.css` · `account.css` · `activity.css` · `insights.css` · `wallet.css` | 各页样式（`wallet.css` = 连接钱包、切换网络、确认邀请关系三个弹层） | 能 |
 | `assets/` | 图片、标识、页头纹理 | 能 |
 | `icons.js` | 线性图标（24px，1.65 描边） | 能，改图形不改名字 |
 | `app.js` · `pages.js` · `overview.js` · `tokenomics.js` · `account.js` · `community.js` · `activity.js` · `insights.js` | 页面结构和交互 | 只为布局需要改结构，文字和逻辑不动 |
-| `engine.js` · `data/` · `wallet.js` · `theme.js` | 数字生成、行情数据、钱包、外观切换 | 不动 |
+| `engine.js` · `data/` · `wallet.js` · `vendor/` · `theme.js` | 数字生成、行情数据、钱包与邀请关系流程、二维码库、外观切换 | 不动 |
 | `feedback.js` · `feedback.css` | 客户批注工具 | 不动 |
 
 ## 6. Git 流程

@@ -669,5 +669,9 @@ I18N.data.vi={
 "Wallet and Agent funds":"Vốn trong ví và Agent",
 "Rewards":"Phần thưởng",
 "Community and invite rewards":"Thưởng cộng đồng và giới thiệu",
-"Invites":"Lời mời"
+"Invites":"Lời mời",
+"Test wallet":"Ví thử nghiệm",
+"One tap to see the signed-in pages":"Một chạm để xem các trang sau khi đăng nhập",
+"Install the browser extension and reload, or use the test wallet for now":"Cài tiện ích trình duyệt rồi tải lại trang, hoặc dùng ví thử nghiệm trước",
+"Connect the test wallet first":"Hãy kết nối ví thử nghiệm trước"
 };

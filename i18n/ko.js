@@ -669,5 +669,9 @@ I18N.data.ko={
 "Wallet and Agent funds":"지갑 및 Agent 자금",
 "Rewards":"보상",
 "Community and invite rewards":"커뮤니티 및 초대 보상",
-"Invites":"초대"
+"Invites":"초대",
+"Test wallet":"테스트 지갑",
+"One tap to see the signed-in pages":"한 번 탭하면 로그인 후 화면을 볼 수 있습니다",
+"Install the browser extension and reload, or use the test wallet for now":"브라우저 확장 프로그램을 설치한 뒤 새로고침하거나, 우선 테스트 지갑을 사용하세요",
+"Connect the test wallet first":"먼저 테스트 지갑을 연결하세요"
 };

@@ -1,8 +1,9 @@
 /* Wallet connection (Leo PRD 11-10 §2.4) and referrer confirmation (§3).
    Real wallets (in-app browsers, extensions found through EIP-6963 or window.ethereum) are read for
    address and network only: this prototype never requests approvals, signatures or transactions.
-   Prototype parts: WalletConnect scanning is simulated with a local demo address (real pairing needs a
-   WalletConnect project ID); the referrer "signature" is a timed step; referrer bindings live on this device. */
+   Prototype parts: the test wallet signs in with a local demo address so the signed-in pages can be reviewed
+   without a wallet (echo 11-11; WalletConnect pairing is left for the real build, it needs a project ID);
+   the referrer "signature" is a timed step; referrer bindings live on this device. */
 window.Wallet=(()=>{
   const stateFields=['walletBalance','capital','amount','agentState','elapsed','startedAt','services','records','tokenWalletBalance','tokenProjectBalance','tokenCycleUsed','tokenConsumptionRecords','custody','custodyFee','realized','cycleSeed','exitSec','product','slots','runMode'];
   const POLYGON={chainId:'0x89',chainName:'Polygon',nativeCurrency:{name:'POL',symbol:'POL',decimals:18},rpcUrls:['https://polygon-rpc.com'],blockExplorerUrls:['https://polygonscan.com']};
@@ -27,15 +28,16 @@ window.Wallet=(()=>{
   const t=(...a)=>U.t(...a);
 
   /* ---------- discovery ---------- */
-  addEventListener('eip6963:announceProvider',e=>{const d=e.detail;if(d?.info?.rdns&&d.provider?.request){found.set(d.info.rdns,d);if(window.S?.overlay==='wallet'&&shown==='chooser'&&tab==='popular'&&!busy)chooser()}});
-  dispatchEvent(new Event('eip6963:requestProvider'));
-  function legacy(){
-    const p=window.okxwallet?.request?window.okxwallet:window.ethereum?.request?window.ethereum:null;if(!p)return null;
-    const name=p===window.okxwallet||p.isOkxWallet?'OKX Wallet':p.isTokenPocket?'TokenPocket':p.isTrust||p.isTrustWallet?'Trust Wallet':p.isImToken?'imToken':p.isCoinbaseWallet?'Coinbase Wallet':p.isMetaMask?'MetaMask':t('浏览器钱包','Browser wallet');
-    const rdns=catalog.find(c=>c.name===name)?.rdns||'injected';
-    return {info:{name,rdns,icon:''},provider:p};
-  }
-  function injected(){const list=[...found.values()];if(!list.length){const l=legacy();if(l)list.push(l)}return list}
+  // The framed preview runs this app in an iframe; browser extensions often inject only into the top page,
+  // so wallets are looked for in this window and in the same-origin parent.
+  const wins=[window];try{if(window.parent!==window&&window.parent.location.origin===location.origin)wins.push(window.parent)}catch{}
+  const announced=e=>{const d=e.detail;if(d?.info?.rdns&&d.provider?.request){found.set(d.info.rdns,d);if(window.S?.overlay==='wallet'&&shown==='chooser'&&!busy)chooser();else if(window.D&&window.S&&!S.walletAddress&&S.route==='account'&&!S.overlay)render({preserve:true})}};
+  for(const w of wins){try{w.addEventListener('eip6963:announceProvider',announced);w.dispatchEvent(new w.Event('eip6963:requestProvider'))}catch{}}
+  const nameOf=(p,w)=>p===w.okxwallet||p.isOkxWallet?'OKX Wallet':p.isTokenPocket?'TokenPocket':p.isTrust||p.isTrustWallet?'Trust Wallet':p.isImToken?'imToken':p.isCoinbaseWallet?'Coinbase Wallet':p.isMetaMask?'MetaMask':t('浏览器钱包','Browser wallet');
+  const entryOf=(p,w)=>{const name=nameOf(p,w);return {info:{name,rdns:catalog.find(c=>c.name===name)?.rdns||'injected',icon:''},provider:p}};
+  function legacy(){for(const w of wins){try{const p=w.okxwallet?.request?w.okxwallet:w.ethereum?.request?w.ethereum:null;if(p)return entryOf(p,w)}catch{}}return null}
+  // OKX Wallet is listed even when another wallet answered the discovery and OKX did not.
+  function injected(){const list=[...found.values()];if(!list.length){const l=legacy();if(l)list.push(l)}if(!list.some(e=>e.info.rdns==='com.okex.wallet'))for(const w of wins){try{if(w.okxwallet?.request){list.unshift(entryOf(w.okxwallet,w));break}}catch{}}return list}
   function dappUrl(){
     // Only the referrer travels with the link; preview keys and scene params stay on this device.
     const u=new URL(location.href);u.search='';u.hash=location.hash||'#home';
@@ -72,45 +74,27 @@ window.Wallet=(()=>{
   function logo(entry,size=''){
     const c=catalog.find(x=>x.rdns===entry.rdns||x.id===entry.id);
     if(entry.icon)return `<span class="cw-logo ${size}"><img src="${U.esc(entry.icon)}" alt=""></span>`;
-    if(entry.id==='walletconnect')return `<span class="cw-logo wc ${size}">${wcGlyph()}</span>`;
+    if(entry.id==='demo'||entry.id==='walletconnect')return `<span class="cw-logo demo ${size}">${icon('play','',size?26:17)}</span>`;
     return `<span class="cw-logo ${size}" style="--cw-bg:${c?.bg||'var(--panel2)'};--cw-ink:${c?.ink||'var(--text)'}">${U.esc(c?.mark||entry.name?.slice(0,1)||'W')}</span>`;
   }
-  const wcGlyph=()=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.3 9.2a8.1 8.1 0 0 1 11.4 0l.4.4a.4.4 0 0 1 0 .6l-1.3 1.3a.2.2 0 0 1-.3 0l-.5-.5a5.6 5.6 0 0 0-8 0l-.6.6a.2.2 0 0 1-.3 0l-1.3-1.3a.4.4 0 0 1 0-.6Zm14 2.6 1.2 1.1a.4.4 0 0 1 0 .6l-5.3 5.3a.4.4 0 0 1-.6 0l-3.8-3.8a.1.1 0 0 0-.1 0l-3.8 3.8a.4.4 0 0 1-.6 0L2 13.5a.4.4 0 0 1 0-.6l1.2-1.1a.4.4 0 0 1 .6 0l3.8 3.8h.1l3.8-3.8a.4.4 0 0 1 .6 0l3.8 3.8h.1l3.8-3.8a.4.4 0 0 1 .5 0Z" fill="currentColor"/></svg>`;
   function rows(){
     const list=injected(),seen=new Set(),out=[];
     for(const e of list){const c=catalog.find(x=>x.rdns===e.info.rdns);seen.add(c?.id||e.info.rdns);out.push({id:c?.id||e.info.rdns,name:e.info.name,icon:e.info.icon,rdns:e.info.rdns,detected:true})}
     for(const c of catalog)if(!seen.has(c.id))out.push({id:c.id,name:c.name,rdns:c.rdns,detected:false});
     return out;
   }
-  function qr(text){
-    if(typeof qrcode!=='function')return '';
-    const q=qrcode(0,'H');q.addData(text);q.make();const n=q.getModuleCount();let d='';
-    for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+=`M${c} ${r}h1v1h-1z`;
-    return `<svg viewBox="-2 -2 ${n+4} ${n+4}" shape-rendering="crispEdges" role="img" aria-label="${t('连接二维码','Connection QR code')}"><rect x="-2" y="-2" width="${n+4}" height="${n+4}" fill="#fff"/><path d="${d}" fill="#0b0d12"/></svg>`;
-  }
-  // Account page before sign-in: the ways to connect are on the page itself, one tap from a QR code or a wallet.
+  // The test wallet signs in with a local demo address, so the signed-in pages can be reviewed without a wallet.
+  const demoName=()=>t('测试钱包','Test wallet');
+  const demoRow=()=>`<button class="cw-item" data-action="wallet-demo"><span class="cw-logo demo">${icon('play','',17)}</span><span class="cw-name">${demoName()}<small class="cw-sub">${t('一键进入，查看登录后的页面','One tap to see the signed-in pages')}</small></span>${icon('chevron','muted',16)}</button>`;
+  // Account page before sign-in: the ways to connect are on the page itself.
   function inline(){
-    const row=(action,value,mark,name,sub)=>`<button class="cw-item" data-action="${action}" data-value="${U.esc(value)}">${mark}<span class="cw-name">${U.esc(name)}${sub?`<small class="cw-sub">${sub}</small>`:''}</span>${icon('chevron','muted',16)}</button>`;
-    return `<div class="cw-list">${row('wallet-scan','walletconnect',`<span class="cw-logo wc">${wcGlyph()}</span>`,'WalletConnect',t('手机钱包扫码，无需插件','Scan with a mobile wallet, no extension'))}${rows().slice(0,3).map(r=>row('wallet-pick',r.id,logo(r),r.name,r.detected?`<span class="cw-detected">${t('已检测到','Detected')}</span>`:'')).join('')}</div><button class="text-link" data-action="wallet">${t('全部钱包','All wallets')}</button>`;
+    return `<div class="cw-list">${demoRow()}${rows().slice(0,3).map(r=>`<button class="cw-item" data-action="wallet-pick" data-value="${U.esc(r.id)}">${logo(r)}<span class="cw-name">${U.esc(r.name)}${r.detected?`<small class="cw-detected">${t('已检测到','Detected')}</small>`:''}</span>${icon('chevron','muted',16)}</button>`).join('')}</div><button class="text-link" data-action="wallet">${t('全部钱包','All wallets')}</button>`;
   }
   function chooser(error=''){
     stopScan();pick=null;
-    const tabs=`<div class="cw-tabs" role="tablist">${[['popular',t('热门钱包','Popular wallets')],['walletconnect','WalletConnect']].map(([id,l])=>`<button role="tab" aria-selected="${tab===id}" class="${tab===id?'on':''}" data-action="wallet-tab" data-value="${id}">${l}</button>`).join('')}</div>`;
-    let body;
-    if(tab==='walletconnect'){
-      body=`<div class="cw-qr"><div class="cw-qr-box">${qr(dappUrl())}<span class="cw-qr-mark">${wcGlyph()}</span></div><p class="cw-qr-status" id="wc-status" aria-live="polite">${t('用手机钱包扫码连接','Scan with your mobile wallet')}</p><button class="text-link" data-action="wallet-copy-link">${icon('copy','',14)}${t('复制链接','Copy link')}</button></div>`;
-    }else{
-      body=`<div class="cw-list">${rows().map(r=>`<button class="cw-item" data-action="wallet-pick" data-value="${U.esc(r.id)}">${logo(r)}<span class="cw-name">${U.esc(r.name)}${r.detected?`<small class="cw-detected">${t('已检测到','Detected')}</small>`:''}</span>${icon('chevron','muted',16)}</button>`).join('')}</div>`;
-    }
+    const tabs='',body=`<div class="cw-list">${demoRow()}${rows().map(r=>`<button class="cw-item" data-action="wallet-pick" data-value="${U.esc(r.id)}">${logo(r)}<span class="cw-name">${U.esc(r.name)}${r.detected?`<small class="cw-detected">${t('已检测到','Detected')}</small>`:''}</span>${icon('chevron','muted',16)}</button>`).join('')}</div>`;
     sheet(t('连接钱包','Connect wallet'),`${tabs}${body}<p id="wallet-error" class="wallet-error" role="status">${U.esc(error)}</p>`,'sheet','wallet');shown='chooser';
     document.querySelector('.sheet')?.classList.add('cw-sheet');
-    if(tab==='walletconnect')scan();
-  }
-  // Prototype: a scan is simulated so the flow can be reviewed without a phone wallet.
-  function scan(){
-    stopScan();
-    wcTimers.push(setTimeout(()=>{const s=document.getElementById('wc-status');if(s){s.textContent=t('已扫码，请在钱包中确认','Scanned. Confirm in your wallet');s.classList.add('busy')}},3500));
-    wcTimers.push(setTimeout(()=>{if(S.overlay==='wallet'&&tab==='walletconnect')connectDemo('walletconnect','WalletConnect')},5000));
   }
   function waiting(entry,title,sub,extra=''){
     stopScan();
@@ -125,7 +109,7 @@ window.Wallet=(()=>{
       waiting(r,t(`正在打开 ${c.name}`,`Opening ${c.name}`,{vi:`Đang mở ${c.name}`,ko:`${c.name} 여는 중`}),t('在钱包内打开后会自动连接','It connects automatically inside the wallet'),`<a class="btn outline block" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t(`还没有 ${c.name}？下载`,`No ${c.name}? Get it`,{vi:`Chưa có ${c.name}? Tải về`,ko:`${c.name}이(가) 없나요? 다운로드`})}</a>`);
       location.href=c.link(dappUrl());return;
     }
-    waiting(r,t(`未检测到 ${c.name}`,`${c.name} not found`,{vi:`Không tìm thấy ${c.name}`,ko:`${c.name}을(를) 찾을 수 없음`}),t('安装浏览器插件，或用手机钱包扫码连接','Install the browser extension, or scan with a mobile wallet'),`<div class="cw-wait-actions"><a class="btn outline" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t('安装插件','Install')}</a><button class="btn primary" data-action="wallet-tab" data-value="walletconnect">${t('扫码连接','Scan to connect')}</button></div>`);
+    waiting(r,t(`未检测到 ${c.name}`,`${c.name} not found`,{vi:`Không tìm thấy ${c.name}`,ko:`${c.name}을(를) 찾을 수 없음`}),t('安装浏览器插件后刷新页面，或先用测试钱包进入','Install the browser extension and reload, or use the test wallet for now'),`<div class="cw-wait-actions"><a class="btn outline" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t('安装插件','Install')}</a><button class="btn primary" data-action="wallet-demo">${demoName()}</button></div>`);
   }
   async function connectReal(entry){
     if(busy)return;busy=true;
@@ -264,9 +248,8 @@ window.Wallet=(()=>{
   }
 
   const actions={
-    'wallet-tab':v=>{tab=v==='walletconnect'?'walletconnect':'popular';chooser()},
+    'wallet-demo':()=>connectDemo('demo',demoName()),
     'wallet-pick':v=>choose(v),
-    'wallet-scan':()=>{tab='walletconnect';chooser()},
     'wallet-back':()=>{busy=false;chooser()},
     'wallet-copy-link':async()=>{try{await navigator.clipboard.writeText(dappUrl());toast(t('链接已复制','Link copied'))}catch{toast(t('复制失败','Copy failed'))}},
     'wallet-switch':()=>{tab='popular';chooser()},
@@ -276,7 +259,7 @@ window.Wallet=(()=>{
     'ref-confirm':()=>confirmRef(),
     'ref-open':()=>{if(S.connected&&!bound()){refEdit=false;refGate=false;referrer()}},
     // Preview settings: replay states without a second wallet.
-    'demo-wrong-network':()=>{if(S.walletMode!=='demo')return toast(t('先用 WalletConnect 连接演示钱包','Connect the demo wallet with WalletConnect first'));const s=store.get('maat-wallet-session');if(s){s.chain=56;store.set('maat-wallet-session',s)}identity(S.walletAddress,56,{});network()},
+    'demo-wrong-network':()=>{if(S.walletMode!=='demo')return toast(t('请先用测试钱包连接','Connect the test wallet first'));const s=store.get('maat-wallet-session');if(s){s.chain=56;store.set('maat-wallet-session',s)}identity(S.walletAddress,56,{});network()},
     'demo-reset-referrer':()=>{if(!S.walletAddress)return toast(t('请先连接钱包','Connect a wallet first'));store.set('maat-referrer-'+lower(S.walletAddress),null);try{sessionStorage.removeItem('maat-ref-asked-'+lower(S.walletAddress))}catch{}render({preserve:true});after()}
   };
   function onInput(e){if(e.target.id==='ref-input')preview(e.target.value)}

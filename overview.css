@@ -157,3 +157,4 @@
 .ov-stat strong.ov-status{display:flex;align-items:center;gap:7px;font-size:20px}
 .ov-stat strong.ov-status .ov-live{flex-shrink:0}
 .ov-stat strong.ov-status.warn i{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.holding-feed{height:330px}.holding-feed .position-row{padding-left:0;padding-right:0}

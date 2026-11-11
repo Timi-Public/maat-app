@@ -1,0 +1,68 @@
+/* Visual style Leo approved on 11-09 (Dong's Overview design): black page, raised dark cards that stand apart from it,
+   blue gradient actions, pill buttons, white text. This file only sets colours and shapes; layout stays in the other sheets.
+   The light theme keeps the same blue until the designer supplies light tokens. */
+:root,[data-theme="light"]{--bg:oklch(98% .003 260);--panel:oklch(99.7% .002 260);--panel2:oklch(96.4% .005 260);--hover:oklch(94.3% .01 260);--line:oklch(89.6% .007 260);--text:oklch(22% .012 260);--muted:oklch(49% .013 260);--quiet:oklch(54% .012 260);--accent:#2563eb;--accent-ink:#fff;--accent-soft:#e6eeff;--shadow:0 15px 45px oklch(28% .015 260 / .1);--brand-grad:linear-gradient(62deg,#2967ff,#2f96f7)}
+[data-theme="dark"]{--bg:#000;--panel:#131315;--panel2:#1c1c1f;--hover:#26262a;--line:#2a2a2d;--text:#fff;--muted:#c1c1c1;--quiet:#909096;--accent:#4a97ff;--accent-ink:#fff;--accent-soft:#0f2453;--green:#3cc468;--green-bg:#0e2a17;--red:#ff6177;--red-bg:#33121a;--amber:#f2b445;--amber-bg:#30240c;--shadow:0 18px 60px rgba(0,0,0,.65);--brand-grad:linear-gradient(62deg,#2967ff,#2f96f7)}
+/* actions */
+.btn,.wallet-btn,.product-switch,.text-link.agent-custody{border-radius:999px}
+.btn.primary,.ov-primary,.nav-special .nav-tile{background:var(--brand-grad);color:#fff}
+.btn.primary:disabled{background:var(--panel2);color:var(--muted);border-color:var(--line)}
+.my-agent .btn.primary:disabled{background:var(--green-bg);color:var(--green);border-color:transparent}
+.btn.secondary{background:transparent;border-color:var(--line)}
+[data-theme="dark"] .btn.secondary{background:#0c0c0e}
+.nav-special .nav-tile{border-color:var(--bg);border-radius:18px}
+.capital-input,.amount-field,input[type="search"],.lang-option,.cw-item{border-radius:14px}
+/* surfaces */
+.panel{border-radius:18px}
+[data-theme="dark"] .topbar,[data-theme="dark"] .mobile-nav{background:#000}
+[data-theme="dark"] .mobile-nav{border-top-color:#1d1d20}
+[data-theme="dark"] .sheet,[data-theme="dark"] .settings-popover,[data-theme="dark"] .more-popover,[data-theme="dark"] .drawer{background:#161618;border-color:#2e2e32}
+[data-theme="dark"] .preview-bar{background:#0b1730;color:#7fb2ff}
+[data-theme="dark"] .badge.gray{background:#1f1f22;color:var(--muted)}
+/* Overview hero: deep navy with a cyan curve */
+.ov-hero{color:#fff;border:1px solid #17306b;background:radial-gradient(110% 70% at 96% -6%,rgba(41,103,255,.5),transparent 60%),linear-gradient(170deg,#0b1f4d,#00091f 72%)}
+.ov-tags,.ov-hero>p,.ov-steps,.ov-funding,.ov-visual-labels{color:#cfdcf7}
+.ov-live{background:#2f96f7;box-shadow:0 0 0 3px rgba(47,150,247,.28)}
+.ov-hero-svg .net{stroke:rgba(130,175,255,.15)}
+.ov-hero-svg .net-node{fill:rgba(130,175,255,.45)}
+.ov-hero-svg .line{stroke:#55d5ff}
+.ov-hero-svg .node{fill:rgba(85,213,255,.6)}
+.ov-hero-svg .node.big{fill:#95ecff}
+.ov-hero-svg .flow{stroke:#e7fdff;filter:drop-shadow(0 0 3px rgba(85,213,255,.9))}
+.ov-secondary{color:#fff;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04)}
+.ov-primary,.ov-secondary{border-radius:999px}
+/* Sign-in: connect on the Account page itself, in three visible steps */
+.account-gate.login{align-items:stretch;text-align:left;gap:8px;padding:26px 20px 18px}
+.account-gate.login .account-gate-icon{background:var(--brand-grad);color:#fff}
+.account-gate.login h2{font-size:20px;margin-top:10px}
+.account-gate.login p{margin-bottom:6px;line-height:1.6}
+.account-gate.login .cw-list{margin-top:10px}
+.account-gate.login>.text-link{align-self:center;margin-top:6px}
+.cw-sub{display:block;margin-top:2px;font-size:11px;font-weight:450;color:var(--muted)}
+.login-steps{display:flex;gap:6px;margin:6px 0 2px;padding:0;list-style:none}
+.login-steps li{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px;padding-top:9px;border-top:2px solid var(--line);font-size:11px;line-height:1.35;color:var(--quiet)}
+.login-steps li i{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;font-style:normal;font-size:10px;font-weight:650;background:var(--panel2);color:var(--muted)}
+.login-steps li.on{border-top-color:var(--accent);color:var(--text)}
+.login-steps li.on i{background:var(--brand-grad);color:#fff}
+.login-steps li.done{border-top-color:var(--green);color:var(--muted)}
+.login-steps li.done i{background:var(--green-bg);color:var(--green)}
+.sheet .login-steps{margin:0 0 16px}
+.login-after{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.login-after .panel{display:flex;flex-direction:column;gap:5px;padding:14px 12px;min-width:0}
+.login-after span{color:var(--accent)}
+.login-after b{font-size:13px}
+.login-after small{font-size:10px;line-height:1.4;color:var(--muted)}
+/* status words on the Overview cards read as live, not disabled */
+.ov-status{color:var(--text)}
+.mobile-nav .nav-special .nav-tile{background:var(--brand-grad);color:#fff}
+.sheet:focus,.drawer:focus,.settings-popover:focus,.more-popover:focus,.lang-page:focus{outline:none}
+.ov-node-icon{background:var(--accent-soft);color:var(--accent)}
+/* brand-coloured selections and marks (status colours stay green / amber / red) */
+.tk-mark,.engine-node.active .node-icon,.tape-filters button.active,.tape-sort,.participation-path b,.settings-option.selected,.ins-chips button.active{background:var(--accent-soft);color:var(--accent)}
+.engine-node.active .node-icon,.ins-chips button.active{border-color:var(--accent)}
+.ins-chips button.active{color:var(--text)}
+.tk-chart-area{fill:var(--accent-soft)}
+.funding-balance{background:var(--accent-soft)}
+.funding-balance small,.funding-steps li{color:var(--accent)}
+.ins-bar span{background:var(--accent)}
+.btn.ink{background:var(--brand-grad);color:#fff}

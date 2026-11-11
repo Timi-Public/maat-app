@@ -660,5 +660,14 @@ I18N.data.vi={
 "Confirm custody":"Xác nhận ủy thác",
 "Custody":"Ủy thác",
 "Standard":"Tiêu chuẩn",
-"Limit 100–5,000 USDC":"Giới hạn 100–5,000 USDC"
+"Limit 100–5,000 USDC":"Giới hạn 100–5,000 USDC",
+"Scan with a mobile wallet, no extension":"Quét bằng ví di động, không cần tiện ích",
+"All wallets":"Tất cả ví",
+"Your Polygon wallet address is your account. Only the address and network are read":"Địa chỉ ví Polygon là tài khoản của bạn. Chỉ đọc địa chỉ và mạng",
+"Open account":"Vào tài khoản",
+"Assets":"Tài sản",
+"Wallet and Agent funds":"Vốn trong ví và Agent",
+"Rewards":"Phần thưởng",
+"Community and invite rewards":"Thưởng cộng đồng và giới thiệu",
+"Invites":"Lời mời"
 };

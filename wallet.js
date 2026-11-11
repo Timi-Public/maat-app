@@ -88,6 +88,11 @@ window.Wallet=(()=>{
     for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))d+=`M${c} ${r}h1v1h-1z`;
     return `<svg viewBox="-2 -2 ${n+4} ${n+4}" shape-rendering="crispEdges" role="img" aria-label="${t('连接二维码','Connection QR code')}"><rect x="-2" y="-2" width="${n+4}" height="${n+4}" fill="#fff"/><path d="${d}" fill="#0b0d12"/></svg>`;
   }
+  // Account page before sign-in: the ways to connect are on the page itself, one tap from a QR code or a wallet.
+  function inline(){
+    const row=(action,value,mark,name,sub)=>`<button class="cw-item" data-action="${action}" data-value="${U.esc(value)}">${mark}<span class="cw-name">${U.esc(name)}${sub?`<small class="cw-sub">${sub}</small>`:''}</span>${icon('chevron','muted',16)}</button>`;
+    return `<div class="cw-list">${row('wallet-scan','walletconnect',`<span class="cw-logo wc">${wcGlyph()}</span>`,'WalletConnect',t('手机钱包扫码，无需插件','Scan with a mobile wallet, no extension'))}${rows().slice(0,3).map(r=>row('wallet-pick',r.id,logo(r),r.name,r.detected?`<span class="cw-detected">${t('已检测到','Detected')}</span>`:'')).join('')}</div><button class="text-link" data-action="wallet">${t('全部钱包','All wallets')}</button>`;
+  }
   function chooser(error=''){
     stopScan();pick=null;
     const tabs=`<div class="cw-tabs" role="tablist">${[['popular',t('热门钱包','Popular wallets')],['walletconnect','WalletConnect']].map(([id,l])=>`<button role="tab" aria-selected="${tab===id}" class="${tab===id?'on':''}" data-action="wallet-tab" data-value="${id}">${l}</button>`).join('')}</div>`;
@@ -214,7 +219,7 @@ window.Wallet=(()=>{
     if(!S.connected)return;
     refGate=gate||refGate;
     const inviter=suggested(),fromLink=inviter!==OFFICIAL;
-    const head=refGate?`<p class="ref-gate">${icon('lock','',14)}${t('确认邀请关系后才能继续','Confirm your referrer to continue')}</p>`:'';
+    const head=Pages.loginSteps(1)+(refGate?`<p class="ref-gate">${icon('lock','',14)}${t('确认邀请关系后才能继续','Confirm your referrer to continue')}</p>`:'');
     const card=refEdit
       ?`<label class="field-label" for="ref-input">${t('邀请人钱包地址','Referrer wallet address')}</label><input class="profile-input" id="ref-input" inputmode="text" autocomplete="off" spellcheck="false" placeholder="0x…"><div id="ref-preview" class="ref-card ref-preview" hidden></div><button class="text-link" data-action="ref-cancel-edit">${t('使用原邀请人','Use the original referrer')}</button>`
       :`<div class="ref-card">${person(inviter)}<button class="text-link" data-action="ref-edit">${t('修改','Edit')}</button></div><p class="tiny muted ref-source">${fromLink?t('来自邀请链接','From your invite link'):t('未通过邀请链接进入，默认为官方邀请','No invite link used, so the official account is your referrer')}</p>`;
@@ -261,6 +266,7 @@ window.Wallet=(()=>{
   const actions={
     'wallet-tab':v=>{tab=v==='walletconnect'?'walletconnect':'popular';chooser()},
     'wallet-pick':v=>choose(v),
+    'wallet-scan':()=>{tab='walletconnect';chooser()},
     'wallet-back':()=>{busy=false;chooser()},
     'wallet-copy-link':async()=>{try{await navigator.clipboard.writeText(dappUrl());toast(t('链接已复制','Link copied'))}catch{toast(t('复制失败','Copy failed'))}},
     'wallet-switch':()=>{tab='popular';chooser()},
@@ -275,5 +281,5 @@ window.Wallet=(()=>{
   };
   function onInput(e){if(e.target.id==='ref-input')preview(e.target.value)}
   function onClose(){stopScan();busy=false;pick=null;shown='';if(S.overlay==='referrer'&&!signing){refEdit=false;refGate=false}}
-  return {view,chooser,disconnect,auto,gate,bound,nickname,referrer,actions,onInput,onClose,official:OFFICIAL};
+  return {view,chooser,inline,disconnect,auto,gate,bound,nickname,referrer,actions,onInput,onClose,official:OFFICIAL};
 })();

@@ -6,6 +6,8 @@ window.Pages = {
     const tab=S.agentTab;
     return `<section data-screen-label="Agent Trading"><div class="banner banner-agent"><div class="row"><div class="icon-head">${icon('agent','',25)}</div><div><h1>Agent Trading</h1></div></div>${badge(t('引擎运行中','Engine running'))}</div>${tabs(['总览','智能分析','交易执行','引擎监控'],['Overview','Intelligence','Execution','Monitoring'],tab,'agent-tab')}${tab===0?Pages.agentOverview():tab===1?Insights.analysis():tab===2?Pages.execution():Insights.monitoring()}</section>`;
   },
+  // Sign-in is three steps: connect, confirm the referrer, account (Leo PRD 11-10 §2.4, §3).
+  loginSteps(at){const {t}=U;return `<ol class="login-steps">${[t('连接钱包','Connect wallet'),t('确认邀请关系','Confirm your referrer'),t('进入账户','Open account')].map((l,i)=>`<li class="${i<at?'done':i===at?'on':''}"><i>${i<at?icon('check','',11):i+1}</i><span>${l}</span></li>`).join('')}</ol>`},
   agentOverview() {
     const {t,money,source,badge} = U;
     const state=U.agentState();
@@ -53,7 +55,7 @@ window.Pages = {
     // Leo 11-05 #34: without a wallet the account page is a connect prompt only.
     // Leo 11-10 §2.4.2: a non-Polygon wallet sees the switch prompt instead of the account.
     if(S.walletAddress&&!S.connected)return `<section data-screen-label="My Account"><article class="panel account-gate"><span class="account-gate-icon"><img src="assets/chain-polygon.svg" alt="" width="28" height="28"></span><h2>${t('请切换到 Polygon','Switch to Polygon')}</h2><p>${t('该 DApp 不支持当前的钱包网络','This DApp does not support your current wallet network')}</p><button class="btn primary block" data-action="wallet-network">${t('切换到 Polygon','Switch to Polygon')}</button></article></section>`;
-    if(!S.walletAddress)return `<section data-screen-label="My Account"><article class="panel account-gate"><span class="account-gate-icon">${icon('wallet','',26)}</span><h2>Account</h2><p>${t('连接钱包后查看资产、奖励与邀请','Connect a wallet to see your assets, rewards and invites')}</p><button class="btn primary block" data-action="wallet">${t('连接钱包','Connect wallet')}</button></article></section>`;
+    if(!S.walletAddress)return `<section data-screen-label="My Account"><article class="panel account-gate login"><span class="account-gate-icon">${icon('wallet','',26)}</span><h2>${t('连接钱包','Connect wallet')}</h2><p>${t('用 Polygon 钱包地址作为账户，只读取地址和网络','Your Polygon wallet address is your account. Only the address and network are read')}</p>${Pages.loginSteps(0)}${Wallet.inline()}</article><div class="login-after">${[['wallet',t('资产','Assets'),t('钱包与 Agent 资金','Wallet and Agent funds')],['coins',t('奖励','Rewards'),t('社区与邀请奖励','Community and invite rewards')],['users',t('邀请','Invites'),t('专属邀请链接','Your invite link')]].map(([ic,a,b])=>`<div class="panel"><span>${icon(ic,'',17)}</span><b>${a}</b><small>${b}</small></div>`).join('')}</div></section>`;
     if(S.accountSub==='activity')return Activity.page();
     if(S.accountSub==='profile')return Account.renderProfile();
     if(S.accountSub==='consumption')return Account.consumption();

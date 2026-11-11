@@ -660,5 +660,14 @@ I18N.data.ko={
 "Confirm custody":"위탁 확인",
 "Custody":"위탁",
 "Standard":"표준",
-"Limit 100–5,000 USDC":"한도 100–5,000 USDC"
+"Limit 100–5,000 USDC":"한도 100–5,000 USDC",
+"Scan with a mobile wallet, no extension":"모바일 지갑으로 스캔, 확장 프로그램 불필요",
+"All wallets":"모든 지갑",
+"Your Polygon wallet address is your account. Only the address and network are read":"Polygon 지갑 주소가 계정이 됩니다. 주소와 네트워크만 읽습니다",
+"Open account":"계정 열기",
+"Assets":"자산",
+"Wallet and Agent funds":"지갑 및 Agent 자금",
+"Rewards":"보상",
+"Community and invite rewards":"커뮤니티 및 초대 보상",
+"Invites":"초대"
 };

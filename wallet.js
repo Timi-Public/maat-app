@@ -24,7 +24,7 @@ window.Wallet=(()=>{
     {id:'imtoken',name:'imToken',rdns:'im.token.app',bg:'#11c4d1',ink:'#fff',mark:'im',site:'https://token.im/',link:u=>'imtokenv2://navigate/DappView?url='+encodeURIComponent(u)},
     {id:'coinbase',name:'Coinbase Wallet',rdns:'com.coinbase.wallet',bg:'#0052ff',ink:'#fff',mark:'C',site:'https://www.coinbase.com/wallet/downloads',link:u=>'https://go.cb-w.com/dapp?cb_url='+encodeURIComponent(u)}
   ];
-  const t=(zh,en)=>U.t(zh,en);
+  const t=(...a)=>U.t(...a);
 
   /* ---------- discovery ---------- */
   addEventListener('eip6963:announceProvider',e=>{const d=e.detail;if(d?.info?.rdns&&d.provider?.request){found.set(d.info.rdns,d);if(window.S?.overlay==='wallet'&&shown==='chooser'&&tab==='popular'&&!busy)chooser()}});
@@ -117,15 +117,15 @@ window.Wallet=(()=>{
     if(r.detected){const e=injected().find(x=>(catalog.find(c=>c.rdns===x.info.rdns)?.id||x.info.rdns)===id);if(e)return connectReal(e)}
     const c=catalog.find(x=>x.id===id);if(!c)return;
     if(handheld()){
-      waiting(r,t(`正在打开 ${c.name}`,`Opening ${c.name}`),t('在钱包内打开后会自动连接','It connects automatically inside the wallet'),`<a class="btn outline block" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t(`还没有 ${c.name}？下载`,`No ${c.name}? Get it`)}</a>`);
+      waiting(r,t(`正在打开 ${c.name}`,`Opening ${c.name}`,{vi:`Đang mở ${c.name}`,ko:`${c.name} 여는 중`}),t('在钱包内打开后会自动连接','It connects automatically inside the wallet'),`<a class="btn outline block" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t(`还没有 ${c.name}？下载`,`No ${c.name}? Get it`,{vi:`Chưa có ${c.name}? Tải về`,ko:`${c.name}이(가) 없나요? 다운로드`})}</a>`);
       location.href=c.link(dappUrl());return;
     }
-    waiting(r,t(`未检测到 ${c.name}`,`${c.name} not found`),t('安装浏览器插件，或用手机钱包扫码连接','Install the browser extension, or scan with a mobile wallet'),`<div class="cw-wait-actions"><a class="btn outline" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t('安装插件','Install')}</a><button class="btn primary" data-action="wallet-tab" data-value="walletconnect">${t('扫码连接','Scan to connect')}</button></div>`);
+    waiting(r,t(`未检测到 ${c.name}`,`${c.name} not found`,{vi:`Không tìm thấy ${c.name}`,ko:`${c.name}을(를) 찾을 수 없음`}),t('安装浏览器插件，或用手机钱包扫码连接','Install the browser extension, or scan with a mobile wallet'),`<div class="cw-wait-actions"><a class="btn outline" href="${U.esc(c.site)}" target="_blank" rel="noopener noreferrer">${t('安装插件','Install')}</a><button class="btn primary" data-action="wallet-tab" data-value="walletconnect">${t('扫码连接','Scan to connect')}</button></div>`);
   }
   async function connectReal(entry){
     if(busy)return;busy=true;
     const r={id:'x',name:entry.info.name,icon:entry.info.icon,rdns:entry.info.rdns};
-    waiting(r,t(`在 ${entry.info.name} 中确认连接`,`Confirm in ${entry.info.name}`),t('只读取钱包地址和网络','Only your address and network are read'),`<span class="cw-spinner" aria-hidden="true"></span>`);
+    waiting(r,t(`在 ${entry.info.name} 中确认连接`,`Confirm in ${entry.info.name}`,{vi:`Xác nhận trong ${entry.info.name}`,ko:`${entry.info.name}에서 연결 확인`}),t('只读取钱包地址和网络','Only your address and network are read'),`<span class="cw-spinner" aria-hidden="true"></span>`);
     const p=entry.provider;
     try{
       if(S.walletAddress&&lower(S.walletName)===lower(entry.info.name)){try{await p.request({method:'wallet_requestPermissions',params:[{eth_accounts:{}}]})}catch(e){if(e.code===4001)throw e}}
@@ -135,7 +135,7 @@ window.Wallet=(()=>{
       bind(entry);store.set('maat-wallet-off',null);store.set('maat-wallet-session',{mode:'injected',rdns:entry.info.rdns});
       identity(accounts[0],chain,{mode:'injected',name:entry.info.name});busy=false;
       if(Number(chain)!==137)return network();
-      closeOverlay();if(!after())toast(t(`已连接 ${entry.info.name}`,`${entry.info.name} connected`));
+      closeOverlay();if(!after())toast(t(`已连接 ${entry.info.name}`,`${entry.info.name} connected`,{vi:`Đã kết nối ${entry.info.name}`,ko:`${entry.info.name} 연결됨`}));
     }catch(error){
       busy=false;
       chooser(error.code===4001?t('已取消连接','Connection cancelled'):error.code===-32002?t('请在钱包中处理待确认的请求','Confirm the pending request in your wallet'):t('连接失败，请重试','Connection failed. Try again'));
@@ -152,7 +152,7 @@ window.Wallet=(()=>{
     store.set('maat-wallet-off',null);store.set('maat-wallet-session',{mode:'demo',id,name,address,chain});
     identity(address,chain,{mode:'demo',name});
     if(chain!==137)return network();
-    closeOverlay();if(!after())toast(t(`已连接 ${name}`,`${name} connected`));
+    closeOverlay();if(!after())toast(t(`已连接 ${name}`,`${name} connected`,{vi:`Đã kết nối ${name}`,ko:`${name} 연결됨`}));
   }
 
   /* ---------- connected wallet ---------- */
@@ -202,7 +202,7 @@ window.Wallet=(()=>{
   const bound=(a=S.walletAddress)=>{const b=store.get('maat-referrer-'+lower(a));return b&&valid(b.inviter)?b:null};
   function suggested(){const r=store.get('maat-ref');return valid(r)&&lower(r)!==lower(S.walletAddress)?r:OFFICIAL}
   function nickname(a){
-    if(lower(a)===OFFICIAL)return t(`${U.brand} 官方`,`${U.brand} Official`);
+    if(lower(a)===OFFICIAL)return t(`${U.brand} 官方`,`${U.brand} Official`,{vi:`${U.brand} chính thức`,ko:`${U.brand} 공식`});
     try{const p=JSON.parse(localStorage.getItem('forea-profile-'+lower(a))||'{}');if(p.nickname)return String(p.nickname).slice(0,24)}catch{}
     return Account.defaultName(a);
   }

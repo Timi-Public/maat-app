@@ -14,14 +14,14 @@ window.Community=(()=>{
     const days=new Date(p.year,p.month,0).getDate();
     return {month:p.month,last:p.month===1?12:p.month-1,day:p.day,days,left:days-p.day,paid:p.day>=payDay};
   }
-  const monthName=m=>U.t(`${m}月`,months[m-1]);
-  const payDate=m=>U.t(`${m}月${payDay}日`,`${months[m-1].slice(0,3)} ${payDay}`);
+  const monthName=m=>U.t(`${m}月`,months[m-1],{vi:`Tháng ${m}`,ko:`${m}월`});
+  const payDate=m=>U.t(`${m}月${payDay}日`,`${months[m-1].slice(0,3)} ${payDay}`,{vi:`${payDay}/${m}`,ko:`${m}월 ${payDay}일`});
   const reward=n=>Account.assetsHidden()?'••••':U.money(n,false,0);
   const volume=n=>U.money(n,false,0);
 
   function card(){
     const {t}=U,p=period(),s=demo.settled,c=demo.current,total=s.diff+s.direct+s.fee;
-    const payout=p.paid?t(`已发放 ${payDate(p.month)}`,`Paid ${payDate(p.month)}`):t(`待发放 ${payDate(p.month)}`,`Payout ${payDate(p.month)}`);
+    const payout=p.paid?t(`已发放 ${payDate(p.month)}`,`Paid ${payDate(p.month)}`,{vi:`Đã trả ${payDate(p.month)}`,ko:`${payDate(p.month)} 지급됨`}):t(`待发放 ${payDate(p.month)}`,`Payout ${payDate(p.month)}`,{vi:`Trả ngày ${payDate(p.month)}`,ko:`${payDate(p.month)} 지급 예정`});
     const cell=(label,value,unit)=>`<div><span class="cm-label">${label}</span><b>${value}${unit?` <small>${unit}</small>`:''}</b></div>`;
     return `<article class="panel community-card" data-card="community"><div class="panel-head"><div class="row">${icon('users','',20)}<h2>Community & Rewards</h2></div></div>`
       +`<section class="cm-period"><div class="between"><h3>${monthName(p.last)}</h3><span class="cm-state">${icon('check','',13)}${t('已核定','Verified')}</span></div>`
@@ -34,7 +34,7 @@ window.Community=(()=>{
       +`<div class="cm-main"><div class="cm-level"><b>${c.level}</b><span>${t('社区等级','Level')}</span></div><div class="cm-stack">`
       +`<div><span class="cm-label">${t('日均社区业绩','Daily community volume')}</span><strong>${volume(c.daily)} <small>USDC</small></strong></div>`
       +`<div><span class="cm-label">${t('下一等级','Next level')}</span><p class="cm-next"><b>${c.next}</b>${volume(c.target)} USDC</p></div></div></div>`
-      +`<div><div class="between cm-progress-head"><span>${t('考核进度','Progress')}</span><b>${p.day} / ${p.days} ${t('天','days')}</b></div><div class="cm-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${p.days}" aria-valuenow="${p.day}"><span style="width:${(p.day/p.days*100).toFixed(1)}%"></span></div><p class="cm-left">${t(`剩余 ${p.left} 天`,`${p.left} days left`)}</p></div></section>`
+      +`<div><div class="between cm-progress-head"><span>${t('考核进度','Progress')}</span><b>${p.day} / ${p.days} ${t('天','days')}</b></div><div class="cm-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${p.days}" aria-valuenow="${p.day}"><span style="width:${(p.day/p.days*100).toFixed(1)}%"></span></div><p class="cm-left">${t(`剩余 ${p.left} 天`,`${p.left} days left`,{vi:`Còn ${p.left} ngày`,ko:`${p.left}일 남음`})}</p></div></section>`
       +`<div class="cm-counts"><div><span class="cm-label">${t('直属邀请人数','Direct invites')}</span><b>${s.invites} <small>${t('人','people')}</small></b></div><div><span class="cm-label">${t('社区总人数','Community members')}</span><b>${s.members} <small>${t('人','people')}</small></b></div></div></article>`;
   }
 

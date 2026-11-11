@@ -3,7 +3,7 @@
 window.Feedback=(()=>{
   const API='https://maat-feedback.ai-factory.workers.dev';
   const KEY='forea-fb-key';
-  const t=(zh,en)=>window.U?U.t(zh,en):zh;
+  const t=(...a)=>window.U?U.t(...a):a[0];
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const statusLabel=s=>({open:t('待改','Open'),done:t('已改','Done'),discuss:t('要讨论','Discuss'),closed:t('已确认','Closed')})[s]||s;
   const statusTone=s=>({open:'amber',done:'',discuss:'purple',closed:'gray'})[s]||'gray';

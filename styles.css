@@ -239,3 +239,12 @@ img[src$="social-envo.png"]{transform:scale(1.3)}
 .ag-prog-scale{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:var(--quiet);font-variant-numeric:tabular-nums}
 .ag-prog-foot{display:flex;align-items:flex-start;gap:6px;margin-top:10px;font-size:11px;line-height:1.5;color:var(--muted)}
 .ag-prog-foot svg{flex-shrink:0;margin-top:2px}
+/* First-visit language page (Leo PRD 11-10 §2.1) */
+.lang-page{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px 20px;overflow:auto;background:var(--bg);outline:none}
+.lang-page-inner{width:min(360px,100%);display:flex;flex-direction:column;align-items:center;text-align:center}
+.lang-page h1{margin-top:12px;font-size:22px;font-weight:650;letter-spacing:-.3px}
+.lang-page p{margin-top:6px;font-size:13px;color:var(--muted)}
+.lang-list{width:100%;display:grid;gap:8px;margin-top:24px}
+.lang-option{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:15px;font-weight:560;text-align:left;transition:background .15s}
+.lang-option:hover{background:var(--hover)}
+.lang-option svg{color:var(--muted)}

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/serve.mjs",
-    "check": "node --check app.js && node --check pages.js && node --check icons.js && node --check theme.js && node --check tokenomics.js && node --check account.js && node --check wallet.js && node --check activity.js && node --check community.js && node --check overview.js && node --check engine.js && node --check insights.js && node --check feedback.js && node scripts/check.mjs",
+    "check": "node --check app.js && node --check pages.js && node --check icons.js && node --check theme.js && node --check tokenomics.js && node --check account.js && node --check wallet.js && node --check activity.js && node --check community.js && node --check overview.js && node --check engine.js && node --check insights.js && node --check feedback.js && node --check i18n.js && node --check i18n/hk.js && node --check i18n/vi.js && node --check i18n/ko.js && node scripts/check.mjs && node scripts/i18n.mjs check",
     "build": "node scripts/build.mjs"
   },
   "engines": {

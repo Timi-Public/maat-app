@@ -4,7 +4,7 @@
    Demo: candidate / valid signals, markets in service, signal and service feeds (shared with Agent / Liquidity pages).
    Unknown platform figures stay "—"; contract and audit rows state they are not deployed / published. */
 window.Overview=(()=>{
-  const t=(zh,en)=>U.t(zh,en);
+  const t=(...a)=>U.t(...a);
   const head=(title,sub)=>`<header class="ov-head"><h2>${title}</h2>${sub?`<p>${sub}</p>`:''}</header>`;
   const curve=[62,78,82,76,62,50,46,52,66,80,82,74];
   const net=[[14,22],[52,12],[96,30],[140,10],[188,26],[232,8],[276,20],[306,40],[30,118],[84,128],[150,120],[214,130],[262,116],[300,126]];
@@ -68,7 +68,7 @@ window.Overview=(()=>{
   }
   function infrastructure(){
     const nodes=[['radar','Market Intelligence','市场数据分析','采集预测价格、交易量、订单簿深度与市场流动性信息','Collects prediction prices, volume, order book depth and liquidity'],['brain','AI Signal Engine','智能信号引擎','基于量化指标与模型分析识别交易机会，生成策略信号','Finds opportunities with quantitative indicators and models, and generates strategy signals'],['shield','Risk Management','风险管理系统','对交易成本、资金敞口、仓位限制及执行条件进行校验','Checks trading costs, exposure, position limits and execution conditions'],['swap','Execution Engine','自动交易执行','统一管理订单提交、成交跟踪、撤单与交易结果核算','Handles order submission, fill tracking, cancellation and trade settlement']];
-    return `<section class="ov-section">${head(t('AI 驱动的交易基础设施','AI-driven trading infrastructure'),t('从市场数据到订单执行，一套系统完成交易决策、自动执行与风险管理','From market data to order execution, one system handles trading decisions, automated execution and risk management'))}<article class="panel ov-infra">${nodes.map(([ic,en,zh,dz,de])=>`<div class="ov-node"><span class="ov-node-icon">${icon(ic,'',19)}</span><div><h3>${en}</h3>${S.lang==='zh'?`<span class="ov-node-sub">${zh}</span>`:''}<p>${t(dz,de)}</p></div></div>`).join('')}<a class="ov-row-link" href="#agent/analysis"><span>${t('探索智能分析与引擎监控','Explore Intelligence and Monitoring')}</span>${icon('arrow','',14)}</a></article></section>`;
+    return `<section class="ov-section">${head(t('AI 驱动的交易基础设施','AI-driven trading infrastructure'),t('从市场数据到订单执行，一套系统完成交易决策、自动执行与风险管理','From market data to order execution, one system handles trading decisions, automated execution and risk management'))}<article class="panel ov-infra">${nodes.map(([ic,en,zh,dz,de])=>`<div class="ov-node"><span class="ov-node-icon">${icon(ic,'',19)}</span><div><h3>${en}</h3>${U.zh()?`<span class="ov-node-sub">${t(zh,'')}</span>`:''}<p>${t(dz,de)}</p></div></div>`).join('')}<a class="ov-row-link" href="#agent/analysis"><span>${t('探索智能分析与引擎监控','Explore Intelligence and Monitoring')}</span>${icon('arrow','',14)}</a></article></section>`;
   }
   // Leo PRD 11-10 §4 Live Market Activity: three scrolling feeds styled like Agent 交易执行, Agent AI Signals
   // and Liquidity Recent Activity. Trades are the latest Polymarket public order book fills (replaces the 11-03 empty state).

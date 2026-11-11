@@ -1,7 +1,7 @@
 /* Agent Trading · 智能分析 / 引擎监控 (proposal pending Leo confirmation).
    Market fields come from the Polymarket snapshot; model, engine, risk and log figures are labelled demos. */
 window.Insights = (() => {
-  const t = (zh, en) => U.t(zh, en);
+  const t = (...a) => U.t(...a);
   const fmt = n => n == null ? '—' : Number(n).toLocaleString('en-US');
   // 走查 #31: percentage points always read "+3.4 pp".
   const signed = n => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(1);
@@ -9,7 +9,7 @@ window.Insights = (() => {
   const { decisionLabel, decisionClass } = Engine;
   // 走查 #29: full question (two-line clamp in CSS), never a cut-down fragment.
   const q = m => U.esc(m.question);
-  const days = m => { const d = Engine.daysLeft(m); return d < 1 ? t('不足 1 天', '< 1 day') : Math.round(d) + t(' 天', d >= 1.5 ? ' days' : ' day'); };
+  const days = m => { const d = Engine.daysLeft(m); return d < 1 ? t('不足 1 天', '< 1 day') : Math.round(d) + t(' 天', d >= 1.5 ? ' days' : ' day', {vi:' ngày',ko:'일'}); };
   const sourceLine = () => `<div class="source"><span>${t('数据来源', 'Data source')}</span><a href="#sources">Polymarket · ${U.captureTime()}${icon('chevron', '', 10)}</a></div>`;
 
   /* ---------- 智能分析 ---------- */
@@ -113,7 +113,7 @@ window.Insights = (() => {
     const pool = U.featured(), k0 = Math.floor(now / logEvery);
     return Array.from({ length: n }, (_, j) => {
       const k = k0 - j, r = Engine.rnd('log', k), m = pool[Math.floor(Engine.rnd('log-market', k) * pool.length)], at = k * logEvery;
-      if (r < .22) return { at, stage: t('市场扫描', 'Scan'), tone: 'gray', text: t(`完成扫描 ${fmt(Engine.monitored())} 个市场 · ${Engine.latency(at)}ms`, `Scanned ${fmt(Engine.monitored())} markets · ${Engine.latency(at)}ms`) };
+      if (r < .22) return { at, stage: t('市场扫描', 'Scan'), tone: 'gray', text: t(`完成扫描 ${fmt(Engine.monitored())} 个市场 · ${Engine.latency(at)}ms`, `Scanned ${fmt(Engine.monitored())} markets · ${Engine.latency(at)}ms`,{vi:`Đã quét ${fmt(Engine.monitored())} thị trường · ${Engine.latency(at)}ms`,ko:`마켓 ${fmt(Engine.monitored())}개 스캔 완료 · ${Engine.latency(at)}ms`}) };
       if (r < .58) { const e = Engine.edge(m); return { at, stage: t('信号识别', 'Signal'), tone: '', text: `${q(m)} · ${e > 0 ? 'YES' : 'NO'} ${pp(e)} · ${t('评分', 'score')} ${Engine.score(m)}` }; }
       if (r < .78) return { at, stage: t('风控拦截', 'Blocked'), tone: 'amber', text: q(m) };
       const side = Engine.edge(m) > 0 ? 'YES' : 'NO', price = side === 'YES' ? m.prices[0] : m.prices[1];

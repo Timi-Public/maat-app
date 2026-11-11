@@ -81,7 +81,7 @@ window.Insights = (() => {
         <div class="between"><span>${label}<small>${src}</small></span><b>${value}</b></div>
         <div class="ins-bar thin"><span style="width:${Math.round(f[key])}%"></span></div>
       </div>`).join('')}</div>
-      <div class="source"><span>${t('信号生成', 'Signal generated')} ${U.stamp(Engine.signalTime())} UTC+8 · ${t('30M 更新', 'Updates every 30M')}</span><a href="#sources">Polymarket · ${U.captureTime()}${icon('chevron', '', 10)}</a></div>
+      <div class="source"><span>${t('信号生成', 'Signal generated')} ${U.stamp(Engine.signalTime())} UTC+8 · ${t('每 30 分钟更新', 'updated every 30 min')}</span><a href="#sources">Polymarket · ${U.captureTime()}${icon('chevron', '', 10)}</a></div>
     </article>`;
   }
 

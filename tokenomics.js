@@ -83,7 +83,7 @@ window.Tokenomics=(()=>{
   }
   function consumption(){
     const {t,money}=U;
-    return `<article class="panel tk-consumption"><div class="panel-head"><h2>Agent Token Consumption</h2></div><div class="tk-balance-row"><span>${t('我的 MAAT 钱包余额','My MAAT wallet balance')}</span><b>${money(S.tokenWalletBalance)} <small>MAAT</small></b></div><div class="tk-balance-row"><span>${t('我的 MAAT 项目余额','My MAAT project balance')}</span><div><b>${money(S.tokenProjectBalance)} <small>MAAT</small></b><button class="text-link" data-action="token-deposit">${t('充值','Deposit')}${icon('arrow','',12)}</button></div></div><button class="tk-full-link" data-action="token-consumption-details"><span>${t('查看 Agent 消耗详情','View Agent consumption')}</span>${icon('arrow','',15)}</button></article>`;
+    return `<article class="panel tk-consumption"><div class="panel-head"><h2>Agent Token Consumption</h2></div><div class="tk-balance-row"><span>${t('钱包 MAAT 余额','Wallet MAAT balance')}</span><b>${money(S.tokenWalletBalance)} <small>MAAT</small></b></div><div class="tk-balance-row"><span>${t('项目 MAAT 余额','Project MAAT balance')}</span><div><b>${money(S.tokenProjectBalance)} <small>MAAT</small></b><button class="text-link" data-action="token-deposit">${t('充值','Deposit')}${icon('arrow','',12)}</button></div></div><button class="tk-full-link" data-action="token-consumption-details"><span>${t('Agent 消耗详情','Agent consumption')}</span>${icon('arrow','',15)}</button></article>`;
   }
   function buyback(){
     const {t,money}=U,isBurn=S.tokenHistoryTab==='burn',s=stats(),pct=(s.ratio*100).toFixed(2);

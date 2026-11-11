@@ -36,7 +36,7 @@ function collect(){
     if(f==='feedback.js')continue;
     // pairs handed to t() indirectly: ['中文','English'], {zh:'…',en:'…'}, [zh…],[en…]
     const lit=`'(?:[^'\\\\\\n]|\\\\.)*'`;
-    const pair=new RegExp(`(${lit})\\s*,\\s*(${lit})`,'g');while((m=pair.exec(s))){const zh=ev(m[1]);if(cjk.test(zh))put(zh,ev(m[2]),f);pair.lastIndex=m.index+m[1].length}
+    const pair=new RegExp(`(${lit})\\s*,\\s*(${lit})`,'g');while((m=pair.exec(s))){const zh=ev(m[1]);if(cjk.test(zh)&&!/^,\s*\{\s*vi:/.test(s.slice(m.index+m[0].length,m.index+m[0].length+12)))put(zh,ev(m[2]),f);pair.lastIndex=m.index+m[1].length}
     const kv=new RegExp(`[zZ]h:(${lit}),(?:\\w+:[^,]+,)*?\\w*[eE]n:(${lit})`,'g');while((m=kv.exec(s)))put(ev(m[1]),ev(m[2]),f);
     const arr=new RegExp(`\\[((?:${lit},?)+)\\](?:\\[\\w+\\])?\\s*,\\s*\\[((?:${lit},?)+)\\]`,'g');
     while((m=arr.exec(s))){const a=ev('['+m[1]+']'),b=ev('['+m[2]+']');if(a.length===b.length)a.forEach((z,i)=>{if(cjk.test(z))put(z,b[i],f)})}}

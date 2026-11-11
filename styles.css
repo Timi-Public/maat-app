@@ -278,3 +278,6 @@ img[src$="social-envo.png"]{transform:scale(1.3)}
   #toast{bottom:36px}
   .lang-page-inner{width:380px}
 }
+/* Bottom navigation labels follow the language and are short, so they can be larger (echo 11-11). */
+.mobile-nav>a,.mobile-nav>a .nav-label{font-size:min(11px,3vw);letter-spacing:0;white-space:nowrap}
+:lang(vi) .mobile-nav>a,:lang(vi) .mobile-nav>a .nav-label{font-size:min(10px,2.7vw);letter-spacing:-.1px}

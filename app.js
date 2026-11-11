@@ -138,12 +138,13 @@ var U = {
 function header(){
   const {t}=U;
   const nav=[
-    // Leo 11-05 #9 #47: menu names stay English in both languages; #8 #46: Tokenomics is the special centre item, no separate swap button.
-    ['home','Overview','grid','Overview'],
-    ['agent','Agent Trading','agent','Agent Trading'],
-    ['tokenomics','Tokenomics','coin-swap','Tokenomics'],
-    ['liquidity','Liquidity Marketplace','drop','Liquidity Marketplace'],
-    ['account','Account','wallet','Account']
+    // echo 11-11: menu names follow the language and stay short (overrides Leo 11-05 #9 #47 "English in both languages").
+    // Leo 11-05 #8 #46 stands: Tokenomics is the special centre item, no separate swap button.
+    ['home',t('总览','Overview',{vi:'Tổng quan',ko:'개요'}),'grid',t('总览','Overview',{vi:'Tổng quan',ko:'개요'})],
+    ['agent',t('智能交易','Agent',{vi:'Agent',ko:'에이전트'}),'agent',t('智能交易','Agent Trading',{vi:'Giao dịch Agent',ko:'에이전트 트레이딩'})],
+    ['tokenomics',t('代币','Tokenomics',{vi:'Token',ko:'토큰'}),'coin-swap',t('代币经济','Tokenomics',{vi:'Tokenomics',ko:'토크노믹스'})],
+    ['liquidity',t('流动性','Liquidity',{vi:'Thanh khoản',ko:'유동성'}),'drop',t('流动性市场','Liquidity Marketplace',{vi:'Thị trường thanh khoản',ko:'유동성 마켓'})],
+    ['account',t('账户','Account',{vi:'Tài khoản',ko:'계정'}),'wallet',t('账户','Account',{vi:'Tài khoản',ko:'계정'})]
   ];
   return `<div class="preview-bar"><b>${t('交互原型','PROTOTYPE')}</b><button data-action="review">${t('预览设置','Preview settings')}</button></div><header class="topbar"><div class="top-inner"><a href="#home" class="brand" aria-label="${U.brand}"><img src="assets/mark.svg" alt=""><span>${U.brand}</span></a><nav class="desktop-nav" aria-label="${t('主导航','Main navigation')}">${nav.map(([r,l,ic,full])=>`<a href="#${r}" class="${S.route===r?'active':''}" aria-label="${full}" ${S.route===r?'aria-current="page"':''}>${full}</a>`).join('')}</nav><div class="tools"><button class="language" data-action="language" aria-label="${t('切换语言','Switch language')}">${icon('globe','',15)}${I18N.short(S.lang)}${icon('down','down',10)}</button><button class="icon-btn theme-btn" data-action="theme" aria-label="${t('外观设置','Appearance')}">${icon(S.themeMode==='auto'?'clock':S.theme==='dark'?'moon':'sun','',18)}</button><button class="wallet-btn${S.walletAddress&&!S.connected?' wrong-net':''}" data-action="wallet">${S.connected?'<span class="chain-dot"></span>':S.walletAddress?'<span class="chain-dot warn"></span>':icon('wallet','',15)}${S.walletAddress?(S.connected?U.address():t('切换网络','Wrong network')):t('连接钱包','Connect')}</button>${S.walletAddress?`<button class="avatar" data-action="account" aria-label="${t('我的账户','My Account')}">${U.avatar()}</button>`:''}<button class="icon-btn desktop-more" data-action="menu" aria-label="${t('更多','More')}">${icon('more-v','',18)}</button></div></div></header><nav class="mobile-nav" aria-label="${t('主导航','Main navigation')}">${nav.map(([r,l,ic,full])=>`<a href="#${r}" class="${[S.route===r?'active':'',r==='tokenomics'?'nav-special':''].join(' ').trim()}" aria-label="${full}" ${S.route===r?'aria-current="page"':''}>${r==='tokenomics'?`<span class="nav-tile">${icon(ic,'',24)}</span>`:icon(ic)}<span class="nav-label">${l}</span></a>`).join('')}<button class="nav-menu" data-action="menu" aria-label="${t('更多','More')}">${icon('more-v')}</button></nav>`;
 }

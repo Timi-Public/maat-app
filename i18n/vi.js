@@ -652,5 +652,13 @@ I18N.data.vi={
 "Contract interaction":"Tương tác hợp đồng",
 "Confirmed":"Đã xác nhận",
 "Failed":"Thất bại",
-"Pending":"Đang chờ"
+"Pending":"Đang chờ",
+"Continue custody":"Tiếp tục ủy thác",
+"Enter an amount to start custody":"Nhập số tiền để bắt đầu ủy thác",
+"Results are final. Withdraw or continue custody":"Lãi/lỗ đã chốt. Rút hoặc tiếp tục ủy thác",
+"Enter 100–5,000 USDC":"Nhập 100–5,000 USDC",
+"Confirm custody":"Xác nhận ủy thác",
+"Custody":"Ủy thác",
+"Standard":"Tiêu chuẩn",
+"Limit 100–5,000 USDC":"Giới hạn 100–5,000 USDC"
 };

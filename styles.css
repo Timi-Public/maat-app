@@ -248,3 +248,14 @@ img[src$="social-envo.png"]{transform:scale(1.3)}
 .lang-option{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:15px;font-weight:560;text-align:left;transition:background .15s}
 .lang-option:hover{background:var(--hover)}
 .lang-option svg{color:var(--muted)}
+/* My Agent 标准 / 托管 share one card (Leo PRD 11-10 §5.1) */
+.my-agent .panel-head{gap:8px;flex-wrap:wrap}
+.agent-title{gap:8px;min-width:0;flex-wrap:wrap}
+.product-switch{position:relative;display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:0 10px;border:1px solid var(--line);border-radius:8px;font-size:11px;color:var(--muted);white-space:nowrap;transition:background .15s}
+.product-switch:hover{background:var(--hover)}
+.product-switch b{font-weight:600;color:var(--text)}
+.my-agent.flip{animation:agent-flip .45s ease both;backface-visibility:hidden}
+@keyframes agent-flip{0%{transform:perspective(1200px) rotateY(-90deg);opacity:.2}100%{transform:perspective(1200px) rotateY(0);opacity:1}}
+@media (prefers-reduced-motion:reduce){.my-agent.flip{animation:none}}
+.product-switch::after{content:"";position:absolute;inset:-5px}
+.capital-input input::placeholder{font-size:14px;font-weight:500;letter-spacing:0}

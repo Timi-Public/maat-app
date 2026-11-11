@@ -652,5 +652,13 @@ I18N.data.ko={
 "Contract interaction":"컨트랙트 상호작용",
 "Confirmed":"완료",
 "Failed":"실패",
-"Pending":"대기 중"
+"Pending":"대기 중",
+"Continue custody":"위탁 계속",
+"Enter an amount to start custody":"금액을 입력하면 위탁이 시작됩니다",
+"Results are final. Withdraw or continue custody":"손익이 확정되었습니다. 출금하거나 위탁을 계속하세요",
+"Enter 100–5,000 USDC":"100–5,000 USDC 입력",
+"Confirm custody":"위탁 확인",
+"Custody":"위탁",
+"Standard":"표준",
+"Limit 100–5,000 USDC":"한도 100–5,000 USDC"
 };

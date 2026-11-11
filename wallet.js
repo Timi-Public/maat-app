@@ -4,7 +4,7 @@
    Prototype parts: WalletConnect scanning is simulated with a local demo address (real pairing needs a
    WalletConnect project ID); the referrer "signature" is a timed step; referrer bindings live on this device. */
 window.Wallet=(()=>{
-  const stateFields=['walletBalance','capital','amount','agentState','elapsed','startedAt','services','records','tokenWalletBalance','tokenProjectBalance','tokenCycleUsed','tokenConsumptionRecords','custody','custodyFee','realized','cycleSeed','exitSec'];
+  const stateFields=['walletBalance','capital','amount','agentState','elapsed','startedAt','services','records','tokenWalletBalance','tokenProjectBalance','tokenCycleUsed','tokenConsumptionRecords','custody','custodyFee','realized','cycleSeed','exitSec','product','slots','runMode'];
   const POLYGON={chainId:'0x89',chainName:'Polygon',nativeCurrency:{name:'POL',symbol:'POL',decimals:18},rpcUrls:['https://polygon-rpc.com'],blockExplorerUrls:['https://polygonscan.com']};
   // Placeholder until the project gives its official referrer address (Leo §3.5).
   const OFFICIAL='0x9c3e5b1f0a7d2e46b8c1f53a0d9e7b24c6a1f08d';
@@ -53,7 +53,7 @@ window.Wallet=(()=>{
     Activity.identityChanged();
     if(D)render({preserve:true});
   }
-  const fresh=()=>({walletBalance:3250,capital:0,amount:1000,agentState:'inactive',elapsed:0,startedAt:Date.now(),services:[],records:[],tokenWalletBalance:1000,tokenProjectBalance:0,tokenCycleUsed:0,tokenConsumptionRecords:[],custody:null,custodyFee:0,realized:0,cycleSeed:'',exitSec:0});
+  const fresh=()=>({walletBalance:3250,capital:0,amount:'',agentState:'inactive',elapsed:0,startedAt:Date.now(),services:[],records:[],tokenWalletBalance:1000,tokenProjectBalance:0,tokenCycleUsed:0,tokenConsumptionRecords:[],custody:null,custodyFee:0,realized:0,cycleSeed:'',exitSec:0,product:'standard',runMode:'cycle',slots:{standard:emptySlot(),custody:emptySlot()}});
   function unbind(){if(provider&&handlers&&provider.removeListener)for(const [n,fn] of Object.entries(handlers))provider.removeListener(n,fn);handlers=null}
   function bind(entry){
     if(provider===entry.provider&&handlers)return;

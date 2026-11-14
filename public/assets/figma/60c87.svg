@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="twt-trust-wallet/twt-h">
+<path id="Vector" d="M0 3.17796L9.99958 0V22C2.85694 19.0664 0 13.4442 0 10.267V3.17796Z" fill="#0500FF"/>
+<path id="Vector_2" d="M20 3.17796L10.0003 0V22C17.143 19.0664 20 13.4442 20 10.267V3.17796Z" fill="url(#paint0_linear_0_163)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_163" x1="17.3438" y1="-1.54058" x2="10.0925" y2="21.7935" gradientUnits="userSpaceOnUse">
+<stop offset="0.02" stop-color="#0000FF"/>
+<stop offset="0.08" stop-color="#0094FF"/>
+<stop offset="0.16" stop-color="#48FF91"/>
+<stop offset="0.42" stop-color="#0094FF"/>
+<stop offset="0.68" stop-color="#0038FF"/>
+<stop offset="0.9" stop-color="#0500FF"/>
+</linearGradient>
+</defs>
+</svg>

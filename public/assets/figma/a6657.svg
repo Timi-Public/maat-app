@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Mask group">
+<mask id="mask0_0_56" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="110" height="110">
+<path id="Subtract" d="M55 0C85.3757 0 110 24.6243 110 55C110 85.3757 85.3757 110 55 110C24.6243 110 0 85.3757 0 55C0 24.6243 24.6243 0 55 0ZM55 10C30.1472 10 10 30.1472 10 55C10 79.8528 30.1472 100 55 100C79.8528 100 100 79.8528 100 55C100 30.1472 79.8528 10 55 10Z" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_56)">
+<path id="Polygon 1" d="M39 60L79.7032 125.25H-1.70319L39 60Z" fill="#3BAE95"/>
+<path id="Polygon 2" d="M74 -119L119.5 35.5L121.5 193.5L50 77.5L74 -119Z" fill="#4A98FF"/>
+<path id="Polygon 3" d="M51.3428 53.0953L64.3696 -18.3543L-11.7643 17.1475L51.3428 53.0953Z" fill="#D2BC82"/>
+<path id="Polygon 4" d="M65 62.5L-5.5 12.7035L-5.5 112.296L65 62.5Z" fill="#65B0D3"/>
+</g>
+</g>
+</svg>

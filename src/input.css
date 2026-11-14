@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; font-family: var(--font-sans); background:#08090b; color:#f5f6f8; }
+* { box-sizing:border-box; }
+html, body, #root { margin:0; min-height:100%; width:100%; overflow-x:hidden; }
+body { min-height:100vh; background:#08090b; }
+button { font:inherit; }
+#maat-frame [data-node-id="208:10705"],#maat-frame [data-node-id="208:10707"],#maat-frame [data-node-id="208:10709"],#maat-frame [data-node-id="208:10710"],#maat-frame [data-node-id="208:10711"],#maat-frame [data-node-id="208:10712"],#maat-frame [data-node-id="208:10713"],#maat-frame [data-node-id="208:10714"],#maat-frame [data-node-id="208:10816"],#maat-frame [data-node-id="208:10817"] { display:none!important; }
+.maat-overview-carousel { z-index:2; }
+.maat-overview-track { display:flex; width:100%; height:90px; gap:15px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; touch-action:pan-x; }
+.maat-overview-track::-webkit-scrollbar { display:none; }
+.maat-overview-card { position:relative; flex:0 0 160px; width:160px; height:90px; padding:14px; overflow:hidden; border:1px solid #262527; border-radius:16px; background:#111; scroll-snap-align:start; scroll-snap-stop:always; color:#f4f5f7; }
+.maat-agent-metric-carousel { width:100%; }
+.maat-agent-metric-track { display:flex; width:100%; height:90px; gap:15px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; touch-action:pan-x pan-y; }
+.maat-agent-metric-track::-webkit-scrollbar { display:none; }
+.maat-agent-metric-card { scroll-snap-align:start; scroll-snap-stop:always; }
+.maat-agent-volume-card > strong { position:absolute; bottom:13px; left:14px; margin:0; font-size:26px; font-weight:700; line-height:30px; letter-spacing:-.03em; }
+.maat-agent-volume-icon { position:absolute; top:14px; right:14px; display:grid; width:24px; height:24px; place-items:center; border-radius:50%; background:#202126; }
+.maat-agent-volume-icon svg { display:block; width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.65; stroke-linecap:round; stroke-linejoin:round; }
+.maat-agent-volume-icon-chart { color:#ffcb43; }
+.maat-agent-volume-icon-layers { color:#8fdf28; }
+.maat-agent-metric-pages { display:flex; height:6px; align-items:center; justify-content:center; gap:6px; margin-top:4px; }
+.maat-agent-metric-pages button { width:5px; height:5px; padding:0; border:0; border-radius:999px; background:#505157; cursor:pointer; transition:width .2s ease,background-color .2s ease; }
+.maat-agent-metric-pages button[data-active="true"] { width:15px; background:#347aff; }
+.maat-agent-metric-pages button:focus-visible { outline:1px solid #9bbaff; outline-offset:2px; }
+.maat-overview-label,.maat-overview-unit { display:block; color:#c1c1c1; font-size:10px; line-height:12px; }
+.maat-overview-metric strong { display:block; margin-top:4px; font-size:20px; font-weight:700; line-height:22px; letter-spacing:-.03em; }
+.maat-overview-unit { margin-top:7px; }
+.maat-overview-icon,.maat-overview-service-icon { position:absolute; top:14px; right:14px; width:24px; height:24px; }
+.maat-overview-icon img { display:block; width:24px; height:24px; }
+.maat-overview-token-icon,.maat-overview-liquidity-icon { position:absolute; inset:0; width:24px; height:24px; padding:5px; fill:none; stroke:currentColor; stroke-width:1.25; stroke-linecap:round; stroke-linejoin:round; pointer-events:none; }
+.maat-overview-token-icon { color:#ffcb43; }
+.maat-overview-liquidity-icon { color:#8fdf28; }
+.maat-overview-service-title { display:block; max-width:112px; padding-top:1px; overflow:hidden; color:#c1c1c1; font-size:10px; font-weight:400; line-height:12px; text-overflow:ellipsis; white-space:nowrap; }
+.maat-overview-status { position:absolute; left:14px; bottom:15px; display:flex; align-items:center; gap:6px; color:#fff; font-size:20px; font-weight:700; line-height:22px; }
+.maat-overview-status i { width:6px; height:6px; border-radius:50%; background:#37bf72; box-shadow:0 0 8px #37bf7266; }
+.maat-overview-service-icon { display:grid; place-items:center; border:0; border-radius:50%; background:#202126; }
+.maat-overview-service-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.maat-agent-icon { color:#4387ff; }
+.maat-liquidity-icon { color:#63d7b1; }
+.maat-whitepaper-hero { isolation:isolate; overflow:hidden; background-color:#080c12; }
+.maat-whitepaper-hero::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.24),rgba(5,8,14,.08) 58%,rgba(5,8,13,.24)),radial-gradient(ellipse at 82% 48%,rgba(41,103,255,.13),transparent 52%); }
+.maat-whitepaper-hero-bg { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 52%; opacity:.88; filter:brightness(.82) saturate(.92); pointer-events:none; }
+.maat-data-source-hero { isolation:isolate; overflow:hidden; background-color:#090d0b; }
+.maat-data-source-hero::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,8,6,.14),rgba(5,8,6,.06) 58%,rgba(5,8,6,.22)),linear-gradient(0deg,rgba(3,7,5,.2),transparent 72%); }
+.maat-data-source-hero-bg { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 54%; opacity:.74; filter:brightness(.78) saturate(.78); pointer-events:none; }
+.maat-agent-title-card { isolation:isolate; overflow:hidden; background-color:#080c12; }
+.maat-agent-title-card::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.42),rgba(5,8,14,.14) 52%,rgba(5,8,13,.4)),radial-gradient(ellipse at 82% 48%,rgba(42,171,121,.12),transparent 42%); }
+.maat-agent-title-video { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 55%; opacity:.46; filter:brightness(.75) saturate(.82); pointer-events:none; }
+.maat-liquidity-title-card { isolation:isolate; overflow:hidden; background-color:#080c12; }
+.maat-liquidity-title-card::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.52),rgba(5,8,14,.22) 52%,rgba(5,8,13,.42)),radial-gradient(ellipse at 78% 48%,rgba(42,103,190,.15),transparent 48%); }
+.maat-liquidity-title-video { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 50%; opacity:.32; filter:brightness(.65) saturate(.86); pointer-events:none; }
+.maat-overview-pages { display:flex; height:6px; justify-content:center; align-items:center; gap:6px; margin-top:6px; }
+.maat-overview-pages button { width:5px; height:5px; padding:0; border:0; border-radius:999px; background:#505157; cursor:pointer; transition:width .2s ease,background-color .2s ease; }
+.maat-overview-pages button[data-active="true"] { width:15px; background:#347aff; }
+.maat-overview-pages button:focus-visible { outline:1px solid #9bbaff; outline-offset:2px; }
+.maat-tokenomics-metric-carousel { width:100%; }
+.maat-tokenomics-metric-track { display:flex; width:100%; height:90px; gap:15px; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; touch-action:pan-x pan-y; }
+.maat-tokenomics-metric-track::-webkit-scrollbar { display:none; }
+.maat-tokenomics-metric-card { scroll-snap-align:start; scroll-snap-stop:always; }
+.maat-tokenomics-metric-card strong { font-size:21px; line-height:23px; }
+.maat-tokenomics-metric-pages { display:flex; height:6px; align-items:center; justify-content:center; gap:6px; margin-top:4px; }
+.maat-tokenomics-metric-pages button { width:5px; height:5px; padding:0; border:0; border-radius:999px; background:#505157; cursor:pointer; transition:width .2s ease,background-color .2s ease; }
+.maat-tokenomics-metric-pages button[data-active="true"] { width:15px; background:#347aff; }
+.maat-tokenomics-metric-pages button:focus-visible { outline:1px solid #9bbaff; outline-offset:2px; }
+.maat-overview-card[data-maat-route] { cursor:pointer; }
+.maat-overview-card[data-maat-route]:focus-visible { outline:2px solid #347aff; outline-offset:-3px; }
+@keyframes maat-volume-wave { 0%,100% { transform:scaleY(.72); } 50% { transform:scaleY(1.18); } }
+@keyframes maat-volume-tooltip-wave { 0%,100% { transform:translateY(4px); } 50% { transform:translateY(-8px); } }
+@keyframes maat-liquidity-depth-wave { 0%,100% { transform:scaleY(.9); opacity:.9; } 50% { transform:scaleY(1.08); opacity:1; } }
+#maat-frame [data-node-id="208:10883"],#maat-frame [data-node-id="208:10888"],#maat-frame [data-node-id="208:10889"],#maat-frame [data-node-id="208:10890"],#maat-frame [data-node-id="208:10891"],#maat-frame [data-node-id="208:10892"],#maat-frame [data-node-id="208:10893"],#maat-frame [data-node-id="208:10894"] { transform-origin:center bottom; animation:maat-volume-wave 3.2s ease-in-out infinite; will-change:transform; }
+#maat-frame [data-node-id="208:10884"],#maat-frame [data-node-id="208:10885"],#maat-frame [data-node-id="208:10886"],#maat-frame [data-node-id="208:10887"] { transform-origin:center top; animation:maat-volume-wave 3.2s ease-in-out infinite; will-change:transform; }
+#maat-frame [data-node-id="208:10883"] { animation-delay:0s; }
+#maat-frame [data-node-id="208:10884"] { animation-delay:-.16s; }
+#maat-frame [data-node-id="208:10885"] { animation-delay:-.32s; }
+#maat-frame [data-node-id="208:10888"] { animation-delay:-.48s; }
+#maat-frame [data-node-id="208:10889"] { animation-delay:-.64s; }
+#maat-frame [data-node-id="208:10890"] { animation-delay:-.8s; }
+#maat-frame [data-node-id="208:10886"] { animation-delay:-.96s; }
+#maat-frame [data-node-id="208:10891"] { animation-delay:-1.12s; }
+#maat-frame [data-node-id="208:10892"] { animation-delay:-1.28s; }
+#maat-frame [data-node-id="208:10893"] { animation-delay:-1.44s; }
+#maat-frame [data-node-id="208:10887"] { animation-delay:-1.6s; }
+#maat-frame [data-node-id="208:10894"] { animation-delay:-1.76s; }
+#maat-frame [data-node-id="208:10882"],#maat-frame [data-node-id="208:10895"],#maat-frame [data-node-id="208:10896"],#maat-frame [data-node-id="208:10897"] { animation:maat-volume-tooltip-wave 3.2s ease-in-out infinite; will-change:transform; }
+#maat-frame [data-node-id="208:10882"],#maat-frame [data-node-id="208:10895"] { animation-delay:-.3s; }
+#maat-frame [data-node-id="208:10896"],#maat-frame [data-node-id="208:10897"] { animation-delay:-.3s; }
+#maat-frame [data-node-id="208:10921"],#maat-frame [data-node-id="208:10922"] { transform-origin:center bottom; animation:maat-liquidity-depth-wave 3.8s ease-in-out infinite; will-change:transform,opacity; }
+#maat-frame [data-node-id="208:10922"] { animation-delay:-.45s; }
+@keyframes maat-hero-coin-float {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-7px); }
+}
+.maat-hero-coin { animation:maat-hero-coin-float 4.4s ease-in-out infinite; will-change:transform; }
+.maat-chart-flow-pulse { filter:drop-shadow(0 0 4px rgba(88,207,255,.9)); }
+.layout { position:relative; width:100%; min-height:100dvh; display:flex; justify-content:center; align-items:center; padding:16px; overflow-x:hidden; background:radial-gradient(ellipse at 50% 44%,#171e2c 0,#0b0d11 52%,#07080a 80%); }
+.sidebar { position:fixed; left:clamp(24px,3vw,54px); top:50%; transform:translateY(-50%); width:250px; max-height:calc(100dvh - 48px); display:flex; flex-direction:column; z-index:2; }
+.sidebar-brand { width:44px; height:44px; display:grid; place-items:center; margin-bottom:25px; border:1px solid #35415b; border-radius:14px; color:white; font-size:19px; font-weight:750; background:linear-gradient(145deg,#2875ff,#1545b4); box-shadow:0 12px 35px #1c67ff35; }
+.sidebar-kicker { margin:0 0 15px; color:#7b879c; font-size:10px; font-weight:700; letter-spacing:.2em; }
+.sidebar h1 { margin:0; font-size:36px; line-height:1.14; letter-spacing:-.055em; }
+.sidebar p { color:#9ba0ab; font-size:12px; line-height:1.8; }
+.page-list { overflow:auto; border-top:1px solid #262a32; }
+.page-choice { width:100%; display:flex; align-items:center; gap:10px; padding:9px 2px; border:0; border-bottom:1px solid #262a32; background:none; color:#c6d2ea; text-align:left; font-size:10px; cursor:pointer; }
+.page-choice:hover,.page-choice[data-active="true"] { color:#78a8ff; }
+.page-choice .num { width:20px; color:#626e83; font-variant-numeric:tabular-nums; }
+.page-choice .arrow { margin-left:auto; color:#707b8c; }
+.sidebar-foot { margin-top:14px; color:#707783; font-size:9px; line-height:1.6; }
+.phone-case { position:relative; box-sizing:border-box; flex:0 0 391px; width:391px; height:min(860px,calc(100dvh - 32px)); min-height:620px; overflow:hidden; padding:7px; border:1px solid #313237; border-radius:42px; background:#0a0a0a; box-shadow:0 30px 90px #0009,0 0 0 1px #ffffff06; }
+.screen-viewport { display:flex; flex-direction:column; align-items:center; width:100%; height:calc(100% - 100px); max-height:calc(100% - 100px); overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; border-radius:35px; background:#0a0a0a; }
+.screen-viewport::-webkit-scrollbar { display:none; }
+.screen-frame-wrap { position:relative; width:375px; flex:none; overflow:hidden; }
+.screen-frame { width:375px; min-height:0; position:relative; overflow:hidden; background:#0a0a0a; }
+.screen-frame > div:first-child { width:100%; height:100%; }
+/* Keep supplied Figma layers at their original 375px canvas size. */
+#maat-frame { width:375px; position:relative; overflow:hidden; transform-origin:top left; background:#0a0a0a; }
+.tablet-route-picker { display:none; }
+#maat-frame [data-maat-route] { cursor:pointer; }
+#maat-frame [data-maat-route]:focus-visible { outline:2px solid #78a8ff; outline-offset:2px; border-radius:4px; }
+#maat-frame .maat-account-profile-link { position:absolute; z-index:4; top:174px; left:326px; width:42px; height:52px; padding:0; border:0; border-radius:8px; background:transparent; cursor:pointer; }
+#maat-frame .maat-account-profile-link:focus-visible { outline:2px solid #2967ff; outline-offset:1px; }
+#maat-frame .maat-profile-back-link { position:absolute; z-index:4; top:103px; left:8px; width:34px; height:38px; padding:0; border:0; border-radius:8px; background:transparent; cursor:pointer; }
+#maat-frame .maat-profile-back-link:focus-visible { outline:2px solid #2967ff; outline-offset:1px; }
+#maat-frame [data-maat-selected="true"] { filter:brightness(1.45); }
+#maat-frame [data-maat-tab] { cursor:pointer; }
+#maat-frame [data-maat-fixed-nav-hidden="true"] { visibility:hidden!important; }
+#maat-user-overrides { display:block; }
+.maat-fixed-nav-host,.maat-fixed-nav-hotspots { display:block; }
+.maat-nav-source { position:fixed; left:-10000px; top:0; width:375px; height:4092px; overflow:hidden; visibility:hidden; pointer-events:none; z-index:-1; }
+.maat-nav-source-frame { position:relative; width:375px; height:4092px; overflow:hidden; }
+.maat-fixed-nav-host { position:absolute; left:50%; bottom:0; width:375px; transform:translateX(-50%); overflow:visible; pointer-events:none; z-index:20; }
+.maat-fixed-nav-host [data-node-id="208:10801"] { transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .18s ease; }
+.maat-fixed-nav-host [data-node-id="208:11048"] { translate:4px 0; }
+.maat-fixed-nav-host [data-node-id="208:11039"],.maat-fixed-nav-host [data-node-id="208:11024"],.maat-fixed-nav-host [data-node-id="208:11044"],.maat-fixed-nav-host [data-node-id="208:11038"],.maat-fixed-nav-host [data-node-id="208:11034"],.maat-fixed-nav-host [data-node-id="208:11048"],.maat-fixed-nav-host [data-node-id="208:11135"] { transition:filter .18s ease; }
+.maat-fixed-nav-host [data-node-id="208:10802"] { transition:background-color .18s ease,background-image .18s ease; }
+.maat-fixed-nav-host[data-active="swap"] [data-node-id="208:10802"] { background-color:transparent; background-image:linear-gradient(45deg,#2967ff 0%,#2f96f7 100%); }
+.maat-fixed-nav-hotspots { position:absolute; left:50%; bottom:0; width:375px; transform:translateX(-50%); pointer-events:none; z-index:21; }
+.maat-fixed-nav-hotspots button { position:absolute; height:54px; padding:0; border:0; border-radius:24px; background:transparent; pointer-events:auto; cursor:pointer; }
+.maat-fixed-nav-hotspots button:focus-visible { outline:2px solid #78a8ff; outline-offset:1px; }
+.maat-more-backdrop { position:fixed; inset:0; z-index:40; display:flex; justify-content:center; align-items:flex-end; padding:16px 12px calc(108px + env(safe-area-inset-bottom)); background:rgba(0,0,0,.66); backdrop-filter:blur(8px); }
+.maat-more-panel { width:min(300px,calc(100vw - 48px)); max-height:min(72dvh,440px); overflow:auto; padding:8px; border:1px solid #303238; border-radius:18px; background:#141414; box-shadow:0 24px 90px #000a; }
+.maat-more-list { display:flex; flex-direction:column; }
+.maat-more-item { display:flex; align-items:center; gap:16px; width:100%; min-height:58px; padding:9px 12px; border:0; border-radius:10px; background:transparent; color:#f3f3f4; text-align:left; cursor:pointer; }
+.maat-more-item:hover,.maat-more-item:focus-visible { background:#1d1d1f; outline:none; }
+.maat-more-item-icon { display:grid; flex:none; place-items:center; width:20px; height:22px; color:#b9b9bd; }
+.maat-more-item-icon svg { display:block; width:20px; height:22px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.maat-more-item-copy { display:block; min-width:0; }
+.maat-more-item-copy strong { display:block; color:#f4f4f5; font-size:14px; font-weight:600; line-height:18px; }
+.maat-more-item-copy small { display:block; margin-top:3px; color:#aaaab0; font-size:11px; line-height:15px; }
+.maat-more-detail-panel { width:min(300px,calc(100vw - 48px)); height:306px; max-height:min(72dvh,440px); padding:8px; }
+.maat-more-detail-heading { display:flex; align-items:center; gap:12px; min-height:42px; padding:0 10px 8px; border-bottom:1px solid #303034; }
+.maat-more-detail-heading strong { min-width:0; color:#f4f4f5; font-size:16px; font-weight:600; line-height:22px; }
+.maat-more-detail-back { display:grid; flex:none; place-items:center; width:32px; height:32px; padding:4px; border:0; border-radius:11px; background:transparent; color:#bfc0c4; cursor:pointer; }
+.maat-more-detail-back:hover,.maat-more-detail-back:focus-visible { background:#242427; color:#fff; outline:none; }
+.maat-more-detail-back svg { display:block; width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.maat-more-detail-row { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:52px; padding:0 14px; border-bottom:1px solid #303034; color:#e8e8ea; font-size:13px; line-height:19px; }
+.maat-more-detail-row span:first-child { min-width:0; }
+.maat-more-detail-row span:last-child { flex:none; color:#aaaab0; text-align:right; white-space:nowrap; }
+.maat-more-detail-note { margin:12px 14px 1px; color:#85858b; font-size:11px; line-height:16px; }
+.maat-more-community { display:flex; align-items:center; justify-content:space-between; min-height:52px; gap:10px; margin-top:4px; padding:9px 8px 2px; border-top:1px solid #303034; }
+.maat-more-community-link { display:flex; align-items:center; gap:14px; padding:2px 4px; border:0; background:transparent; color:#f4f4f5; font-size:14px; font-weight:600; cursor:pointer; }
+.maat-more-community-link svg { width:20px; height:20px; fill:none; stroke:#b9b9bd; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.maat-more-socials { display:flex; align-items:center; gap:7px; }
+.maat-more-socials button { display:grid; place-items:center; width:30px; height:30px; padding:3px; border:0; border-radius:9px; cursor:pointer; }
+.maat-more-social-mark { background:#fff; }
+.maat-more-social-mark svg { width:24px; height:24px; }
+.maat-more-social-mark img { display:block; width:24px; height:24px; object-fit:contain; }
+.maat-more-social-chat { background:#21bd63; }
+.maat-more-social-chat svg { width:22px; height:22px; }
+.maat-more-social-chat svg path:first-child { fill:none; stroke:#fff; stroke-width:1.4; }
+.maat-more-social-chat svg path:last-child { fill:#fff; stroke:#fff; stroke-width:.4; }
+.maat-wallet-backdrop { position:absolute; inset:0; left:50%; right:auto; z-index:50; width:375px; max-width:100%; box-sizing:border-box; display:flex; align-items:flex-end; justify-content:center; padding-bottom:0; transform:translateX(-50%); background:rgba(0,0,0,.7); backdrop-filter:blur(5px); animation:maat-wallet-fade-in .18s ease-out both; }
+.maat-wallet-sheet { box-sizing:border-box; width:375px; max-width:100%; padding:40px 24px max(38px,env(safe-area-inset-bottom)); border:1px solid #303034; border-bottom:0; border-radius:25px 25px 0 0; background:#151517; color:#f5f5f6; box-shadow:0 -18px 70px #0008; animation:maat-wallet-sheet-in .24s cubic-bezier(.2,.75,.25,1) both; }
+.maat-wallet-heading { display:flex; align-items:center; justify-content:space-between; min-height:30px; }
+.maat-wallet-heading h2 { margin:0; color:#f5f5f6; font-size:23px; font-weight:700; line-height:30px; letter-spacing:-.035em; }
+.maat-wallet-close { display:grid; place-items:center; width:32px; height:32px; padding:4px; border:0; border-radius:50%; background:transparent; color:#bfc0c4; cursor:pointer; }
+.maat-wallet-close:hover,.maat-wallet-close:focus-visible { background:#242427; color:#fff; outline:none; }
+.maat-wallet-close svg { width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
+.maat-wallet-identity { display:flex; align-items:center; gap:16px; min-height:58px; margin-top:28px; }
+.maat-wallet-avatar { display:block; flex:none; width:54px; height:54px; overflow:hidden; border:1px solid #28262e; border-radius:50%; box-shadow:0 0 0 4px #211d25; }
+.maat-wallet-avatar svg { display:block; width:100%; height:100%; }
+.maat-wallet-details { min-width:0; flex:1; }
+.maat-wallet-address-line { display:flex; align-items:center; gap:9px; min-width:0; }
+.maat-wallet-address-line strong { display:block; min-width:0; overflow:hidden; color:#f5f5f6; font-size:16px; font-weight:650; line-height:22px; text-overflow:ellipsis; white-space:nowrap; }
+.maat-wallet-copy { display:grid; flex:none; place-items:center; width:28px; height:30px; padding:3px; border:0; background:transparent; color:#c1c1c5; cursor:pointer; }
+.maat-wallet-copy:hover,.maat-wallet-copy:focus-visible { color:#fff; outline:none; }
+.maat-wallet-copy svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.maat-wallet-network { display:flex; align-items:center; gap:8px; margin-top:5px; color:#bcbcc1; font-size:12px; line-height:18px; }
+.maat-wallet-network i { width:7px; height:7px; border-radius:50%; background:#31c475; box-shadow:0 0 10px #31c47555; }
+.maat-wallet-divider { height:1px; margin:25px 0 20px; background:#303034; }
+.maat-wallet-actions { display:flex; gap:10px; }
+.maat-wallet-actions button { display:flex; flex:1; align-items:center; justify-content:center; gap:8px; min-width:0; height:45px; padding:0 9px; border:1px solid #303034; border-radius:28px; background:#171719; color:#f1f1f3; font:inherit; font-size:15px; font-weight:600; white-space:nowrap; cursor:pointer; transition:background .16s,border-color .16s,transform .16s; }
+.maat-wallet-actions button:hover,.maat-wallet-actions button:focus-visible { border-color:#4a4b51; background:#222225; outline:none; }
+.maat-wallet-actions button:active { transform:scale(.98); }
+.maat-wallet-actions svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.maat-wallet-explorer { display:flex; align-items:center; justify-content:center; gap:8px; width:max-content; margin:22px auto 0; color:#3487ff; font-size:13px; line-height:20px; text-decoration:none; }
+.maat-wallet-explorer:hover { color:#6da9ff; }
+.maat-wallet-explorer svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.maat-wallet-home-indicator { position:absolute; z-index:1; bottom:10px; left:50%; display:block; width:108px; height:4px; margin:0; border-radius:99px; background:#9b9b9f; opacity:.55; transform:translateX(-50%); }
+.maat-wallet-picker { box-sizing:border-box; width:375px; max-width:100%; max-height:calc(100% - 24px); overflow-y:auto; padding:24px 22px max(32px,env(safe-area-inset-bottom)); border:1px solid #303034; border-bottom:0; border-radius:24px 24px 0 0; background:#151517; color:#f5f5f6; box-shadow:0 -18px 70px #0008; animation:maat-wallet-sheet-in .24s cubic-bezier(.2,.75,.25,1) both; }
+.maat-wallet-options { display:flex; flex-direction:column; gap:8px; margin-top:22px; }
+.maat-wallet-option { display:flex; align-items:center; gap:12px; width:100%; min-height:65px; padding:10px 14px; border:1px solid #2d2d31; border-radius:16px; background:#151517; color:#f5f5f6; text-align:left; cursor:pointer; transition:background .16s,border-color .16s,transform .16s; }
+.maat-wallet-option:hover,.maat-wallet-option:focus-visible { border-color:#44444a; background:#1b1b1e; outline:none; }
+.maat-wallet-option:active { transform:scale(.99); }
+.maat-wallet-option-icon { display:grid; flex:none; place-items:center; width:36px; height:36px; overflow:hidden; border-radius:11px; }
+.maat-wallet-option-icon img { display:block; width:100%; height:100%; object-fit:contain; }
+.maat-wallet-option-test { background:linear-gradient(45deg,#2967ff,#2f96f7); }
+.maat-wallet-option-test svg { width:21px; height:21px; fill:none; stroke:#fff; stroke-width:1.7; stroke-linejoin:round; }
+.maat-wallet-option-metamask { background:transparent; }
+.maat-wallet-option-metamask img { width:36px; height:36px; }
+.maat-wallet-option-okx { background:#000; }
+.maat-wallet-option-okx strong { color:#fff; font-size:11px; font-weight:700; letter-spacing:-.035em; }
+.maat-wallet-option-trust { background:#0800ff; }
+.maat-wallet-option-trust strong { color:#fff; font-size:20px; font-weight:700; line-height:1; }
+.maat-wallet-option-copy { display:flex; min-width:0; flex:1; flex-direction:column; justify-content:center; }
+.maat-wallet-option-copy strong { color:#f5f5f6; font-size:15px; font-weight:650; line-height:20px; }
+.maat-wallet-option-copy small { margin-top:3px; color:#bdbdc2; font-size:12px; font-weight:400; line-height:17px; }
+.maat-wallet-option-copy .maat-wallet-detected { color:#36c477; }
+.maat-wallet-option-chevron { flex:none; width:16px; height:22px; fill:none; stroke:#bfc0c4; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.maat-language-trigger { position:absolute; z-index:30; top:52px; left:179px; width:32px; height:32px; padding:0; border:0; border-radius:50%; background:transparent; cursor:pointer; }
+.maat-language-trigger:focus-visible { outline:2px solid #347aff; outline-offset:2px; }
+.maat-language-layer { position:absolute; inset:0; z-index:46; background:transparent; }
+.maat-language-menu { position:absolute; top:64px; left:calc(50% - 35px); width:220px; padding:12px; border:1px solid #2d2d32; border-radius:16px; background:#171719; box-shadow:0 18px 54px #0009; color:#f4f5f7; }
+.maat-language-label { margin:4px 10px 10px; color:#aaaeb6; font-size:12px; font-weight:400; line-height:20px; }
+.maat-language-option { display:flex; align-items:center; justify-content:space-between; width:100%; height:44px; padding:0 11px; border:0; border-radius:10px; background:transparent; color:#f2f3f5; font:400 14px/1 var(--font-sans),sans-serif; text-align:left; white-space:nowrap; cursor:pointer; }
+.maat-language-option:hover { background:#202126; }
+.maat-language-option[data-selected="true"] { background:#102a5b; color:#4b9bff; }
+.maat-language-option svg { flex:none; width:17px; height:17px; fill:none; stroke:#4b9bff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.maat-language-option:focus-visible { outline:2px solid #347aff; outline-offset:-2px; }
+@keyframes maat-wallet-fade-in { from { opacity:0; } to { opacity:1; } }
+@keyframes maat-wallet-sheet-in { from { opacity:.7; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:420px) { .maat-wallet-sheet { padding-right:24px; padding-left:24px; } .maat-wallet-actions { gap:9px; } .maat-wallet-actions button { gap:7px; font-size:14px; } .maat-wallet-picker { padding-right:22px; padding-left:22px; } }
+@media(prefers-reduced-motion:reduce) { .maat-wallet-backdrop,.maat-wallet-sheet { animation:none; } }
+@media (min-width:721px) and (max-width:980px) {
+  .layout { padding:72px 16px 16px; }
+  .sidebar { display:none; }
+  .tablet-route-picker { position:fixed; z-index:5; top:12px; left:50%; width:min(391px,calc(100vw - 32px)); height:48px; display:flex; align-items:center; gap:10px; padding:5px 10px; transform:translateX(-50%); border:1px solid #2a2b30; border-radius:12px; background:#101114; }
+  .tablet-route-picker label { flex:none; color:#858a95; font-size:11px; }
+  .tablet-route-picker select { width:100%; height:36px; padding:0 12px; border:1px solid #32343a; border-radius:9px; background:#191a1e; color:#f4f5f7; font:inherit; font-size:12px; }
+  .phone-case { height:calc(100dvh - 88px); min-height:0; }
+}
+@media (max-width:720px) {
+  :root,body { background:#0a0a0a; }
+  .layout { display:flex; min-height:100dvh; height:100dvh; padding:0; background:#0a0a0a; }
+  .sidebar,.tablet-route-picker { display:none; }
+  .phone-case { flex:0 0 100vw; width:100vw; height:100dvh; min-height:0; padding:0; border:0; border-radius:0; box-shadow:none; }
+  .screen-viewport { width:100%; height:calc(100dvh - 100px); max-height:calc(100dvh - 100px); border-radius:0; }
+  /* The canvas remains exactly 375px; flex centering gives equal margins or equal crop. */
+  .screen-frame-wrap { width:375px; max-width:none; left:auto; margin:0; transform:none; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+  .maat-chart-flow { display:none!important; }
+  .maat-agent-title-video { display:none!important; }
+  .maat-liquidity-title-video { display:none!important; }
+}
+
+/* Figma Page 5 motion: 7.5s looping vector path. */
+@property --motion-translate-x { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --motion-translate-y { syntax: '<number>'; initial-value: 0; inherits: false; }
+#maat-frame [data-node-id="208:11012"], #maat-frame [data-node-id="208:11019"] { --motion-translate-x: 58; --motion-translate-y: 148; transform: var(--motion-layout-transform, translate(0px)) var(--motion-design-transform-inverse, matrix(1, 0, 0, 1, 0, 0)) translate(calc(var(--motion-translate-x, 0) * 1px), calc(var(--motion-translate-y, 0) * 1px)) var(--motion-design-transform, matrix(1, 0, 0, 1, 0, 0)); transform-origin: 0 0; animation: kf_208_11012_--motion-translate-x_0 7.5s linear, kf_208_11012_--motion-translate-y_0 7.5s linear; animation-iteration-count: infinite; }
+@keyframes kf_208_11012_--motion-translate-x_0 { 0% { --motion-translate-x: 58; } 1.333% { --motion-translate-x: 67.680878; } 2.667% { --motion-translate-x: 77.106422; } 4% { --motion-translate-x: 86.328415; } 5.333% { --motion-translate-x: 95.468575; } 6.667% { --motion-translate-x: 104.590286; } 8% { --motion-translate-x: 113.74691; } 9.333% { --motion-translate-x: 122.982071; } 10.667% { --motion-translate-x: 132.330704; } 12% { --motion-translate-x: 141.818848; } 13.333% { --motion-translate-x: 151.464081; } 14.667% { --motion-translate-x: 161.277924; } 16% { --motion-translate-x: 171.2556; } 17.333% { --motion-translate-x: 181.377625; } 18.667% { --motion-translate-x: 191.608154; } 20% { --motion-translate-x: 201.881851; } 21.333% { --motion-translate-x: 212.130325; } 21.707% { --motion-translate-x: 215; } 22.667% { --motion-translate-x: 222.281357; } 24% { --motion-translate-x: 232.261276; } 25.333% { --motion-translate-x: 242.047562; } 26.667% { --motion-translate-x: 251.645599; } 28% { --motion-translate-x: 261.071747; } 29.333% { --motion-translate-x: 270.341095; } 30.667% { --motion-translate-x: 279.483154; } 32% { --motion-translate-x: 288.533997; } 33.333% { --motion-translate-x: 297.518463; } 34.667% { --motion-translate-x: 306.473969; } 36% { --motion-translate-x: 315.430695; } 37.333% { --motion-translate-x: 324.42334; } 38.667% { --motion-translate-x: 333.480347; } 40% { --motion-translate-x: 342.635254; } 41.333% { --motion-translate-x: 351.918854; } 42.667% { --motion-translate-x: 361.350677; } 44% { --motion-translate-x: 370.959137; } 45.333% { --motion-translate-x: 380.753418; } 46.667% { --motion-translate-x: 390.725861; } 47.232% { --motion-translate-x: 395; } 48% { --motion-translate-x: 400.848083; } 49.333% { --motion-translate-x: 411.066895; } 50.667% { --motion-translate-x: 421.335815; } 52% { --motion-translate-x: 431.61441; } 53.333% { --motion-translate-x: 441.869293; } 54.667% { --motion-translate-x: 452.073914; } 56% { --motion-translate-x: 462.206848; } 57.333% { --motion-translate-x: 472.253052; } 58.667% { --motion-translate-x: 482.207458; } 60% { --motion-translate-x: 492.066956; } 61.333% { --motion-translate-x: 501.83136; } 62.667% { --motion-translate-x: 511.499298; } 64% { --motion-translate-x: 521.080933; } 65.333% { --motion-translate-x: 530.582275; } 66.667% { --motion-translate-x: 540.009827; } 68% { --motion-translate-x: 549.372986; } 69.333% { --motion-translate-x: 558.681763; } 70.667% { --motion-translate-x: 567.94519; } 71.396% { --motion-translate-x: 573; } 72% { --motion-translate-x: 577.204041; } 73.333% { --motion-translate-x: 586.633972; } 74.667% { --motion-translate-x: 596.261353; } 76% { --motion-translate-x: 606.068359; } 77.333% { --motion-translate-x: 616.024475; } 78.667% { --motion-translate-x: 626.10498; } 80% { --motion-translate-x: 636.278381; } 81.333% { --motion-translate-x: 646.518677; } 82.667% { --motion-translate-x: 656.787598; } 84% { --motion-translate-x: 667.070923; } 85.333% { --motion-translate-x: 677.328979; } 86.667% { --motion-translate-x: 687.553711; } 88% { --motion-translate-x: 697.715942; } 89.333% { --motion-translate-x: 707.810303; } 90.667% { --motion-translate-x: 717.812622; } 92% { --motion-translate-x: 727.734375; } 93.333% { --motion-translate-x: 737.535828; } 94.667% { --motion-translate-x: 747.247437; } 96% { --motion-translate-x: 756.848022; } 97.333% { --motion-translate-x: 766.330994; } 98.667% { --motion-translate-x: 775.715393; } 100% { --motion-translate-x: 785; } } @keyframes kf_208_11012_--motion-translate-y_0 { 0% { --motion-translate-y: 148; } 1.333% { --motion-translate-y: 151.39827; } 2.667% { --motion-translate-y: 155.544937; } 4% { --motion-translate-y: 160.068649; } 5.333% { --motion-translate-y: 164.77626; } 6.667% { --motion-translate-y: 169.524704; } 8% { --motion-translate-y: 174.206711; } 9.333% { --motion-translate-y: 178.732147; } 10.667% { --motion-translate-y: 183.017776; } 12% { --motion-translate-y: 186.981079; } 13.333% { --motion-translate-y: 190.537384; } 14.667% { --motion-translate-y: 193.599426; } 16% { --motion-translate-y: 196.074707; } 17.333% { --motion-translate-y: 197.870071; } 18.667% { --motion-translate-y: 198.897079; } 20% { --motion-translate-y: 199.079788; } 21.333% { --motion-translate-y: 198.366364; } 21.707% { --motion-translate-y: 198; } 22.667% { --motion-translate-y: 196.699799; } 24% { --motion-translate-y: 194.22261; } 25.333% { --motion-translate-y: 191.084915; } 26.667% { --motion-translate-y: 187.405914; } 28% { --motion-translate-y: 183.292664; } 29.333% { --motion-translate-y: 178.843689; } 30.667% { --motion-translate-y: 174.141602; } 32% { --motion-translate-y: 169.256622; } 33.333% { --motion-translate-y: 164.258255; } 34.667% { --motion-translate-y: 159.204468; } 36% { --motion-translate-y: 154.154724; } 37.333% { --motion-translate-y: 149.16568; } 38.667% { --motion-translate-y: 144.299255; } 40% { --motion-translate-y: 139.618515; } 41.333% { --motion-translate-y: 135.193863; } 42.667% { --motion-translate-y: 131.108307; } 44% { --motion-translate-y: 127.448936; } 45.333% { --motion-translate-y: 124.318977; } 46.667% { --motion-translate-y: 121.831696; } 47.232% { --motion-translate-y: 121; } 48% { --motion-translate-y: 120.04425; } 49.333% { --motion-translate-y: 118.915482; } 50.667% { --motion-translate-y: 118.439034; } 52% { --motion-translate-y: 118.582092; } 53.333% { --motion-translate-y: 119.303993; } 54.667% { --motion-translate-y: 120.559319; } 56% { --motion-translate-y: 122.300217; } 57.333% { --motion-translate-y: 124.478539; } 58.667% { --motion-translate-y: 127.048676; } 60% { --motion-translate-y: 129.967087; } 61.333% { --motion-translate-y: 133.192932; } 62.667% { --motion-translate-y: 136.68692; } 64% { --motion-translate-y: 140.415894; } 65.333% { --motion-translate-y: 144.34758; } 66.667% { --motion-translate-y: 148.451584; } 68% { --motion-translate-y: 152.700302; } 69.333% { --motion-translate-y: 157.067734; } 70.667% { --motion-translate-y: 161.528122; } 71.396% { --motion-translate-y: 164; } 72% { --motion-translate-y: 166.010422; } 73.333% { --motion-translate-y: 170.103104; } 74.667% { --motion-translate-y: 173.703354; } 76% { --motion-translate-y: 176.790817; } 77.333% { --motion-translate-y: 179.347397; } 78.667% { --motion-translate-y: 181.363739; } 80% { --motion-translate-y: 182.835709; } 81.333% { --motion-translate-y: 183.766617; } 82.667% { --motion-translate-y: 184.165146; } 84% { --motion-translate-y: 184.04657; } 85.333% { --motion-translate-y: 183.430557; } 86.667% { --motion-translate-y: 182.33934; } 88% { --motion-translate-y: 180.799271; } 89.333% { --motion-translate-y: 178.835526; } 90.667% { --motion-translate-y: 176.477676; } 92% { --motion-translate-y: 173.74736; } 93.333% { --motion-translate-y: 170.680099; } 94.667% { --motion-translate-y: 167.290115; } 96% { --motion-translate-y: 163.606735; } 97.333% { --motion-translate-y: 159.654587; } 98.667% { --motion-translate-y: 155.446045; } 100% { --motion-translate-y: 151; } }
+@media (prefers-reduced-motion: reduce) { #maat-frame [data-node-id="208:11012"], #maat-frame [data-node-id="208:11019"] { animation:none!important; transform:none!important; } }
+
+/* Documentation guide screen, matching the supplied light reference. */
+.maat-guide-page { width:375px; min-height:100%; padding:22px 16px 122px; overflow:hidden; background:#0a0a0a; color:#f5f6f8; font-family:var(--font-sans),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+.maat-guide-header { position:relative; isolation:isolate; display:flex; align-items:center; height:96px; padding:0 24px; overflow:hidden; border:1px solid #262527; border-radius:16px; background:#111; }
+.maat-guide-header::before { position:absolute; z-index:-1; inset:0; border-radius:inherit; background:linear-gradient(90deg,rgba(5,7,12,.42),rgba(5,8,14,.12) 52%,rgba(5,8,13,.4)),radial-gradient(ellipse at 82% 48%,rgba(42,103,255,.12),transparent 52%); content:""; pointer-events:none; }
+.maat-guide-header::after { display:none; }
+.maat-guide-header-bg { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52%; opacity:.82; filter:brightness(.78) saturate(.9); pointer-events:none; }
+.maat-guide-header h1 { position:relative; z-index:1; margin:0 0 0 19px; color:#fff; font-size:20px; font-weight:700; line-height:1.2; letter-spacing:-.025em; }
+.maat-guide-back { position:relative; z-index:2; display:grid; flex:none; width:24px; height:32px; place-items:center; padding:0; border:0; background:transparent; color:#c1c1c1; cursor:pointer; }
+.maat-guide-back svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.maat-guide-book { position:relative; z-index:1; width:29px; height:29px; margin-left:auto; fill:none; stroke:#2967ff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.maat-guide-tabs { display:flex; align-items:stretch; justify-content:space-between; gap:0; height:45px; margin-top:22px; border-bottom:1px solid #2c2c2d; }
+.maat-guide-tabs button { position:relative; flex:none; padding:0; border:0; border-radius:9px 9px 0 0; background:transparent; color:#c1c1c1; font:400 8px/1 var(--font-sans),sans-serif; white-space:nowrap; cursor:pointer; }
+.maat-guide-tabs button[data-active="true"] { color:#347aff; }
+.maat-guide-tabs button[data-active="true"]::after { position:absolute; right:0; bottom:-1px; left:0; height:2px; background:#347aff; content:""; }
+.maat-guide-tabs button:focus-visible,.maat-guide-link:focus-visible,.maat-guide-primary:focus-visible,.maat-guide-back:focus-visible { outline:2px solid #2967ff; outline-offset:2px; }
+.maat-guide-content { padding-top:26px; }
+.maat-guide-section { margin:0 0 38px; }
+.maat-guide-section h2 { margin:0 0 16px; color:#fff; font-size:16px; font-weight:700; line-height:1.3; letter-spacing:-.015em; }
+.maat-guide-section p { margin:0; color:#c1c1c1; font-size:12px; font-weight:400; line-height:1.85; }
+.maat-guide-primary { min-height:44px; margin-top:20px; padding:0 20px; border:0; border-radius:999px; background:linear-gradient(45deg,#2967ff 0%,#2f96f7 100%); color:#fff; font:600 14px/1 var(--font-sans),sans-serif; cursor:pointer; }
+.maat-guide-flow { display:flex; align-items:center; justify-content:flex-start; gap:8px; margin:0 0 22px; }
+.maat-guide-flow span { display:grid; min-height:37px; padding:0 12px; place-items:center; border:1px solid #2c2c2d; border-radius:8px; background:#111; color:#e3e4e7; font-size:12px; white-space:nowrap; }
+.maat-guide-flow i { color:#c1c1c1; font-size:16px; font-style:normal; }
+.maat-guide-link { display:flex; align-items:center; gap:8px; padding:0; border:0; background:transparent; color:#347aff; font:400 14px/1.4 var(--font-sans),sans-serif; cursor:pointer; }
+.maat-guide-link svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; transition:transform .18s ease; }
+.maat-guide-link:hover svg { transform:translateX(3px); }
+.maat-guide-data { margin-top:42px; padding-bottom:12px; }
+.maat-guide-data .maat-guide-link { margin-top:14px; }
+.maat-guide-link.is-quiet { font-size:13px; }
+@media(max-width:390px) { .maat-guide-page { padding-right:16px; padding-left:16px; } .maat-guide-header { padding-right:24px; padding-left:24px; } .maat-guide-flow { gap:6px; } .maat-guide-flow span { padding-right:10px; padding-left:10px; } }

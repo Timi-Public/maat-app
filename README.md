@@ -1,43 +1,45 @@
-# Maat
+# MAAT Mobile · Overrideable UI
 
-A bright, mobile app prototype for prediction-market Agent execution and liquidity services. Open it on a phone for the app experience, or on a computer for a phone preview and screen board.
+Responsive mobile-first interactive prototype recreating 16 MAAT app screens from the supplied Figma design. The app keeps the original 375px Figma canvas, includes local design assets, and supports page navigation, modal flows, swipeable metric cards, and user CSS overrides.
 
-Live preview: https://timi-public.github.io/maat-app/
+Live preview: <https://timi-public.github.io/maat-app/>
 
-Screen board: https://timi-public.github.io/maat-app/review.html
+## Pages
+
+1. Wallet connect
+2. Home
+3. Agent overview
+4. Signal analysis
+5. Trade execution
+6. Engine monitor
+7. Tokenomics
+8. Liquidity marketplace
+9. Liquidity service detail
+10. Data sources
+11. Whitepaper
+12. Quick Swap
+13. Profile
+14. Agent token consumption
+15. Funds activity
+16. Account and community rewards
+
+On desktop, use the page list. On mobile, use the page picker above the frame. Navigation links and main calls to action switch to their matching pages. Routes update the URL hash and support browser back/forward. This is a visual prototype; wallet connections and on-chain transactions are not connected to a blockchain.
 
 ## Run locally
 
-Node.js 22 or newer. No dependencies or install step.
-
 ```sh
-npm run dev
-npm run check
-npm run build
+pnpm install
+pnpm build
 ```
 
-The dev server runs at `http://127.0.0.1:4186`. The build produces a static `dist/` directory. GitHub Actions deploys that directory to GitHub Pages on pushes to `main`.
+The build output is written to `dist/`. Serve that directory with a local static HTTP server to preview it. GitHub Actions builds it and publishes to GitHub Pages after pushes to `main`.
 
-## Screens
+## Override API
 
-- Overview, Agent Trading, Liquidity Marketplace, Tokenomics, Portfolio and Swap.
-- Agent overview, public trade feed, five Agent lifecycle states, and planned analysis / monitoring tabs. The Portfolio tab is the funding entry; More is in the top bar.
-- Market categories, topics, search, three-card pagination, service requests and service details.
-- Whitepaper draft, guide, data sources and screen board (`review.html`).
-- Account activity: five latest entries, a full history screen, type/time filters, search, pagination and a horizontally scrollable table.
+```js
+MaatUI.go('analysis');
+MaatUI.setTokens({ accent: '#7557e9' });
+MaatUI.setCSS('#maat-frame [data-node-id="208:10612"] { opacity: 0.9; }');
+```
 
-## Interactions
-
-Prepare demo USDC, choose a participation mode, inspect run/exit/resume/stopped states, create a demo liquidity request, filter public trades, inspect historical token prices, simulate two-way swaps with a 5% token tax, deposit MAAT into the project balance, and edit a local profile. Language choices remain visible for two seconds after selection; appearance defaults to Auto by device local time.
-
-## Data boundaries
-
-This is an interface preview. Wallet connection (Leo PRD 11-10 §2.4): inside a wallet app it connects automatically; elsewhere users pick a popular wallet (desktop extension, or a deep link on phones) or use the test wallet. Only the address and network are read; a non-Polygon network gets a switch prompt. It never requests signatures, approves tokens or moves funds. Prototype parts: the test wallet signs in with a local demo address so the signed-in pages can be reviewed without a wallet (WalletConnect is left for the real build), and the referrer confirmation (§3) signs nothing and is stored on this device. All pages and demo actions work as a guest. Accounts, balances, P&L, telemetry, services and swap quotes are labelled demonstrations.
-
-Wallet activity is separate from the demo product ledger. No Polygon history provider is configured: address queries show an unavailable state and a PolygonScan link. Explicit layout samples can be opened with `?activity=preview#account/activity`; they are labelled samples and have no invented transaction links. A read-only `window.ForeaActivityProvider.list({address, chainId:137, cursor})` adapter is the integration boundary for a future history service.
-
-Public market titles, probabilities, liquidity, volume, order books and transactions come from a timestamped Polymarket snapshot. Counts and volume totals refer only to selected samples, not the entire platform. Market images are retained locally. See `data/sources.json` for endpoints and field scope.
-
-Some product details are intentionally marked as planned or proposed. The illustrative 4% liquidity fee is paid by the user; it is not a promised yield.
-
-Visual direction: from 2026-11-09 the approved design is a dark theme with blue gradient actions and a new M mark; it is being restored into this code (see [CONTRIBUTING.md](CONTRIBUTING.md)). Until then the code still shows the earlier bright white/gray-and-green look. Maat has its own brand and is not presented as a Polymarket product.
+`setCSS` appends CSS to the override layer. Target Figma layers with their `data-node-id` attributes.

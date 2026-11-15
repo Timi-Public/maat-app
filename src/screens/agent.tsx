@@ -104,7 +104,7 @@ export default function Component() {
       <div className="absolute bg-white left-[301px] rounded-[40px] size-[54px] top-[2383px]" data-node-id="208:11146" />
       <div className="-translate-x-1/2 absolute bg-white h-[4px] left-1/2 rounded-[10px] top-[2457px] w-[135px]" data-node-id="208:11147" />
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[498px] left-1/2 rounded-[16px] top-[274px] w-[335px]" data-node-id="208:11148" />
-      <div className="absolute bg-[#2a2a2c] h-[22px] left-[109px] rounded-[20px] top-[294px] w-[61px]" data-node-id="208:11149" />
+      <div className="absolute bg-[#2a2a2c] h-[22px] rounded-[20px] top-[294px] w-[61px] transition-[left] duration-200" style={{ left: custodyMode ? 122 : 109 }} data-node-id="208:11149" />
       <button
         type="button"
         className="absolute left-[229px] top-[294px] flex h-[22px] w-[111px] items-center justify-center gap-[3px] rounded-[20px] border border-[#262527] bg-transparent px-[5px] text-[10px] font-[510] leading-[12px] text-white transition-colors hover:bg-[#1a1a1b] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#3096f7]"
@@ -119,7 +119,7 @@ export default function Component() {
         <span className="whitespace-nowrap text-[#c1c1c1]">{custodyMode ? '切换标准' : '切换托管'}</span>
         <span className="whitespace-nowrap">未激活</span>
       </button>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[130px] text-[#c1c1c1] text-[10px] top-[299px] whitespace-nowrap" data-node-id="208:11150" style={{ fontVariationSettings: '"wdth" 100' }}>
+      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] text-[#c1c1c1] text-[10px] top-[299px] whitespace-nowrap transition-[left] duration-200" style={{ left: custodyMode ? 143 : 130, fontVariationSettings: '"wdth" 100' }} data-node-id="208:11150">
         未激活
       </p>
       <div className="absolute h-0 left-[35px] top-[534px] w-[305px]" data-node-id="208:11151">

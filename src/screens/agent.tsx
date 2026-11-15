@@ -85,6 +85,8 @@ function AgentMetricCarousel() {
 }
 
 export default function Component() {
+  const [custodyMode, setCustodyMode] = useState(false);
+
   return (
     <div className="bg-white relative size-full" data-node-id="208:11137" data-name="智能交易·总览">
       <div className="absolute contents left-0 top-0" data-node-id="208:11138" data-name="Mask group">
@@ -103,14 +105,21 @@ export default function Component() {
       <div className="-translate-x-1/2 absolute bg-white h-[4px] left-1/2 rounded-[10px] top-[2457px] w-[135px]" data-node-id="208:11147" />
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[498px] left-1/2 rounded-[16px] top-[274px] w-[335px]" data-node-id="208:11148" />
       <div className="absolute bg-[#2a2a2c] h-[22px] left-[109px] rounded-[20px] top-[294px] w-[61px]" data-node-id="208:11149" />
-      <div className="absolute border border-[#262527] border-solid h-[22px] left-[229px] rounded-[20px] top-[294px] w-[111px]" data-node-id="228:15144" />
+      <button
+        type="button"
+        className="absolute left-[229px] top-[294px] flex h-[22px] w-[111px] items-center justify-center gap-[3px] rounded-[20px] border border-[#262527] bg-transparent px-[5px] text-[10px] font-[510] leading-[12px] text-white transition-colors hover:bg-[#1a1a1b] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#3096f7]"
+        data-node-id="228:15144"
+        aria-label={custodyMode ? '切换标准 未激活' : '切换托管 未激活'}
+        aria-pressed={custodyMode}
+        onClick={() => setCustodyMode((current) => !current)}
+      >
+        <svg className="h-[12px] w-[12px] shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M13.2 5.8A5.8 5.8 0 0 0 3.4 3.7L2.2 5M2.2 5V2.4M2.2 5h2.6M2.8 10.2a5.8 5.8 0 0 0 9.8 2.1l1.2-1.3m0 0v2.6m0-2.6h-2.6" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="whitespace-nowrap text-[#c1c1c1]">{custodyMode ? '切换标准' : '切换托管'}</span>
+        <span className="whitespace-nowrap">未激活</span>
+      </button>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[130px] text-[#c1c1c1] text-[10px] top-[299px] whitespace-nowrap" data-node-id="208:11150" style={{ fontVariationSettings: '"wdth" 100' }}>
-        未激活
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[255px] text-[#c1c1c1] text-[10px] top-[299px] whitespace-nowrap" data-node-id="228:15150" style={{ fontVariationSettings: '"wdth" 100' }}>
-        切换托管
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[300px] text-[10px] text-white top-[299px] whitespace-nowrap" data-node-id="228:15152" style={{ fontVariationSettings: '"wdth" 100' }}>
         未激活
       </p>
       <div className="absolute h-0 left-[35px] top-[534px] w-[305px]" data-node-id="208:11151">
@@ -201,17 +210,14 @@ export default function Component() {
       <div className="absolute bg-[#2967ff] h-[2px] left-[35px] top-[1944px] w-[24px]" data-node-id="208:11179" />
       <p className="[word-break:break-word] absolute font-['SF_Pro:Condensed_Semibold'] font-[650] leading-[0] left-[35px] text-[0px] text-white top-[297px] tracking-[-0.2344px] whitespace-nowrap" data-node-id="208:11180" style={{ fontVariationSettings: '"wdth" 100' }}>
         <span className="font-['SF_Pro:Semibold'] font-[590] leading-[16px] text-[14px]" style={{ fontVariationSettings: '"wdth" 100' }}>
-          My Agen
-        </span>
-        <span className="font-['SF_Pro:Semibold'] font-[590] leading-[16px] text-[14px]" style={{ fontVariationSettings: '"wdth" 100' }}>
-          t
+          {custodyMode ? 'My Agent 托管' : 'My Agent'}
         </span>
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[336px] uppercase whitespace-nowrap" data-node-id="208:11181" style={{ fontVariationSettings: '"wdth" 100' }}>
         资金 (余额 : 3,250.00 USDC)
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[406px] uppercase whitespace-nowrap" data-node-id="208:11182" style={{ fontVariationSettings: '"wdth" 100' }}>
-        限额 20-1,000 USDC
+        限额 {custodyMode ? '100–5,000' : '20–1,000'} USDC
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+27.5px)] text-[#c1c1c1] text-[10px] top-[406px] uppercase whitespace-nowrap" data-node-id="208:11183" style={{ fontVariationSettings: '"wdth" 100' }}>
         USDC
@@ -226,7 +232,7 @@ export default function Component() {
         未激活
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+109.5px)] text-[10px] text-white top-[549px] uppercase whitespace-nowrap" data-node-id="208:11187" style={{ fontVariationSettings: '"wdth" 100' }}>
-        8H / 周期
+        {custodyMode ? '托管期限 · 30天' : '8H / 周期'}
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[448px] uppercase whitespace-nowrap" data-node-id="208:11188" style={{ fontVariationSettings: '"wdth" 100' }}>
         账户当前权益
@@ -259,7 +265,7 @@ export default function Component() {
         08:00:00
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-134.5px)] text-[#c1c1c1] text-[10px] top-[681px] uppercase whitespace-nowrap" data-node-id="228:15219" style={{ fontVariationSettings: '"wdth" 100' }}>
-        输入资金后开始运行
+        输入资金后开始{custodyMode ? '托管' : '运行'}
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Bold'] font-bold leading-[0] left-[215px] text-[0px] text-white top-[470px] whitespace-nowrap" data-node-id="208:11194" style={{ fontVariationSettings: '"wdth" 100' }}>
         <span className="leading-[22px] text-[20px]">{`125 `}</span>
@@ -483,7 +489,7 @@ export default function Component() {
       <div className="absolute border border-[#2a2a2c] border-solid h-[44px] left-[195px] rounded-[30px] top-[708px] w-[145px]" data-node-id="208:11276" />
       <div className="absolute bg-[#232323] h-[38px] left-[35px] rounded-[8px] top-[358px] w-[145px]" data-node-id="208:11277" />
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[75px] text-[12px] text-white top-[723px] uppercase whitespace-nowrap" data-node-id="208:11278" style={{ fontVariationSettings: '"wdth" 100' }}>
-        开始运行
+        {custodyMode ? '开始托管' : '开始运行'}
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[247px] text-[12px] text-white top-[723px] uppercase whitespace-nowrap" data-node-id="208:11279" style={{ fontVariationSettings: '"wdth" 100' }}>
         提出

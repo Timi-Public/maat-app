@@ -47,7 +47,11 @@ export default function Component() {
           <img alt="" className="block max-w-none size-full" src={imgLine12} />
         </div>
       </div>
-      <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:11400" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:11400">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
+        </video>
+      </div>
       <p className="-translate-x-1/2 [word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[14px] left-[calc(50%-155.5px)] text-[#c1c1c1] text-[12px] text-center top-[225px] uppercase whitespace-nowrap" data-node-id="208:11401" style={{ fontVariationSettings: '"wdth" 100' }}>
         总览
       </p>

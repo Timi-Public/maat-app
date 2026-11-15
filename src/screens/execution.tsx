@@ -44,7 +44,11 @@ export default function Component() {
       <div className="absolute bg-[#183120] h-[22px] left-[326px] top-[1169px] w-[14px]" data-node-id="208:11614" />
       <div className="absolute bg-[#183120] h-[22px] left-[298px] top-[1196px] w-[42px]" data-node-id="208:11615" />
       <div className="absolute bg-[#183120] h-[22px] left-[198px] top-[1223px] w-[142px]" data-node-id="208:11616" />
-      <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:11617" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:11617">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
+        </video>
+      </div>
       <p className="-translate-x-1/2 [word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[14px] left-[calc(50%-155.5px)] text-[#c1c1c1] text-[12px] text-center top-[225px] uppercase whitespace-nowrap" data-node-id="208:11618" style={{ fontVariationSettings: '"wdth" 100' }}>
         总览
       </p>

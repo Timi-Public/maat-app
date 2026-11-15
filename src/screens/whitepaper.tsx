@@ -1,5 +1,4 @@
 import imgImage67 from "../../public/assets/figma/ac73d.png";
-import imgWhitepaperBackground from "../../public/assets/whitepaper-network-bg.png";
 import imgRectangle157 from "../../public/assets/figma/aada8.svg";
 import imgLine29 from "../../public/assets/figma/1f674.svg";
 import imgVector from "../../public/assets/figma/73cef.svg";
@@ -20,8 +19,10 @@ export default function DiscoverOverflowBehavior() {
       <p className="[word-break:break-word] absolute capitalize font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[287px] text-[12px] text-white top-[67px] whitespace-nowrap" data-node-id="208:12813" style={{ fontVariationSettings: '"wdth" 100' }}>
         连接钱包
       </p>
-      <div className="maat-whitepaper-hero -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:12814">
-        <img className="maat-whitepaper-hero-bg" src={imgWhitepaperBackground} alt="" aria-hidden="true" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:12814">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
+        </video>
       </div>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[63px] text-[#c1c1c1] text-[10px] top-[167px] whitespace-nowrap" data-node-id="208:12815" style={{ fontVariationSettings: '"wdth" 100' }}>
         2026.11.06

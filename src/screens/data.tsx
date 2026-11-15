@@ -1,5 +1,4 @@
 import imgImage67 from "../../public/assets/figma/ac73d.png";
-import imgDataSourcesBackground from "../../public/assets/data-sources-market-bg.png";
 import imgImage20 from "../../public/assets/figma/c2411.png";
 import imgLine33 from "../../public/assets/figma/1f674.svg";
 import imgVector from "../../public/assets/figma/be5fe.svg";
@@ -24,8 +23,10 @@ export default function DiscoverOverflowBehavior() {
       <p className="[word-break:break-word] absolute capitalize font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[287px] text-[12px] text-white top-[67px] whitespace-nowrap" data-node-id="219:13984" style={{ fontVariationSettings: '"wdth" 100' }}>
         连接钱包
       </p>
-      <div className="maat-data-source-hero -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="219:13985">
-        <img className="maat-data-source-hero-bg" src={imgDataSourcesBackground} alt="" aria-hidden="true" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="219:13985">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
+        </video>
       </div>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[280px] text-[#34b15a] text-[10px] top-[151px] whitespace-nowrap" data-node-id="219:13990" style={{ fontVariationSettings: '"wdth" 100' }}>
         Polymarket

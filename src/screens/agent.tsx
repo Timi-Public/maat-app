@@ -85,13 +85,6 @@ function AgentMetricCarousel() {
 }
 
 export default function Component() {
-  const backgroundChoice = new URLSearchParams(window.location.search).get('bg');
-  const backgroundVideo = backgroundChoice === '1'
-    ? './assets/space-universe-stars-256164.mp4'
-    : backgroundChoice === '3'
-      ? 'https://cdn.pixabay.com/video/2023/11/18/189638-886016298_tiny.mp4'
-      : './assets/agent-trading-network.mp4';
-
   return (
     <div className="bg-white relative size-full" data-node-id="208:11137" data-name="智能交易·总览">
       <div className="absolute contents left-0 top-0" data-node-id="208:11138" data-name="Mask group">
@@ -173,9 +166,9 @@ export default function Component() {
           <img alt="" className="block max-w-none size-full" src={imgLine12} />
         </div>
       </div>
-      <div className="maat-agent-title-card -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:11169">
-        <video className="maat-agent-title-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
-          <source src={backgroundVideo} type="video/mp4" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:11169">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
         </video>
       </div>
       <p className="-translate-x-1/2 [word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[14px] left-[calc(50%-155.5px)] text-[#3096f7] text-[12px] text-center top-[225px] uppercase whitespace-nowrap" data-node-id="208:11170" style={{ fontVariationSettings: '"wdth" 100' }}>

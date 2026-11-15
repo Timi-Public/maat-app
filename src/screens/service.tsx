@@ -34,7 +34,11 @@ export default function DiscoverOverflowBehavior() {
       <p className="[word-break:break-word] absolute capitalize font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[287px] text-[12px] text-white top-[67px] whitespace-nowrap" data-node-id="208:12689" style={{ fontVariationSettings: '"wdth" 100' }}>
         连接钱包
       </p>
-      <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:12690" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:12690">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
+        </video>
+      </div>
       <p className="-translate-x-1/2 [word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[14px] left-[calc(50%-143.5px)] text-[#c1c1c1] text-[12px] text-center top-[225px] uppercase whitespace-nowrap" data-node-id="208:12691" style={{ fontVariationSettings: '"wdth" 100' }}>
         市场发行
       </p>

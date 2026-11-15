@@ -40,18 +40,9 @@ button { font:inherit; }
 .maat-overview-service-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
 .maat-agent-icon { color:#4387ff; }
 .maat-liquidity-icon { color:#63d7b1; }
-.maat-whitepaper-hero { isolation:isolate; overflow:hidden; background-color:#080c12; }
-.maat-whitepaper-hero::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.24),rgba(5,8,14,.08) 58%,rgba(5,8,13,.24)),radial-gradient(ellipse at 82% 48%,rgba(41,103,255,.13),transparent 52%); }
-.maat-whitepaper-hero-bg { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 52%; opacity:.88; filter:brightness(.82) saturate(.92); pointer-events:none; }
-.maat-data-source-hero { isolation:isolate; overflow:hidden; background-color:#090d0b; }
-.maat-data-source-hero::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,8,6,.14),rgba(5,8,6,.06) 58%,rgba(5,8,6,.22)),linear-gradient(0deg,rgba(3,7,5,.2),transparent 72%); }
-.maat-data-source-hero-bg { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 54%; opacity:.74; filter:brightness(.78) saturate(.78); pointer-events:none; }
-.maat-agent-title-card { isolation:isolate; overflow:hidden; background-color:#080c12; }
-.maat-agent-title-card::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.42),rgba(5,8,14,.14) 52%,rgba(5,8,13,.4)),radial-gradient(ellipse at 82% 48%,rgba(42,171,121,.12),transparent 42%); }
-.maat-agent-title-video { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 55%; opacity:.46; filter:brightness(.75) saturate(.82); pointer-events:none; }
-.maat-liquidity-title-card { isolation:isolate; overflow:hidden; background-color:#080c12; }
-.maat-liquidity-title-card::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.52),rgba(5,8,14,.22) 52%,rgba(5,8,13,.42)),radial-gradient(ellipse at 78% 48%,rgba(42,103,190,.15),transparent 48%); }
-.maat-liquidity-title-video { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 50%; opacity:.32; filter:brightness(.65) saturate(.86); pointer-events:none; }
+.maat-motion-banner { isolation:isolate; overflow:hidden; background-color:#080c12; }
+.maat-motion-banner::before { position:absolute; z-index:-1; inset:0; content:""; pointer-events:none; background:linear-gradient(90deg,rgba(5,7,12,.42),rgba(5,8,14,.14) 52%,rgba(5,8,13,.4)),radial-gradient(ellipse at 82% 48%,rgba(42,171,121,.10),transparent 44%); }
+.maat-motion-banner-video { position:absolute; z-index:-2; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:center 55%; opacity:.46; filter:brightness(.75) saturate(.82); pointer-events:none; }
 .maat-overview-pages { display:flex; height:6px; justify-content:center; align-items:center; gap:6px; margin-top:6px; }
 .maat-overview-pages button { width:5px; height:5px; padding:0; border:0; border-radius:999px; background:#505157; cursor:pointer; transition:width .2s ease,background-color .2s ease; }
 .maat-overview-pages button[data-active="true"] { width:15px; background:#347aff; }
@@ -252,8 +243,7 @@ button { font:inherit; }
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
   .maat-chart-flow { display:none!important; }
-  .maat-agent-title-video { display:none!important; }
-  .maat-liquidity-title-video { display:none!important; }
+  .maat-motion-banner-video { display:none!important; }
 }
 
 /* Figma Page 5 motion: 7.5s looping vector path. */
@@ -265,10 +255,8 @@ button { font:inherit; }
 
 /* Documentation guide screen, matching the supplied light reference. */
 .maat-guide-page { width:375px; min-height:100%; padding:22px 16px 122px; overflow:hidden; background:#0a0a0a; color:#f5f6f8; font-family:var(--font-sans),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-.maat-guide-header { position:relative; isolation:isolate; display:flex; align-items:center; height:96px; padding:0 24px; overflow:hidden; border:1px solid #262527; border-radius:16px; background:#111; }
-.maat-guide-header::before { position:absolute; z-index:-1; inset:0; border-radius:inherit; background:linear-gradient(90deg,rgba(5,7,12,.42),rgba(5,8,14,.12) 52%,rgba(5,8,13,.4)),radial-gradient(ellipse at 82% 48%,rgba(42,103,255,.12),transparent 52%); content:""; pointer-events:none; }
+.maat-guide-header { position:relative; display:flex; align-items:center; height:96px; padding:0 24px; overflow:hidden; border:1px solid #262527; border-radius:16px; }
 .maat-guide-header::after { display:none; }
-.maat-guide-header-bg { position:absolute; z-index:-2; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52%; opacity:.82; filter:brightness(.78) saturate(.9); pointer-events:none; }
 .maat-guide-header h1 { position:relative; z-index:1; margin:0 0 0 19px; color:#fff; font-size:20px; font-weight:700; line-height:1.2; letter-spacing:-.025em; }
 .maat-guide-back { position:relative; z-index:2; display:grid; flex:none; width:24px; height:32px; place-items:center; padding:0; border:0; background:transparent; color:#c1c1c1; cursor:pointer; }
 .maat-guide-back svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import imgWhitepaperBackground from '../../public/assets/whitepaper-network-bg.png';
 
 const guideTabs = ['Agent Trading', 'Liquidity Marketplace', 'Account'];
 
@@ -21,8 +20,10 @@ export default function Guide({ go, onBack }) {
   const [activeTab, setActiveTab] = useState(guideTabs[0]);
 
   return <main className="maat-guide-page">
-    <header className="maat-guide-header maat-whitepaper-hero">
-      <img className="maat-guide-header-bg" src={imgWhitepaperBackground} alt="" aria-hidden="true" />
+    <header className="maat-guide-header maat-motion-banner">
+      <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+        <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
+      </video>
       <button className="maat-guide-back" type="button" aria-label="返回" onClick={onBack}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
       </button>

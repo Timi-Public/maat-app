@@ -44,9 +44,9 @@ export default function DiscoverOverflowBehavior() {
       <div className="absolute bg-white h-[54px] left-[20px] rounded-[40px] top-[2627px] w-[266px]" data-node-id="208:12195" />
       <div className="absolute left-[301px] rounded-[40px] size-[54px] top-[2627px]" data-node-id="228:15392" style={{ backgroundImage: "linear-gradient(225deg, rgb(47, 150, 247) 0%, rgb(41, 103, 255) 100%)" }} />
       <div className="-translate-x-1/2 absolute bg-white h-[4px] left-1/2 rounded-[10px] top-[2701px] w-[135px]" data-node-id="208:12198" />
-      <div className="maat-liquidity-title-card -translate-x-1/2 absolute border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:12199">
-        <video className="maat-liquidity-title-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
-          <source src="./assets/agent-trading-network.mp4" type="video/mp4" />
+      <div className="maat-motion-banner -translate-x-1/2 absolute border border-[#262527] border-solid h-[96px] left-1/2 rounded-[16px] top-[109px] w-[335px]" data-node-id="208:12199">
+        <video className="maat-motion-banner-video" aria-hidden="true" autoPlay loop muted playsInline preload="metadata">
+          <source src="/assets/agent-trading-network.mp4" type="video/mp4" />
         </video>
       </div>
       <p className="-translate-x-1/2 [word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[14px] left-[calc(50%-143.5px)] text-[#3096f7] text-[12px] text-center top-[225px] uppercase whitespace-nowrap" data-node-id="208:12200" style={{ fontVariationSettings: '"wdth" 100' }}>

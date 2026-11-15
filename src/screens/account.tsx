@@ -1,4 +1,5 @@
 import imgImage67 from "../../public/assets/figma/ac73d.png";
+import imgCommunityG2 from "../../public/assets/maat-community-g2.png";
 import img000392 from "../../public/assets/figma/c40b1.png";
 import imgPolygonLogoSvgRealCompanyAlphabetLetterPLogo2 from "../../public/assets/figma/cac17.png";
 import imgImage81 from "../../public/assets/figma/c2411.png";
@@ -357,7 +358,7 @@ export default function DiscoverOverflowBehavior() {
       <div className="absolute left-[289px] size-[6px] top-[1064px]" data-node-id="219:14930">
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse70} />
       </div>
-      <div className="-translate-x-1/2 absolute bg-[#1c1c1f] left-[calc(50%-109px)] rounded-[10px] size-[87px] top-[1089px]" data-node-id="219:14922" />
+      <img alt="G2 社区等级徽章" className="-translate-x-1/2 absolute left-[calc(50%-109px)] rounded-[10px] size-[87px] top-[1089px] object-cover" data-node-id="219:14922" src={imgCommunityG2} />
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-50.5px)] text-[#c1c1c1] text-[10px] top-[1305px] uppercase whitespace-nowrap" data-node-id="219:14980" style={{ fontVariationSettings: '"wdth" 100' }}>
         日均社区业绩
       </p>
@@ -386,7 +387,7 @@ export default function DiscoverOverflowBehavior() {
       <div className="absolute left-[289px] size-[6px] top-[1280px]" data-node-id="219:14990">
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse76} />
       </div>
-      <div className="-translate-x-1/2 absolute bg-[#1c1c1f] left-[calc(50%-109px)] rounded-[10px] size-[87px] top-[1305px]" data-node-id="219:14991" />
+      <img alt="G2 社区等级徽章" className="-translate-x-1/2 absolute left-[calc(50%-109px)] rounded-[10px] size-[87px] top-[1305px] object-cover" data-node-id="219:14991" src={imgCommunityG2} />
       <div className="absolute inset-[86.14%_83.2%_13.17%_13.33%]" data-node-id="219:15029">
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup77} />
       </div>

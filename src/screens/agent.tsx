@@ -104,7 +104,14 @@ export default function Component() {
       <div className="absolute bg-white left-[301px] rounded-[40px] size-[54px] top-[2383px]" data-node-id="208:11146" />
       <div className="-translate-x-1/2 absolute bg-white h-[4px] left-1/2 rounded-[10px] top-[2457px] w-[135px]" data-node-id="208:11147" />
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[498px] left-1/2 rounded-[16px] top-[274px] w-[335px]" data-node-id="208:11148" />
-      <div className="absolute bg-[#2a2a2c] h-[22px] rounded-[20px] top-[294px] w-[61px] transition-[left] duration-200" style={{ left: custodyMode ? 122 : 109 }} data-node-id="208:11149" />
+      <div className="absolute left-[35px] top-[294px] flex h-[22px] items-center gap-[10px]" data-node-id="208:11180">
+        <p className="[word-break:break-word] whitespace-nowrap font-['SF_Pro:Semibold'] font-[590] leading-[16px] text-[14px] text-white tracking-[-0.2344px]" style={{ fontVariationSettings: '"wdth" 100' }}>
+          {custodyMode ? 'My Agent 托管' : 'My Agent'}
+        </p>
+        <div className="relative flex h-[22px] w-[61px] shrink-0 items-center justify-center rounded-[20px] bg-[#2a2a2c]" data-node-id="208:11149">
+          <span className="font-['SF_Pro:Medium'] font-[510] leading-[12px] text-[10px] text-[#c1c1c1]" data-node-id="208:11150" style={{ fontVariationSettings: '"wdth" 100' }}>未激活</span>
+        </div>
+      </div>
       <button
         type="button"
         className="absolute left-[229px] top-[294px] flex h-[22px] w-[111px] items-center justify-center gap-[3px] rounded-[20px] border border-[#262527] bg-transparent px-[5px] text-[10px] font-[510] leading-[12px] text-white transition-colors hover:bg-[#1a1a1b] focus-visible:outline focus-visible:outline-1 focus-visible:outline-[#3096f7]"
@@ -119,9 +126,6 @@ export default function Component() {
         <span className="whitespace-nowrap text-[#c1c1c1]">{custodyMode ? '切换标准' : '切换托管'}</span>
         <span className="whitespace-nowrap">未激活</span>
       </button>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] text-[#c1c1c1] text-[10px] top-[299px] whitespace-nowrap transition-[left] duration-200" style={{ left: custodyMode ? 143 : 130, fontVariationSettings: '"wdth" 100' }} data-node-id="208:11150">
-        未激活
-      </p>
       <div className="absolute h-0 left-[35px] top-[534px] w-[305px]" data-node-id="208:11151">
         <div className="absolute inset-[-1px_0_0_0]">
           <img alt="" className="block max-w-none size-full" src={imgLine12} />
@@ -208,11 +212,6 @@ export default function Component() {
         最近成交
       </p>
       <div className="absolute bg-[#2967ff] h-[2px] left-[35px] top-[1944px] w-[24px]" data-node-id="208:11179" />
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Condensed_Semibold'] font-[650] leading-[0] left-[35px] text-[0px] text-white top-[297px] tracking-[-0.2344px] whitespace-nowrap" data-node-id="208:11180" style={{ fontVariationSettings: '"wdth" 100' }}>
-        <span className="font-['SF_Pro:Semibold'] font-[590] leading-[16px] text-[14px]" style={{ fontVariationSettings: '"wdth" 100' }}>
-          {custodyMode ? 'My Agent 托管' : 'My Agent'}
-        </span>
-      </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[336px] uppercase whitespace-nowrap" data-node-id="208:11181" style={{ fontVariationSettings: '"wdth" 100' }}>
         资金 (余额 : 3,250.00 USDC)
       </p>
@@ -231,7 +230,7 @@ export default function Component() {
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-102.5px)] text-[10px] text-white top-[549px] uppercase whitespace-nowrap" data-node-id="208:11186" style={{ fontVariationSettings: '"wdth" 100' }}>
         未激活
       </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+109.5px)] text-[10px] text-white top-[549px] uppercase whitespace-nowrap" data-node-id="208:11187" style={{ fontVariationSettings: '"wdth" 100' }}>
+      <p className="[word-break:break-word] absolute right-[35px] text-right font-['SF_Pro:Regular'] font-normal leading-[12px] text-[10px] text-white top-[549px] uppercase whitespace-nowrap" data-node-id="208:11187" style={{ fontVariationSettings: '"wdth" 100' }}>
         {custodyMode ? '托管期限 · 30天' : '8H / 周期'}
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[448px] uppercase whitespace-nowrap" data-node-id="208:11188" style={{ fontVariationSettings: '"wdth" 100' }}>
@@ -261,7 +260,7 @@ export default function Component() {
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-62.5px)] text-[#c1c1c1] text-[10px] top-[654px] uppercase whitespace-nowrap" data-node-id="228:15325" style={{ fontVariationSettings: '"wdth" 100' }}>
         0.0%
       </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+108.5px)] text-[#c1c1c1] text-[10px] top-[654px] uppercase whitespace-nowrap" data-node-id="228:15327" style={{ fontVariationSettings: '"wdth" 100' }}>
+      <p className="[word-break:break-word] absolute right-[35px] text-right font-['SF_Pro:Regular'] font-normal leading-[12px] text-[#c1c1c1] text-[10px] top-[654px] uppercase whitespace-nowrap" data-node-id="228:15327" style={{ fontVariationSettings: '"wdth" 100' }}>
         08:00:00
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-134.5px)] text-[#c1c1c1] text-[10px] top-[681px] uppercase whitespace-nowrap" data-node-id="228:15219" style={{ fontVariationSettings: '"wdth" 100' }}>

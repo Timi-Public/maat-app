@@ -262,9 +262,9 @@ button { font:inherit; }
 .maat-guide-back svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .maat-guide-book { position:relative; z-index:1; width:29px; height:29px; margin-left:auto; fill:none; stroke:#2967ff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .maat-guide-tabs { display:flex; align-items:stretch; justify-content:space-between; gap:0; height:45px; margin-top:22px; border-bottom:1px solid #2c2c2d; }
-.maat-guide-tabs button { position:relative; flex:none; padding:0; border:0; border-radius:9px 9px 0 0; background:transparent; color:#c1c1c1; font:400 8px/1 var(--font-sans),sans-serif; white-space:nowrap; cursor:pointer; }
-.maat-guide-tabs button[data-active="true"] { color:#347aff; }
-.maat-guide-tabs button[data-active="true"]::after { position:absolute; right:0; bottom:-1px; left:0; height:2px; background:#347aff; content:""; }
+.maat-guide-tabs button { position:relative; flex:none; padding:0; border:0; border-radius:9px 9px 0 0; background:transparent; color:#c1c1c1; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif; font-size:12px; font-style:normal; font-weight:400; line-height:14px; letter-spacing:normal; white-space:nowrap; cursor:pointer; }
+.maat-guide-tabs button[data-active="true"] { color:#3096f7; }
+.maat-guide-tabs button[data-active="true"]::after { position:absolute; bottom:-1px; left:0; width:24px; height:2px; background:#2967ff; content:""; }
 .maat-guide-tabs button:focus-visible,.maat-guide-link:focus-visible,.maat-guide-primary:focus-visible,.maat-guide-back:focus-visible { outline:2px solid #2967ff; outline-offset:2px; }
 .maat-guide-content { padding-top:26px; }
 .maat-guide-section { margin:0 0 38px; }

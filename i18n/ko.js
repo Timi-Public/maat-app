@@ -712,5 +712,8 @@ I18N.data.ko={
 "Not enough USDC in your wallet":"지갑 USDC 잔액 부족",
 "Agent balance is too low. Deposit MAAT in Tokenomics first":"Agent 잔액이 부족합니다. 먼저 Tokenomics에서 MAAT를 충전하세요",
 "The fee is taken at the start and is not refunded if you stop early":"수수료는 시작 시 차감되며 조기 중지 시 환불되지 않습니다",
-"Resuming custody":"위탁 재개 중"
+"Resuming custody":"위탁 재개 중",
+"Avg. signal edge":"평균 시그널 편차",
+"Polymarket public on-chain trades":"Polymarket 온체인 공개 체결",
+"Search supported Polymarket events":"지원되는 Polymarket 이벤트 검색"
 };

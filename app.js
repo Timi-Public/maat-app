@@ -210,10 +210,11 @@ function review(){const {t}=U;sheet(t('设计验收','Design review'),`<p class=
 function menu(view='root'){const {t}=U;const pend=t('待公布','TBA'),undeployed=t('待部署','Not deployed');
   const views={contracts:['Smart Contracts','code-file',[[t('项目代币合约 MAAT','Token contract MAAT'),undeployed],[t('Agent Trading 业务合约','Agent Trading contract'),undeployed],[t('Liquidity Marketplace 业务合约','Liquidity Marketplace contract'),undeployed],[t('网络','Network'),t('Polygon（137）','Polygon (137)')]],t('部署后公布合约地址、权限与验证记录','Addresses, permissions and verification records publish after deployment')],
     security:['Security & Audit','shield',[[t('安全审计报告','Audit report'),t('待发布','Not yet published')],[t('审计机构','Auditor'),pend],[t('代币合约验证状态','Token contract verification'),t('待部署验证','Pending deployment')]],t('报告发布后提供原文与链接','Full report and links on release')]};
-  const root=[['book','Whitepaper',t('项目愿景、产品机制与代币经济','Vision, products and token economy'),'#whitepaper'],['file','Documentation',t('使用指南与数据来源','Guides and data sources'),'#guide'],['code-file','Smart Contracts',t('合约地址与权限信息','Contract addresses and permissions'),'contracts'],['shield','Security & Audit',t('审计状态与公开报告','Audit status and public reports'),'security'],];
+  // Leo PRD 11-14 §10: titles stay English; the subtitle is the title in the member's language (none in English)
+  const root=[['book','Whitepaper',t('白皮书','',{vi:'Sách trắng',ko:'백서'}),'#whitepaper'],['file','Documentation',t('技术文档','',{vi:'Tài liệu',ko:'문서'}),'#guide'],['code-file','Smart Contracts',t('智能合约','',{vi:'Hợp đồng thông minh',ko:'스마트 컨트랙트'}),'contracts'],['shield','Security & Audit',t('安全审计','',{vi:'Kiểm toán bảo mật',ko:'보안 감사'}),'security'],];
   const v=views[view];
   const body=v?`<div class="more-detail-head"><button class="icon-btn more-back" data-action="more-view" data-value="root" aria-label="${t('返回','Back')}">${icon('chevron','',15)}</button>${icon(v[1],'',18)}<b>${v[0]}</b></div>${v[2].map(([a,b,ic])=>`<div class="more-row">${ic?(ic.startsWith('assets/')?`<img class="more-row-img" src="${ic}" alt="">`:icon(ic,'',16)):''}<span>${a}</span><em>${b}</em></div>`).join('')}${v[3]?`<p class="more-note">${v[3]}</p>`:''}`
-    :root.map(([ic,title,desc,target])=>target.startsWith('#')?`<a class="more-item" href="${target}">${icon(ic,'',19)}<span><b>${title}</b><small>${desc}</small></span></a>`:`<button class="more-item" data-action="more-view" data-value="${target}">${icon(ic,'',19)}<span><b>${title}</b><small>${desc}</small></span></button>`).join('')+`<div class="more-social">${icon('users','',19)}<b>Community</b>${U.socialIcons()}</div>`;
+    :root.map(([ic,title,desc,target])=>target.startsWith('#')?`<a class="more-item" href="${target}">${icon(ic,'',19)}<span><b>${title}</b><small>${desc}</small></span></a>`:`<button class="more-item" data-action="more-view" data-value="${target}">${icon(ic,'',19)}<span><b>${title}</b><small>${desc}</small></span></button>`).join('')+`<div class="more-social">${icon('users','',19)}<span class="more-social-body"><b>Community</b>${U.socialIcons()}</span></div>`;
   const pop=document.querySelector('.more-popover');
   if(S.overlay==='menu'&&pop){pop.innerHTML=body;pop.dataset.view=view;pop.focus();return}
   closeOverlay();S.overlay='menu';
@@ -276,8 +277,8 @@ const actions = {
   disconnect:()=>Wallet.disconnect(),
   topic:v=>{const off=S.topic===v;S.topic=off?'':v;S.search=off?'':v;S.category='all';S.marketPage=0;render({preserve:true})},
   'trade-filter':v=>{S.tradeFilter=v;render({preserve:true})},
-  'tape-pause':()=>{S.tapePaused=!S.tapePaused;render({preserve:true})},
-  'tape-sort':()=>{S.tapeOldest=!S.tapeOldest;render({preserve:true})},
+  'tape-pause':()=>{S.tapePaused=!S.tapePaused;if(!S.tapePaused)S.tapeOldest=false;render({preserve:true})}, // Leo PRD 11-14 §6.3: 继续 returns to 最新
+  'tape-sort':()=>{S.tapeOldest=!S.tapeOldest;S.tapePaused=S.tapeOldest;render({preserve:true})}, // 最早 stops updating, 最新 resumes
   filter:v=>{S.category=v;S.marketPage=0;render({preserve:true})},
   'market-page':v=>{const max=Math.max(0,Math.ceil(U.filteredMarkets().length/3)-1);const desired=v==='next'?S.marketPage+1:v==='prev'?S.marketPage-1:Number(v);S.marketPage=Math.max(0,Math.min(max,desired));render({preserve:true})},
   apply,

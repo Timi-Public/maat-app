@@ -712,5 +712,8 @@ I18N.data.vi={
 "Not enough USDC in your wallet":"Ví không đủ USDC",
 "Agent balance is too low. Deposit MAAT in Tokenomics first":"Số dư Agent không đủ. Hãy nạp MAAT ở Tokenomics trước",
 "The fee is taken at the start and is not refunded if you stop early":"Phí được trừ khi bắt đầu và không hoàn lại nếu dừng sớm",
-"Resuming custody":"Đang tiếp tục ủy thác"
+"Resuming custody":"Đang tiếp tục ủy thác",
+"Avg. signal edge":"Độ lệch tín hiệu TB",
+"Polymarket public on-chain trades":"Giao dịch công khai trên chuỗi của Polymarket",
+"Search supported Polymarket events":"Tìm sự kiện Polymarket được hỗ trợ"
 };

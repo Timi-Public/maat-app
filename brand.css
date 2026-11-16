@@ -92,3 +92,8 @@
 .my-agent[data-product="custody"] .agent-title h2{color:#b9a6ff}
 .my-agent[data-product="custody"] .progress>span{background:linear-gradient(90deg,#7c5cff,#b18cff)}
 .my-agent[data-product="custody"] .btn.primary{background:linear-gradient(62deg,#6d4dff,#9b6bff)}
+
+.tape-caption{font-size:11px;color:var(--muted);margin:2px 0 8px}
+.tape-panel .trade-tape{max-height:min(1040px,72vh)}
+.more-social{align-items:flex-start}.more-social-body{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.mobile-nav>button.nav-menu{align-self:center}

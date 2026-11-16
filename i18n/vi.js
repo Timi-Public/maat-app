@@ -703,5 +703,8 @@ I18N.data.vi={
 "Trades prediction markets automatically":"Tự động giao dịch thị trường dự đoán",
 "No nickname":"Chưa đặt biệt danh",
 "Model probability":"Xác suất mô hình",
-"Implied":"Ngầm định"
+"Implied":"Ngầm định",
+"More trades":"Xem thêm giao dịch",
+"More signals":"Xem thêm tín hiệu",
+"of locked funds":"trên vốn khóa"
 };

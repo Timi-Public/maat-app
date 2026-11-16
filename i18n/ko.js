@@ -703,5 +703,8 @@ I18N.data.ko={
 "Trades prediction markets automatically":"예측 마켓을 자동으로 트레이딩",
 "No nickname":"닉네임 없음",
 "Model probability":"모델 확률",
-"Implied":"내재 확률"
+"Implied":"내재 확률",
+"More trades":"거래 더 보기",
+"More signals":"시그널 더 보기",
+"of locked funds":"잠금 자금 기준"
 };

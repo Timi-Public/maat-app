@@ -8,14 +8,18 @@ const dir = new URL('./', import.meta.url);
 const sources = [];
 async function read(url) {
   if (!['gamma-api.polymarket.com','clob.polymarket.com','data-api.polymarket.com'].includes(new URL(url).hostname)) throw new Error('Unexpected host');
-  const {stdout} = await run('curl',['-fsS','--max-time','25',url],{maxBuffer:12*1024*1024});
+  const {stdout} = await run('curl',['-fsS','--compressed','--max-time','25',url],{maxBuffer:160*1024*1024}); // Gamma /events needs gzip above limit 50
   const value=JSON.parse(stdout);
   sources.push({url,fetchedAt:new Date().toISOString()});
   return value;
 }
 async function saveImage(m){
-  const url=m.image||m.icon||m.events?.[0]?.image||m.events?.[0]?.icon;if(!url)return null;const ext=(new URL(url).pathname.match(/\.(png|jpe?g|webp)$/i)?.[1]||'png').toLowerCase().replace('jpeg','jpg');const file='assets/market-'+m.id+'.'+ext;
-  await run('curl',['-fsSL','--max-time','25','-o',new URL('../'+file,dir).pathname,url]);return file;
+  // Thumbnails only (96px JPEG via macOS sips): the app shows them at 24–40px.
+  const url=m.image||m.icon||m.events?.[0]?.image||m.events?.[0]?.icon;if(!url)return null;
+  const file='assets/market-'+m.id+'.jpg',tmp=new URL('../assets/.tmp-'+m.id,dir).pathname;
+  await run('curl',['-fsSL','--max-time','25','-o',tmp,url]);
+  await run('sips',['-Z','96','-s','format','jpeg','-s','formatOptions','72',tmp,'--out',new URL('../'+file,dir).pathname]);
+  await run('rm',['-f',tmp]);return file;
 }
 const arr = v => Array.isArray(v) ? v : typeof v === 'string' ? JSON.parse(v) : [];
 const now=Date.now();
@@ -31,7 +35,7 @@ const selected=candidates.filter(m=>{
   const key=event?.id||m.id;
   if (used.has(key)) return false;
   used.add(key);return true;
-}).slice(0,12);
+}).slice(0,60); // Leo PRD 11-14 §4: AI Signals, positions and candidates take 20 distinct events each
 const markets=[];
 for (const m of selected) {
   let tags=[];
@@ -39,15 +43,16 @@ for (const m of selected) {
   markets.push({id:m.id,question:m.question,slug:m.slug,eventSlug:m.events?.[0]?.slug||m.slug,eventTitle:m.events?.[0]?.title||m.question,conditionId:m.conditionId,clobTokenIds:arr(m.clobTokenIds),outcomes:arr(m.outcomes),outcomePrices:arr(m.outcomePrices).map(Number),liquidity:Number(m.liquidityNum),liquidityNum:Number(m.liquidityNum),volume24hr:Number(m.volume24hr||0),volume:Number(m.volumeNum||m.volume||0),image:m.image,icon:m.icon,tags:tags.map(t=>({id:t.id,label:t.label,slug:t.slug})),active:m.active,closed:m.closed,acceptingOrders:m.acceptingOrders,endDate:m.endDate,updatedAt:m.updatedAt,spread:Number.isFinite(Number(m.spread))?Number(m.spread):null,bestBid:Number.isFinite(Number(m.bestBid))?Number(m.bestBid):null,bestAsk:Number.isFinite(Number(m.bestAsk))?Number(m.bestAsk):null,oneDayPriceChange:Number.isFinite(Number(m.oneDayPriceChange))?Number(m.oneDayPriceChange):null,localImage:await saveImage(m),fetchedAt:new Date().toISOString(),sourceUrl:'https://polymarket.com/event/'+(m.events?.[0]?.slug||m.slug),eligibility:'prototype-threshold-only'});
 }
 const orderBooks=[];const trades=[];const errors=[];
-for (const market of markets.slice(0,3)) {
-  try {
+for (const [i,market] of markets.slice(0,15).entries()) {
+  if(i<3)try {
     const tokenId=market.clobTokenIds[0];
     const b=await read('https://clob.polymarket.com/book?token_id='+encodeURIComponent(tokenId));
     orderBooks.push({conditionId:market.conditionId,marketId:market.id,question:market.question,tokenId,outcome:'Yes',timestamp:b.timestamp,hash:b.hash,bids:b.bids.map(x=>({price:Number(x.price),size:Number(x.size)})).sort((a,b)=>b.price-a.price).slice(0,12),asks:b.asks.map(x=>({price:Number(x.price),size:Number(x.size)})).sort((a,b)=>a.price-b.price).slice(0,12),tickSize:b.tick_size,minOrderSize:b.min_order_size,lastTradePrice:b.last_trade_price,fetchedAt:new Date().toISOString()});
   } catch(e) { errors.push({kind:'orderbook',marketId:market.id,message:e.message.slice(0,180)}); }
   try {
-    const ts=await read('https://data-api.polymarket.com/trades?market='+encodeURIComponent(market.conditionId)+'&limit=8');
-    trades.push(...ts.map(t=>({conditionId:market.conditionId,marketId:market.id,question:market.question,timestamp:t.timestamp,side:t.side,outcome:t.outcome,price:Number(t.price),size:Number(t.size),notional:Number(t.price)*Number(t.size),transactionHash:t.transactionHash,source:'Polymarket public market trades, not PolyAgent account trades',fetchedAt:new Date().toISOString()})));
+    // Data API v1 was retired in 11-2026; v2 filters by conditionId and wraps rows in {data}.
+    const ts=(await read('https://data-api.polymarket.com/v2/trades?conditionId='+encodeURIComponent(market.conditionId)+'&limit=6')).data||[];
+    trades.push(...ts.map(t=>({conditionId:market.conditionId,marketId:market.id,question:market.question,timestamp:t.timestamp,side:t.side,outcome:t.outcome,price:Number(t.price),size:Number(t.size),notional:Number(t.price)*Number(t.size),transactionHash:t.transaction_hash||t.transactionHash,source:'Polymarket public market trades, not PolyAgent account trades',fetchedAt:new Date().toISOString()})));
   } catch(e) { errors.push({kind:'trades',marketId:market.id,message:e.message.slice(0,180)}); }
 }
 // 24H YES price history ending at capture time, for the Market Monitor trend line (CLOB appends a live point after endTs; dropped here).
@@ -56,7 +61,10 @@ for (const market of markets) {
   try { const h=await read('https://clob.polymarket.com/prices-history?market='+encodeURIComponent(market.clobTokenIds[0])+'&startTs='+(histEnd-86400)+'&endTs='+histEnd+'&fidelity=60'); market.history=(h.history||[]).filter(x=>x.t<=histEnd).map(x=>[x.t,Number(x.p)]); }
   catch(e) { errors.push({kind:'history',marketId:market.id,message:e.message.slice(0,180)}); }
 }
-const snapshot={schemaVersion:1,kind:'public-market-snapshot',fetchedAt:new Date().toISOString(),scope:'A bounded sample of at most 12 distinct events, selected from the first 500 active markets ordered by volume24hr; not all Polymarket markets.',selection:{queryLimit:500,minimumLiquidity:50000,minimumYesProbability:0.02,maximumYesProbability:0.98,requiresFutureEndDate:true,minimumDaysOpen:7,oneMarketPerEvent:true},summary:{sampleMarketCount:markets.length,sampleVolume24hr:markets.reduce((s,m)=>s+m.volume24hr,0),sampleLiquidity:markets.reduce((s,m)=>s+m.liquidity,0),globalMarketCount:null,globalEventCount:Number(openEvents.pagination?.totalResults)||null,eligibleEventCount:Number(eligibleEvents.pagination?.totalResults)||null,eligibleEventRule:'open events with Gamma liquidity_min=100000',globalTradeCount24h:null},markets,orderBooks,trades,errors};
+// Polymarket-wide 24H volume: sum over the top 2,100 open events by 24H volume (the API stops paging at offset 2,000).
+let globalVolume24hr=0;
+for(let offset=0;offset<=2000;offset+=100){const page=await read('https://gamma-api.polymarket.com/events?closed=false&active=true&limit=100&offset='+offset+'&order=volume24hr&ascending=false');for(const e of page)globalVolume24hr+=Number(e.volume24hr||0);if(page.length<100)break}
+const snapshot={schemaVersion:1,kind:'public-market-snapshot',fetchedAt:new Date().toISOString(),scope:'A bounded sample of at most 60 distinct events, selected from the first 500 active markets ordered by volume24hr; not all Polymarket markets.',selection:{queryLimit:500,minimumLiquidity:50000,minimumYesProbability:0.02,maximumYesProbability:0.98,requiresFutureEndDate:true,minimumDaysOpen:7,oneMarketPerEvent:true},summary:{sampleMarketCount:markets.length,sampleVolume24hr:markets.reduce((s,m)=>s+m.volume24hr,0),sampleLiquidity:markets.reduce((s,m)=>s+m.liquidity,0),globalMarketCount:null,globalEventCount:Number(openEvents.pagination?.totalResults)||null,eligibleEventCount:Number(eligibleEvents.pagination?.totalResults)||null,eligibleEventRule:'open events with Gamma liquidity_min=100000',globalTradeCount24h:null,globalVolume24hr:Math.round(globalVolume24hr),globalVolume24hrFetchedAt:new Date().toISOString(),globalVolume24hrRule:'sum of volume24hr over the top 2,100 open Gamma events ranked by 24h volume (API offset cap); events below about $300/day are not counted'},markets,orderBooks,trades,errors};
 snapshot.book=orderBooks[0]||null;
 snapshot.markets.forEach(m=>{m.tokenIds=m.clobTokenIds;m.prices=m.outcomePrices;m.tagLabels=m.tags.map(t=>t.label);});
 snapshot.trades.forEach(t=>{t.title=t.question;});

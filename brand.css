@@ -20,7 +20,7 @@
 [data-theme="dark"] .preview-bar{background:#0b1730;color:#7fb2ff}
 [data-theme="dark"] .badge.gray{background:#1f1f22;color:var(--muted)}
 /* Overview hero: deep navy with a cyan curve */
-.ov-hero{color:#fff;border:1px solid #17306b;background:radial-gradient(110% 70% at 96% -6%,rgba(41,103,255,.5),transparent 60%),linear-gradient(170deg,#0b1f4d,#00091f 72%)}
+.ov-hero{color:#fff;border:1px solid #17306b;background:url(assets/bg-hero.webp) center top/cover,radial-gradient(110% 70% at 96% -6%,rgba(41,103,255,.5),transparent 60%),linear-gradient(170deg,#0b1f4d,#00091f 72%)}
 .ov-tags,.ov-hero>p,.ov-steps,.ov-funding,.ov-visual-labels{color:#cfdcf7}
 .ov-live{background:#2f96f7;box-shadow:0 0 0 3px rgba(47,150,247,.28)}
 .ov-hero-svg .net{stroke:rgba(130,175,255,.15)}

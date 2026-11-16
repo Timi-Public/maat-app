@@ -31,13 +31,13 @@ window.Engine = (() => {
   };
   const passed = t => { const s = signals(t); return s - Math.round(s * walk('pass', HALF_HOUR, .1, .22, t)); };
   // Market Monitor 待执行信号 uses the same valid-signal figure as Overview (Leo PRD 11-10 §5.1).
-  const pending = t => signals(t);
+  const pending = t => { const now = t ?? Date.now(); return Math.max(1, Math.round(signals(now) * (.4 + rnd('pending', Math.floor(now / HALF_HOUR)) * .2))); }; // Leo PRD 11-14 §4: 40–60% of valid signals
   const positions = t => step('positions', 18000000, 30, 100, t);
   const activeServices = eligible => eligible ? Math.max(1, Math.round(eligible * (.1 + rnd('services', Math.floor(Date.now() / HALF_HOUR)) * .1))) : 0;
 
   // Model estimate: 2–5 pp away from the market YES price, rounded to 0.1 pp so YES + NO = 100.
   const model = m => {
-    const base = Number(m.prices[0]), size = (2 + hash(m.id) * 3) / 100;
+    const base = Number(m.prices[0]), size = (3 + hash(m.id) * 2) / 100; // 3–5 pp: fits Leo PRD 11-14 模型概率 ±2–5% and 概率偏差 ±3–9 pp
     let dir = hash(m.id + ':dir') < .5 ? -1 : 1;
     if (base + dir * size > .99 || base + dir * size < .01) dir = -dir;
     return Math.round(clamp(base + dir * size, .01, .99) * 1000) / 1000;
@@ -69,21 +69,13 @@ window.Engine = (() => {
   // Each signal is stamped with the time its event was read, a few minutes apart inside the window.
   const signalWindow = (t = Date.now()) => Math.floor(t / HALF_HOUR);
   const signalSet = (n = 20, t = Date.now()) => {
-    const pool = U.featured(), k = pool.length ? signalWindow(t) % pool.length : 0;
-    return pool.slice(k).concat(pool.slice(0, k)).slice(0, n);
+    return rotated(t).slice(0, n);
   };
   const signalTime = (i = 0, t = Date.now()) => { const w = signalWindow(t); let at = w * HALF_HOUR + HALF_HOUR; for (let j = 0; j <= i; j++) at -= Math.round((1 + rnd('sigt:' + w, j) * 2) * 60000); return Math.max(w * HALF_HOUR, at); };
-  // Market Monitor (Leo 11-02, re-sent 11-05): three real events per subtab, rotating every 8 minutes.
-  // 候选市场 = one 买入 YES, one 买入 NO, one 观望; 当前持仓 = three other events, held side follows the model.
-  const monitorPool = (t = Date.now()) => { const pool = U.featured(), k = pool.length ? (Math.floor(t / 480000) * 3) % pool.length : 0; return pool.slice(k).concat(pool.slice(0, k)); };
-  const pick = (pool, wants, sideOf) => {
-    const out = [];
-    for (const want of wants) { const m = pool.find(x => sideOf(x) === want && !out.some(o => o.m.id === x.id)); if (m) out.push({ m, side: want }); }
-    for (const m of pool) { if (out.length >= 3) break; if (!out.some(o => o.m.id === m.id)) out.push({ m, side: sideOf(m) }); }
-    return out.slice(0, 3);
-  };
-  const candidateSet = t => pick(monitorPool(t), ['yes', 'no', 'watch'], decision);
-  const holdingSet = t => { const skip = candidateSet(t).map(x => x.m.id); return pick(monitorPool(t).filter(m => !skip.includes(m.id)), ['yes', 'no'], m => edge(m) >= 0 ? 'yes' : 'no'); };
+  // Leo PRD 11-14 §4: one rotated pool every 30 min — AI Signals take events 1–20, 当前持仓 21–40, 候选市场 41–60, so none repeat.
+  const rotated = (t = Date.now()) => { const pool = U.featured(), k = pool.length ? signalWindow(t) % pool.length : 0; return pool.slice(k).concat(pool.slice(0, k)); };
+  const holdingSet = t => rotated(t).slice(20, 40).map(m => ({ m, side: edge(m) >= 0 ? 'yes' : 'no' }));
+  const candidateSet = t => rotated(t).slice(40, 60).map(m => ({ m, side: decision(m) }));
   const hhmm = ms => new Date(ms).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kuala_Lumpur' });
   const decisionLabel = d => ({ yes: 'YES', no: 'NO', watch: U.t('观望', 'WATCH') })[d];
   const decisionClass = d => ({ yes: 'yes-label', no: 'no-label', watch: 'hold-label' })[d];

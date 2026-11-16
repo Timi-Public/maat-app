@@ -97,3 +97,45 @@
 .tape-panel .trade-tape{max-height:min(1040px,72vh)}
 .more-social{align-items:flex-start}.more-social-body{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .mobile-nav>button.nav-menu{align-self:center}
+
+/* Market Monitor: implied and model probability side by side; Engine Status 3D icons */
+.holding-prob{display:flex;flex-direction:column;gap:2px;font-size:11px;color:var(--muted)}.holding-prob b{font-size:15px;color:var(--text);margin-left:4px}
+.node-icon.node-3d{background:none;border:0;box-shadow:none}.node-icon.node-3d img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(41,103,255,.3))}
+.engine-node:not(.active) .node-3d img{opacity:.72}
+
+/* Tokenomics K-line (Leo PRD 11-14 §7) */
+.tk-kline{height:206px}.tk-kline svg{width:100%;height:190px}
+.tk-kline .up line,.tk-kline .up rect:not(.vol){stroke:var(--green);fill:var(--green)}
+.tk-kline .down line,.tk-kline .down rect:not(.vol){stroke:var(--red);fill:var(--red)}
+.tk-kline line{stroke-width:1;vector-effect:non-scaling-stroke}.tk-kline .vol{fill:var(--muted);opacity:.22;stroke:none}
+.tk-kline text{font-size:8.5px;fill:var(--quiet);font-variant-numeric:tabular-nums}
+.tk-axis-line{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.tk-kline input[type=range]{position:absolute;inset:0;width:100%;height:172px;opacity:0;cursor:crosshair;margin:0}
+.tk-ohlc b{font-size:13px}.tk-ohlc small{color:var(--muted);font-size:10px}
+.tk-supply-card{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}.tk-supply-card strong{display:block;font-size:19px;margin-top:4px}.tk-supply-card small{color:var(--muted);font-size:10px}
+.tk-consumption .panel-head{align-items:flex-start}.tk-sub{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.tk-topup{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:600;min-height:32px}
+.tk-consumption .tk-balance-row{display:flex;justify-content:space-between;align-items:baseline}.tk-consumption .tk-balance-row b{text-align:right}
+.tk-burn-metrics.four{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.tk-burn-metrics.four>div:first-child{grid-column:auto}.tk-burn-metrics.four strong,.tk-burn-metrics.four>div:first-child strong{font-size:20px;letter-spacing:-.4px}
+.tk-mark.tk-mark-img{background:none;border:0}.tk-mark-img img{width:30px;height:30px;display:block}
+
+/* Explore Markets carousel and shorter cards (Leo PRD 11-14 §8.2) */
+#market-results[data-carousel="on"] .market-grid{animation:mk-slide .45s ease both}
+@keyframes mk-slide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#market-results .market-grid{animation:none}}
+.market-card{padding-top:14px;padding-bottom:14px}.market-card .market-quotes{margin-top:10px}.market-card .market-quotes>div{padding:9px 11px}
+.market-card .market-detail-grid{margin-top:10px;gap:6px 12px}.market-card .market-card-topline{margin-bottom:6px}
+
+/* Account (Leo PRD 11-14 §9): the profile card as a designed page header; area-code phone field */
+.personal-card{position:relative;overflow:hidden;border-color:#17306b;background:url(assets/bg-network.webp) center/cover,radial-gradient(120% 90% at 100% 0,rgba(41,103,255,.42),transparent 62%),linear-gradient(160deg,#0b1f4d,#050b1c 75%)}
+.personal-card h1,.personal-card .personal-name b{color:#fff}.personal-card .personal-summary p,.personal-card .personal-network{color:rgba(255,255,255,.72)}
+.phone-field{display:grid;grid-template-columns:minmax(0,46%) minmax(0,1fr);gap:8px}
+.phone-field select{min-height:46px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:0 10px;font-size:13px;min-width:0}
+.phone-why{margin:-2px 0 8px}
+/* Community & Rewards: stands apart from the other cards, with a hexagon level badge */
+.community-card{border:1px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(135deg,#2967ff,#7c5cff 55%,#20c997) border-box;box-shadow:0 18px 40px -18px rgba(41,103,255,.55)}
+.cm-level{background:radial-gradient(80% 80% at 50% 30%,rgba(41,103,255,.28),transparent 70%),var(--panel2)}
+.cm-badge{width:58px;height:64px;display:grid;place-items:center;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:linear-gradient(160deg,#9cc0ff,#2967ff 45%,#0b1f4d);box-shadow:inset 0 0 0 2px rgba(255,255,255,.3)}
+.cm-badge b{font-size:19px;color:#fff;letter-spacing:.5px;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.market-card .market-quotes strong{font-size:22px;letter-spacing:-.4px}.market-card .market-quotes small{font-size:10px}

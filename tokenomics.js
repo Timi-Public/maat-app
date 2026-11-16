@@ -26,18 +26,36 @@ window.Tokenomics=(()=>{
     if(!S.tokenHistoryTab)S.tokenHistoryTab='burn';
     if(!Array.isArray(S.tokenConsumptionRecords))S.tokenConsumptionRecords=[];
   }
-  const tokenMark=()=>`<span class="tk-mark">${icon('spark','',23)}</span>`;
-  function historyLabel(index){
-    const days=({'24H':1,'7D':7,'30D':30,'ALL':90})[S.tokenRange];
-    return U.stamp(chartEnd()-days*86400000*(11-index)/11)+' UTC+8';
+  const tokenMark=()=>`<span class="tk-mark tk-mark-img"><img src="assets/mark.svg" alt="" width="30" height="30"></span>`; // designer: the M mark
+  // Leo PRD 11-14 §7 卡片1: a K-line like market apps — candles, volume, price and time axes; tap or drag to read a candle.
+  // Demo candles are drawn through the 12 anchor prices of each range and end at the current price.
+  const N=28,span=r=>({'24H':1,'7D':7,'30D':30,'ALL':90})[r]*86400000;
+  function candles(range=S.tokenRange){
+    const a=ranges[range],end=chartEnd(),step=span(range)/N,out=[];
+    const at=f=>{const x=f*(a.length-1),k=Math.min(a.length-2,Math.floor(x));return a[k]+(a[k+1]-a[k])*(x-k)};
+    let prev=a[0]*(1-.004);
+    for(let i=0;i<N;i++){
+      const r=k=>Engine.rnd('tk-c:'+range+':'+k,i),c=i===N-1?demoRate:at(i/(N-1))*(1+(r('n')-.5)*.012),o=prev;
+      out.push({t:end-step*(N-1-i),o,c,h:Math.max(o,c)*(1+r('h')*.009),l:Math.min(o,c)*(1-r('l')*.009),v:.25+r('v')*.75});prev=c;
+    }
+    return out;
+  }
+  const timeText=(ms,range)=>{const d=new Date(ms+8*3600000),p=n=>String(n).padStart(2,'0');return range==='24H'?`${p(d.getUTCHours())}:${p(d.getUTCMinutes())}`:`${p(d.getUTCMonth()+1)}-${p(d.getUTCDate())}`};
+  function geometry(range=S.tokenRange){
+    const cs=candles(range),hi=Math.max(...cs.map(c=>c.h)),lo=Math.min(...cs.map(c=>c.l)),pad=(hi-lo)*.08,top=hi+pad,bot=lo-pad;
+    const W=286,x=i=>6+(i+.5)*W/N,y=p=>8+(top-p)/(top-bot)*124;
+    return {cs,x,y,top,bot,w:W/N*.62};
+  }
+  function caption(i,range=S.tokenRange){
+    const c=candles(range)[i],f=n=>U.money(n,false,4),up=c.c>=c.o;
+    return `<span id="token-chart-time">${U.stamp(c.t)} UTC+8</span><span id="token-chart-price" class="tk-ohlc ${up?'positive':'negative'}"><b>${f(c.c)}</b> <small>O ${f(c.o)} · H ${f(c.h)} · L ${f(c.l)}</small></span>`;
   }
   function chart(){
-    const values=ranges[S.tokenRange],min=Math.min(...values)-.0005,max=Math.max(...values)+.0005;
-    const points=values.map((v,i)=>[8+i*304/11,136-(v-min)/(max-min)*113]);
-    const line=points.map(([x,y])=>`${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-    const selected=Number.isInteger(S.tokenChartPoint)?S.tokenChartPoint:values.length-1;
-    const p=points[selected]||points.at(-1);
-    return `<div class="tk-chart-caption"><span id="token-chart-time">${historyLabel(selected)}</span><span id="token-chart-price">${U.money(values[selected]||values.at(-1),false,4)} USDC</span></div><div class="tk-chart" role="group" aria-label="${U.t('历史价格，滑动查看','Price history, slide to inspect')}"><svg viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true"><path d="M8 29H312M8 82H312M8 136H312" class="tk-chart-grid"></path><path d="M${line.replaceAll(' ',' L')} L312 150 L8 150Z" class="tk-chart-area"></path><polyline points="${line}" class="tk-chart-line"></polyline><line id="token-chart-guide" x1="${p[0]}" x2="${p[0]}" y1="8" y2="150" class="tk-chart-guide"></line><circle id="token-chart-dot" cx="${p[0]}" cy="${p[1]}" r="4" class="tk-chart-dot"></circle></svg><input id="token-chart-cursor" type="range" min="0" max="11" step="1" value="${selected}" aria-label="${U.t('查看历史价格','Inspect historical price')}"></div><div class="tk-range" role="tablist" aria-label="${U.t('价格时间范围','Price time range')}">${Object.keys(ranges).map(r=>`<button role="tab" aria-selected="${r===S.tokenRange}" class="${r===S.tokenRange?'active':''}" data-action="token-range" data-value="${r}">${r}</button>`).join('')}</div>`;
+    const g=geometry(),{cs,x,y}=g,sel=Number.isInteger(S.tokenChartPoint)&&S.tokenChartPoint<N?S.tokenChartPoint:N-1;
+    const ticks=[g.top-(g.top-g.bot)*.08,(g.top+g.bot)/2,g.bot+(g.top-g.bot)*.08];
+    const body=cs.map((c,i)=>{const up=c.c>=c.o,yt=y(Math.max(c.o,c.c)),yb=y(Math.min(c.o,c.c));return `<g class="${up?'up':'down'}"><line x1="${x(i).toFixed(1)}" x2="${x(i).toFixed(1)}" y1="${y(c.h).toFixed(1)}" y2="${y(c.l).toFixed(1)}"/><rect x="${(x(i)-g.w/2).toFixed(1)}" y="${yt.toFixed(1)}" width="${g.w.toFixed(1)}" height="${Math.max(1,yb-yt).toFixed(1)}" rx=".6"/><rect class="vol" x="${(x(i)-g.w/2).toFixed(1)}" y="${(168-c.v*22).toFixed(1)}" width="${g.w.toFixed(1)}" height="${(c.v*22).toFixed(1)}"/></g>`}).join('');
+    const labels=[0,Math.round((N-1)/3),Math.round((N-1)*2/3),N-1].map((i,k)=>`<text x="${x(i).toFixed(1)}" y="184" text-anchor="${k===0?'start':k===3?'end':'middle'}">${timeText(cs[i].t,S.tokenRange)}</text>`).join('');
+    return `<div class="tk-chart-caption">${caption(sel)}</div><div class="tk-chart tk-kline" role="group" aria-label="${U.t('K 线，点按或拖动查看价格','Candles, tap or drag to read prices')}"><svg viewBox="0 0 320 190" preserveAspectRatio="none" aria-hidden="true">${ticks.map(p=>`<path d="M6 ${y(p).toFixed(1)}H292" class="tk-chart-grid"/><text class="tk-axis-y" x="318" y="${(y(p)+3).toFixed(1)}" text-anchor="end">${p.toFixed(4)}</text>`).join('')}${body}<line id="token-chart-guide" x1="${x(sel).toFixed(1)}" x2="${x(sel).toFixed(1)}" y1="6" y2="170" class="tk-chart-guide"/><line id="token-chart-hguide" x1="6" x2="292" y1="${y(cs[sel].c).toFixed(1)}" y2="${y(cs[sel].c).toFixed(1)}" class="tk-chart-guide"/><path d="M6 172H292" class="tk-axis-line"/>${labels}</svg><input id="token-chart-cursor" type="range" min="0" max="${N-1}" step="1" value="${sel}" aria-label="${U.t('查看历史价格','Inspect historical price')}"></div><div class="tk-range" role="tablist" aria-label="${U.t('价格时间范围','Price time range')}">${Object.keys(ranges).map(r=>`<button role="tab" aria-selected="${r===S.tokenRange}" class="${r===S.tokenRange?'active':''}" data-action="token-range" data-value="${r}">${r}</button>`).join('')}</div>`;
   }
   function marketCard(){
     const {t}=U;
@@ -51,16 +69,18 @@ window.Tokenomics=(()=>{
     const hours=Math.max(0,(t-LAUNCH)/3600000),days=hours/24;
     const burned=Math.round(168000+hours*42),total=INITIAL-burned;
     const circulating=Math.round(INITIAL*.25+INITIAL*.4*Math.min(1,days/1461)-burned);
-    return {burned,total,circulating,cap:Math.round(circulating*demoRate),pool:Math.round(Engine.walk('tk-pool',3600000,46000,54000,t)),volume:Math.round(Engine.walk('tk-vol',3600000,11000,18000,t)),ratio:burned/INITIAL};
+    return {burned,total,circulating,bought:Math.round(burned*.88),cap:Math.round(circulating*demoRate), // bought back ≈ 88% of burns, the rest is trading tax (demo)
+      pool:Math.round(Engine.walk('tk-pool',3600000,46000,54000,t)),volume:Math.round(Engine.walk('tk-vol',3600000,11000,18000,t)),ratio:burned/INITIAL};
   }
   function history(kind,t=Date.now()){
     const rows=[];let at=Math.floor(t/60000)*60000-(kind==='burn'?7:41)*60000;
     for(let i=0;i<5;i++){const r=Engine.rnd('tk-'+kind,Math.floor(at/3600000));rows.push({at,amount:kind==='burn'?Math.round(40+r*80):Math.round(800+r*1600)});at-=(kind==='burn'?95+Math.round(r*60):1380+Math.round(r*240))*60000}
     return rows;
   }
+  // Leo PRD 11-14 §7 卡片2. Burns destroy supply for good and minting is disabled, so max supply = 21M − burned.
   function metrics(){
     const {t,money}=U,s=stats();
-    return `<div class="tk-metrics">${[[t('流通市值','Circulating market cap'),s.cap,'USDC'],[t('24H 成交额','24H volume'),s.volume,'USDC'],[t('流通供应量','Circulating supply'),s.circulating,'MAAT'],[t('流动性池规模','Pool liquidity'),s.pool,'USDC'],[t('当前总供应量','Total supply'),s.total,'MAAT'],[t('累计销毁量','Total burned'),s.burned,'MAAT']].map(([label,v,unit])=>`<article class="panel tk-metric"><span class="label">${label}</span><strong>${money(v,false,0)}</strong><small>${unit}</small></article>`).join('')}</div>`;
+    return `<article class="panel tk-supply-card">${[[t('流通供应量','Circulating supply'),s.circulating,'MAAT'],[t('市值','Market cap'),s.cap,'USDC'],[t('最大供应量','Max supply'),s.total,'MAAT'],[t('稀释估值','Fully diluted value'),Math.round(s.total*demoRate),'USDC']].map(([label,v,unit])=>`<div><span class="label">${label}</span><strong>${money(v,false,0)}</strong><small>${unit}</small></div>`).join('')}</article>`;
   }
   function quote(){
     ensure();
@@ -83,11 +103,11 @@ window.Tokenomics=(()=>{
   }
   function consumption(){
     const {t,money}=U;
-    return `<article class="panel tk-consumption"><div class="panel-head"><h2>Agent Token Consumption</h2></div><div class="tk-balance-row"><span>${t('钱包余额','Wallet balance')}</span><b>${money(S.tokenWalletBalance)} <small>MAAT</small></b></div><div class="tk-balance-row"><span>${t('Agent 可用余额','Agent balance')}</span><div><b>${money(S.tokenProjectBalance)} <small>MAAT</small></b><button class="text-link" data-action="token-deposit">${t('充值','Deposit')}${icon('arrow','',12)}</button></div></div><button class="tk-full-link" data-action="token-consumption-details"><span>${t('Agent 消耗详情','Agent consumption')}</span>${icon('arrow','',15)}</button></article>`;
+    return `<article class="panel tk-consumption" id="tk-consumption"><div class="panel-head"><div><h2>Agent Token Consumption</h2><span class="tk-sub">${t('Agent 代币消耗','Agent token usage')}</span></div><button class="tk-topup" data-action="token-deposit">+ ${t('充值','Deposit')}</button></div><div class="tk-balance-row"><span>${t('钱包余额','Wallet balance')}</span><b>${money(S.tokenWalletBalance)} <small>MAAT</small></b></div><div class="tk-balance-row"><span>${t('Agent 可用余额','Agent balance')}</span><b>${money(S.tokenProjectBalance)} <small>MAAT</small></b></div><button class="tk-full-link" data-action="token-consumption-details"><span>${t('Agent 消耗详情','Agent consumption')}</span>${icon('arrow','',15)}</button></article>`;
   }
   function buyback(){
-    const {t,money}=U,isBurn=S.tokenHistoryTab==='burn',s=stats(),pct=(s.ratio*100).toFixed(2);
-    return `<article class="panel tk-burn"><div class="panel-head"><h2>Buyback &amp; Burn</h2>${icon('leaf','',20)}</div><div class="tk-burn-metrics"><div><span class="label">${t('初始发行总量','Initial supply')}</span><strong>21,000,000</strong><small>MAAT</small></div><div><span class="label">${t('累计销毁量','Total burned')}</span><strong>${money(s.burned,false,0)}</strong><small>MAAT</small></div><div><span class="label">${t('当前总供应量','Current total supply')}</span><strong>${money(s.total,false,0)}</strong><small>MAAT</small></div></div><div class="tk-supply-label"><span>${t('累计销毁占初始发行量','Burned of initial supply')}</span><span>${pct}%</span></div><div class="tk-supply-track" role="img" aria-label="${t('累计销毁','Burned')} ${pct}%"><span style="width:${Math.max(1,s.ratio*100)}%"></span></div><div class="tk-history-tabs" role="tablist">${[['burn',t('最近销毁记录','Recent burns')],['buyback',t('最近回购记录','Recent buybacks')]].map(([id,label])=>`<button role="tab" aria-selected="${S.tokenHistoryTab===id}" class="${S.tokenHistoryTab===id?'active':''}" data-action="token-history" data-value="${id}">${label}</button>`).join('')}</div><div class="tk-history-columns"><span>${isBurn?t('销毁时间','Burn time'):t('回购时间','Buyback time')}</span><span>${t('数量 / 来源','Amount / Source')}</span><span>${t('链上记录','Explorer')}</span></div><div class="tk-history-list">${history(isBurn?'burn':'buyback').map(r=>`<div class="tk-history-row"><time>${U.stamp(r.at)}</time><span><b>${money(r.amount,false,0)} MAAT</b><small>${isBurn?t('交易税','Trading tax'):t('托管费回购','Custody-fee buyback')}</small></span><span class="tk-history-link" aria-hidden="true">${icon('external','',13)}</span></div>`).join('')}</div></article>`;
+    const {t,money}=U,isBurn=S.tokenHistoryTab==='burn',s=stats();
+    return `<article class="panel tk-burn"><div class="panel-head"><h2>Buyback &amp; Burn</h2>${icon('leaf','',20)}</div><div class="tk-burn-metrics four"><div><span class="label">${t('初始发行总量','Initial supply')}</span><strong>21,000,000</strong><small>MAAT</small></div><div><span class="label">${t('当前流通量','Circulating supply')}</span><strong>${money(s.circulating,false,0)}</strong><small>MAAT</small></div><div><span class="label">${t('累计回购量','Total bought back')}</span><strong>${money(s.bought,false,0)}</strong><small>MAAT</small></div><div><span class="label">${t('累计销毁量','Total burned')}</span><strong>${money(s.burned,false,0)}</strong><small>MAAT</small></div></div><div class="tk-history-tabs" role="tablist">${[['burn',t('最近销毁记录','Recent burns')],['buyback',t('最近回购记录','Recent buybacks')]].map(([id,label])=>`<button role="tab" aria-selected="${S.tokenHistoryTab===id}" class="${S.tokenHistoryTab===id?'active':''}" data-action="token-history" data-value="${id}">${label}</button>`).join('')}</div><div class="tk-history-columns"><span>${isBurn?t('销毁时间','Burn time'):t('回购时间','Buyback time')}</span><span>${t('数量 / 来源','Amount / Source')}</span><span>${t('链上记录','Explorer')}</span></div><div class="tk-history-list">${history(isBurn?'burn':'buyback').map(r=>`<div class="tk-history-row"><time>${U.stamp(r.at)}</time><span><b>${money(r.amount,false,0)} MAAT</b><small>${isBurn?t('交易税','Trading tax'):t('托管费回购','Custody-fee buyback')}</small></span><span class="tk-history-link" aria-hidden="true">${icon('external','',13)}</span></div>`).join('')}</div></article>`;
   }
   function allocation(){
     const {t,money}=U;
@@ -145,13 +165,14 @@ window.Tokenomics=(()=>{
     if(e.target.id==='token-swap-amount'){S.tokenSwapAmount=Number(e.target.value);updateQuote()}
     if(e.target.id==='token-deposit-amount'){const error=document.getElementById('token-deposit-error');if(error)error.textContent=''}
     if(e.target.id==='token-chart-cursor'){
-      const i=Number(e.target.value);S.tokenChartPoint=i;const values=ranges[S.tokenRange],min=Math.min(...values)-.0005,max=Math.max(...values)+.0005,x=8+i*304/11,y=136-(values[i]-min)/(max-min)*113;
-      document.getElementById('token-chart-time').textContent=historyLabel(i);document.getElementById('token-chart-price').textContent=U.money(values[i],false,4)+' USDC';
-      const guide=document.getElementById('token-chart-guide');guide?.setAttribute('x1',x);guide?.setAttribute('x2',x);const dot=document.getElementById('token-chart-dot');dot?.setAttribute('cx',x);dot?.setAttribute('cy',y);
+      const i=Number(e.target.value);S.tokenChartPoint=i;const g=geometry(),c=g.cs[i];if(!c)return;
+      const cap=document.querySelector('.tk-chart-caption');if(cap)cap.innerHTML=caption(i);
+      const v=document.getElementById('token-chart-guide');v?.setAttribute('x1',g.x(i));v?.setAttribute('x2',g.x(i));
+      const h=document.getElementById('token-chart-hguide');h?.setAttribute('y1',g.y(c.c));h?.setAttribute('y2',g.y(c.c));
     }
   }
   const actions={
-    'token-range':range=>{if(!ranges[range])return;S.tokenRange=range;S.tokenChartPoint=11;render({preserve:true})},
+    'token-range':range=>{if(!ranges[range])return;S.tokenRange=range;S.tokenChartPoint=N-1;render({preserve:true})},
     'token-history':tab=>{if(!['burn','buyback'].includes(tab))return;S.tokenHistoryTab=tab;render({preserve:true})},
     'token-reverse':()=>{S.tokenSwapReverse=!S.tokenSwapReverse;S.tokenSwapAmount=0;render({preserve:true});document.getElementById('token-swap-amount')?.focus({preventScroll:true})},
     'token-slippage':()=>sheet(U.t('滑点容忍度','Slippage tolerance'),`<div class="tk-slippage">${[.1,.5,1].map(x=>`<button class="btn ${S.tokenSlippage===x?'primary':'secondary'}" data-action="token-set-slippage" data-value="${x}">${x}%</button>`).join('')}</div>`),

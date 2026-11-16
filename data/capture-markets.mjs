@@ -43,7 +43,7 @@ for (const m of selected) {
   markets.push({id:m.id,question:m.question,slug:m.slug,eventSlug:m.events?.[0]?.slug||m.slug,eventTitle:m.events?.[0]?.title||m.question,conditionId:m.conditionId,clobTokenIds:arr(m.clobTokenIds),outcomes:arr(m.outcomes),outcomePrices:arr(m.outcomePrices).map(Number),liquidity:Number(m.liquidityNum),liquidityNum:Number(m.liquidityNum),volume24hr:Number(m.volume24hr||0),volume:Number(m.volumeNum||m.volume||0),image:m.image,icon:m.icon,tags:tags.map(t=>({id:t.id,label:t.label,slug:t.slug})),active:m.active,closed:m.closed,acceptingOrders:m.acceptingOrders,endDate:m.endDate,updatedAt:m.updatedAt,spread:Number.isFinite(Number(m.spread))?Number(m.spread):null,bestBid:Number.isFinite(Number(m.bestBid))?Number(m.bestBid):null,bestAsk:Number.isFinite(Number(m.bestAsk))?Number(m.bestAsk):null,oneDayPriceChange:Number.isFinite(Number(m.oneDayPriceChange))?Number(m.oneDayPriceChange):null,localImage:await saveImage(m),fetchedAt:new Date().toISOString(),sourceUrl:'https://polymarket.com/event/'+(m.events?.[0]?.slug||m.slug),eligibility:'prototype-threshold-only'});
 }
 const orderBooks=[];const trades=[];const errors=[];
-for (const [i,market] of markets.slice(0,15).entries()) {
+for (const [i,market] of markets.slice(0,24).entries()) { // 最近成交 shows the latest trade of 20 events
   if(i<3)try {
     const tokenId=market.clobTokenIds[0];
     const b=await read('https://clob.polymarket.com/book?token_id='+encodeURIComponent(tokenId));

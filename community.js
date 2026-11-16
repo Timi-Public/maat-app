@@ -4,8 +4,8 @@
    Total rewards are always the sum of the three reward lines. */
 window.Community=(()=>{
   const demo={
-    settled:{level:'G2',daily:186000,diff:1380,direct:720,fee:300,invites:18,members:126},
-    current:{level:'G2',daily:68000,next:'G3',target:300000}
+    settled:{level:'T2',daily:186000,diff:1380,direct:720,fee:300,invites:18,members:126},
+    current:{level:'T2',daily:68000,next:'T3',target:300000}
   };
   const payDay=5;
   const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -25,13 +25,13 @@ window.Community=(()=>{
     const cell=(label,value,unit)=>`<div><span class="cm-label">${label}</span><b>${value}${unit?` <small>${unit}</small>`:''}</b></div>`;
     return `<article class="panel community-card" data-card="community"><div class="panel-head"><div class="row">${icon('users','',20)}<h2>Community & Rewards</h2></div></div>`
       +`<section class="cm-period"><div class="between"><h3>${monthName(p.last)}</h3><span class="cm-state">${icon('check','',13)}${t('已核定','Verified')}</span></div>`
-      +`<div class="cm-main"><div class="cm-level"><b>${s.level}</b><span>${t('社区等级','Level')}</span></div><div class="cm-stack">`
+      +`<div class="cm-main"><div class="cm-level"><span class="cm-badge"><b>${s.level}</b></span><span>${t('社区等级','Level')}</span></div><div class="cm-stack">`
       +`<div><span class="cm-label">${t('日均社区业绩','Daily community volume')}</span><strong>${volume(s.daily)} <small>USDC</small></strong></div>`
       +`<div><span class="cm-label">${t('总奖励','Total rewards')}</span><div class="cm-reward-line"><strong data-community="total">${reward(total)} <small>MAAT</small></strong><span class="cm-payout${p.paid?' paid':''}">${p.paid?icon('check','',12):''}${payout}</span></div></div></div></div>`
       +`<div class="cm-grid three">${cell(t('社区级差奖励','Differential'),reward(s.diff),'MAAT')}${cell(t('直属奖励','Direct'),reward(s.direct),'MAAT')}${cell(t('托管手续费分成','Custody fee share'),reward(s.fee),'MAAT')}</div>`
       +`</section>`
       +`<section class="cm-period current"><div class="between"><h3>${monthName(p.month)}</h3><span class="cm-state live"><i></i>${t('考核中','In progress')}</span></div>`
-      +`<div class="cm-main"><div class="cm-level"><b>${c.level}</b><span>${t('社区等级','Level')}</span></div><div class="cm-stack">`
+      +`<div class="cm-main"><div class="cm-level"><span class="cm-badge"><b>${c.level}</b></span><span>${t('社区等级','Level')}</span></div><div class="cm-stack">`
       +`<div><span class="cm-label">${t('日均社区业绩','Daily community volume')}</span><strong>${volume(c.daily)} <small>USDC</small></strong></div>`
       +`<div><span class="cm-label">${t('下一等级','Next level')}</span><p class="cm-next"><b>${c.next}</b>${volume(c.target)} USDC</p></div></div></div>`
       +`<div><div class="between cm-progress-head"><span>${t('考核进度','Progress')}</span><b>${p.day} / ${p.days} ${t('天','days')}</b></div><div class="cm-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${p.days}" aria-valuenow="${p.day}"><span style="width:${(p.day/p.days*100).toFixed(1)}%"></span></div><p class="cm-left">${t(`剩余 ${p.left} 天`,`${p.left} days left`,{vi:`Còn ${p.left} ngày`,ko:`${p.left}일 남음`})}</p></div></section>`

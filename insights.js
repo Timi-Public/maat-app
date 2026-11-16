@@ -33,7 +33,7 @@ window.Insights = (() => {
     const list = U.featured().slice(0, 6), span = 5;
     return `<article class="panel ins-edge" data-card="model-vs-market">
       <div class="panel-head"><h2>Model vs Market</h2></div>
-      <div class="ins-edge-head"><span>${t('市场隐含 → 模型估计（YES）', 'Market → model (YES)')}</span><span>NO</span><span>YES</span><span>${t('偏差', 'Edge')}</span></div>
+      <div class="ins-edge-head"><span>${t('隐含概率 → 模型概率（YES）', 'Implied → model (YES)')}</span><span>NO</span><span>YES</span><span>${t('偏差', 'Edge')}</span></div>
       ${list.map(m => {
         const a = Number(m.prices[0]) * 100, b = Engine.model(m) * 100, e = Engine.edge(m), w = Math.min(1, Math.abs(e) / span) * 50;
         return `<div class="ins-edge-row">
@@ -51,7 +51,7 @@ window.Insights = (() => {
   }
 
   function breakdown() {
-    const set = Engine.signalSet();
+    const set = Engine.signalSet(6); // Leo PRD 11-14 §4: 6 events
     if (!set.some(m => m.id === S.insightMarket)) S.insightMarket = set[0]?.id;
     const m = set.find(x => x.id === S.insightMarket) || set[0];
     if (!m) return '';
@@ -74,8 +74,8 @@ window.Insights = (() => {
       </div>
       <div class="ins-probs">
         <span></span><span class="yes-label">YES</span><span class="no-label">NO</span>
-        <span class="muted">${t('市场隐含', 'Market')}</span><b>${mk.yes}%</b><b>${mk.no}%</b>
-        <span class="muted">${t('模型估计', 'Model')}</span><b class="${Engine.edge(m) > 0 ? 'accent' : ''}">${p.yes}%</b><b class="${Engine.edge(m) > 0 ? '' : 'accent'}">${p.no}%</b>
+        <span class="muted">${t('隐含概率', 'Implied')}</span><b>${mk.yes}%</b><b>${mk.no}%</b>
+        <span class="muted">${t('模型概率', 'Model')}</span><b class="${Engine.edge(m) > 0 ? 'accent' : ''}">${p.yes}%</b><b class="${Engine.edge(m) > 0 ? '' : 'accent'}">${p.no}%</b>
       </div>
       <div class="ins-factors">${rows.map(([key, label, value, src]) => `<div class="ins-factor">
         <div class="between"><span>${label}<small>${src}</small></span><b>${value}</b></div>

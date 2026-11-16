@@ -161,15 +161,14 @@ function SignalRow({ signal }) {
   </article>;
 }
 
-function LiveMarketActivity() {
-  const [activeTab, setActiveTab] = useState("交易动态");
+function LiveMarketActivity({ activeTab = "交易动态", onTabChange = () => {} }) {
   const tabs = ["交易动态", "交易信号", "流动性"];
   const trades = liveTrades.map((trade, index) => ({ ...trade, key: `${trade.wallet}-${index}` }));
 
   return <section className="maat-live-market-card" aria-label="实时市场动态">
     <h2>Live Market Activity</h2>
     <div className="maat-live-market-tabs" role="tablist" aria-label="市场活动类型">
-      {tabs.map((tab) => <button key={tab} type="button" role="tab" aria-selected={activeTab === tab} className={activeTab === tab ? "is-active" : ""} onClick={() => setActiveTab(tab)}>{tab}</button>)}
+      {tabs.map((tab, index) => <button key={tab} type="button" role="tab" data-node-id={`maat-live-market-tab-${index}`} data-maat-tab={tab} aria-selected={activeTab === tab} className={activeTab === tab ? "is-active" : ""} onClick={(event) => { event.preventDefault(); event.stopPropagation(); onTabChange(tab); }}>{tab}</button>)}
     </div>
     <div className={`maat-live-market-viewport tab-${activeTab === "交易信号" ? "signals" : activeTab === "流动性" ? "liquidity" : "trades"}`} role="tabpanel" aria-label={`${activeTab}，自动滚动`}>
       {activeTab === "交易动态" && <div className="maat-live-market-track maat-trades-track">
@@ -193,7 +192,7 @@ function LiveMarketActivity() {
   </section>;
 }
 
-export default function Component() {
+export default function Component({ selectedTabs = {}, onTabChange }) {
   return (
     <div className="bg-white relative size-full" data-node-id="208:10684" data-name="首页">
       <div className="absolute bg-black h-[4092px] left-0 top-0 w-[375px]" data-node-id="208:10685" />
@@ -269,7 +268,7 @@ export default function Component() {
           </div>
         </div>
       </div>
-      <LiveMarketActivity />
+      <LiveMarketActivity activeTab={selectedTabs.home || "交易动态"} onTabChange={onTabChange} />
       <div className="-translate-x-1/2 absolute bg-[#141414] left-[calc(50%-135.5px)] rounded-[6px] size-[34px] top-[2059px]" data-node-id="208:10719" />
       <div className="-translate-x-1/2 absolute bg-[#141414] left-[calc(50%-135.5px)] rounded-[6px] size-[34px] top-[2145px]" data-node-id="208:10720" />
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[84px] text-[12px] text-white top-[1887px] whitespace-nowrap" data-node-id="208:10721" style={{ fontVariationSettings: '"wdth" 100' }}>

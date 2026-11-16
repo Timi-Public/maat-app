@@ -449,7 +449,12 @@ function App() {
       <div className="screen-viewport" key={route}>
         <div className="screen-frame-wrap" style={{height:screen.height+'px'}}>
           <div id="maat-frame" className="screen-frame" style={{height:screen.height+'px'}} onClick={onFrameClick} onKeyDown={onFrameKeyDown}>
-            <Current go={go} onBack={() => go(guideBackRouteRef.current || 'home')} />
+            <Current
+              go={go}
+              onBack={() => go(guideBackRouteRef.current || 'home')}
+              selectedTabs={selectedTabs}
+              onTabChange={(label) => setSelectedTabs((current) => ({ ...current, [route]:label }))}
+            />
             {route !== 'guide' && <button className="maat-language-trigger" type="button" aria-label="选择语言" aria-haspopup="menu" aria-expanded={languageOpen} onClick={() => setLanguageOpen((open) => !open)} />}
           </div>
         </div>

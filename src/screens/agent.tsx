@@ -22,9 +22,6 @@ import imgGroup5 from "../../public/assets/figma/81acd.svg";
 import imgGroup7 from "../../public/assets/figma/157ae.svg";
 import imgGroup8 from "../../public/assets/figma/51334.svg";
 import imgVector from "../../public/assets/figma/e86e0.svg";
-import imgVector7 from "../../public/assets/figma/9983b.svg";
-import imgVector8 from "../../public/assets/figma/d7fb3.svg";
-import imgVector9 from "../../public/assets/figma/b4139.svg";
 import imgVector1 from "../../public/assets/figma/73cef.svg";
 import imgGroup45 from "../../public/assets/figma/2916d.svg";
 import imgGroup56 from "../../public/assets/figma/44cec.svg";
@@ -38,7 +35,18 @@ import imgGroup84 from "../../public/assets/figma/a3e9a.svg";
 import imgBattery from "../../public/assets/figma/3d361.svg";
 import imgWifi from "../../public/assets/figma/52928.svg";
 import imgCellularConnection from "../../public/assets/figma/fd94c.svg";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const initialMarketLines = [
+  { color: '#35b15a', points: [17.1,21,18.1,18.1,20.1,19.1,1,2.5,2.5,10.3,10.3,7.9,7.9,11.8,9.8,9.8] },
+  { color: '#ff406b', points: [14.6,14.6,12.6,18.7,16.2,17.2,21.3,15.7,17.2,17.2,1.3,4.4,4.4,9.5,9.5,12.6,16.7,18.7,14.6,20.8,20.8] },
+  { color: '#35b15a', points: [20.8,20.8,4.2,2.2,2.2,2.2,.75,.75,2.2,1.7,2.7,2.7,4.2,3.2] },
+];
+
+function MarketSparkline({ points, color }: { points: number[]; color: string }) {
+  const coordinates = points.map((point, index) => `${(index / (points.length - 1)) * 84.9},${point}`).join(' ');
+  return <svg className="absolute inset-0 size-full overflow-visible" viewBox="0 0 84.9 22.5" preserveAspectRatio="none" aria-label="模拟实时市场波动" role="img"><polyline points={coordinates} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+}
 
 function AgentMetricCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -86,6 +94,19 @@ function AgentMetricCarousel() {
 
 export default function Component() {
   const [custodyMode, setCustodyMode] = useState(false);
+  const [marketLines, setMarketLines] = useState(initialMarketLines);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => {
+      setMarketLines((lines) => lines.map((line) => {
+        const last = line.points[line.points.length - 1];
+        const next = Math.max(1, Math.min(21, last + (Math.random() - 0.49) * 5));
+        return { ...line, points: [...line.points.slice(1), next] };
+      }));
+    }, 1100);
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
     <div className="bg-white relative size-full" data-node-id="208:11137" data-name="智能交易·总览">
@@ -624,19 +645,13 @@ export default function Component() {
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} />
       </div>
       <div className="absolute h-[20px] left-[256px] top-[2118px] w-[84px]" data-node-id="228:15358">
-        <div className="absolute inset-[-6.49%_0_-6.05%_0]">
-          <img alt="" className="block max-w-none size-full" src={imgVector7} />
-        </div>
+        <MarketSparkline points={marketLines[1].points} color={marketLines[1].color} />
       </div>
       <div className="absolute h-[20px] left-[256px] top-[2015px] w-[84px]" data-node-id="228:15359">
-        <div className="absolute inset-[-5.24%_-0.43%_-5.2%_-0.66%]">
-          <img alt="" className="block max-w-none size-full" src={imgVector8} />
-        </div>
+        <MarketSparkline points={marketLines[0].points} color={marketLines[0].color} />
       </div>
       <div className="absolute h-[20px] left-[256px] top-[2207px] w-[84px]" data-node-id="228:15360">
-        <div className="absolute inset-[-3.75%_-0.21%_-3.75%_0]">
-          <img alt="" className="block max-w-none size-full" src={imgVector9} />
-        </div>
+        <MarketSparkline points={marketLines[2].points} color={marketLines[2].color} />
       </div>
       <div className="-translate-y-1/2 absolute aspect-[186.3157958984375/186.3157958984375] left-[54.67%] right-[41.07%] top-[calc(50%-1161.5px)]" data-node-id="228:15361" data-name="Vector">
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector1} />

@@ -125,6 +125,74 @@ function OverviewCarousel() {
   </>;
 }
 
+const liveTrades = [
+  { wallet: "0x1360...1f20", time: "11-03 00:49:15", side: "卖出", amount: "108.00", outcome: "NO · $0.24" },
+  { wallet: "0x92a8...5123", time: "11-03 00:44:24", side: "卖出", amount: "312.00", outcome: "NO · $0.24" },
+  { wallet: "0x7162...7537", time: "11-03 00:42:57", side: "买入", amount: "500.00", outcome: "NO · $0.25" },
+  { wallet: "0xb69b...0ccd", time: "11-03 00:34:15", side: "买入", amount: "1.30", outcome: "NO · $0.25" },
+];
+const liveSignals = [
+  { market: "Will the Iranian regime fall before 2027?", yes: "4.5%", no: "95.5%", estimateYes: "9.3%", estimateNo: "90.7%", score: 81, time: "11-16 12:11 UTC+8", avatar: "iran" },
+  { market: "Will David Lisnard win the 2027 French presidential election?", yes: "15.8%", no: "84.2%", estimateYes: "11.2%", estimateNo: "88.8%", score: 80, time: "11-16 12:08 UTC+8", avatar: "david" },
+];
+const liveLiquidity = [
+  { market: "US announces end of Iranian blockade by December 31, 2026?", status: "流动性服务已结束", tone: "neutral" },
+  { market: "Will the US confirm that aliens exist before 2027?", status: "流动性服务已结算", tone: "blue" },
+  { market: "Will the US confirm that aliens exist before 2027?", status: "流动性服务已开始", tone: "green" },
+];
+
+function IranFlag() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true" className="maat-signal-iran-flag"><rect width="24" height="8" fill="#d92732"/><rect y="8" width="24" height="8" fill="#fff"/><rect y="16" width="24" height="8" fill="#239b56"/><path d="M12 9.3c-1 1.6-1 3.8 0 5.4m0-5.4c1 1.6 1 3.8 0 5.4m-2-2.7h4" fill="none" stroke="#d92732" strokeWidth=".8"/></svg>;
+}
+
+function SignalRow({ signal }) {
+  return <article className="maat-home-signal-row">
+    <div className="maat-home-signal-heading">
+      {signal.avatar === "iran" ? <IranFlag /> : <img className="maat-signal-david" src={imgMayorOfCannesDavidLisnardDeliversASpeechDuringACeremonyToR1} alt="" />}
+      <strong>{signal.market}</strong>
+    </div>
+    <div className="maat-home-signal-direction"><span>交易方向</span><b className="yes-pill">YES</b><b className="no-pill">NO</b></div>
+    <div className="maat-home-signal-metrics">
+      <span>隐含概率</span><strong>{signal.yes}</strong><strong>{signal.no}</strong>
+      <span>模型估计概率</span><strong className="model-blue">{signal.estimateYes}</strong><strong>{signal.estimateNo}</strong>
+      <span>模型信号评分</span><span className="signal-score"><i style={{ width: `${signal.score}%` }} /></span><strong className="score-number">{signal.score} / 100</strong>
+    </div>
+    <div className="maat-home-signal-time">信号生成时间&nbsp; {signal.time}</div>
+  </article>;
+}
+
+function LiveMarketActivity() {
+  const [activeTab, setActiveTab] = useState("交易动态");
+  const tabs = ["交易动态", "交易信号", "流动性"];
+  const trades = liveTrades.map((trade, index) => ({ ...trade, key: `${trade.wallet}-${index}` }));
+
+  return <section className="maat-live-market-card" aria-label="实时市场动态">
+    <h2>Live Market Activity</h2>
+    <div className="maat-live-market-tabs" role="tablist" aria-label="市场活动类型">
+      {tabs.map((tab) => <button key={tab} type="button" role="tab" aria-selected={activeTab === tab} className={activeTab === tab ? "is-active" : ""} onClick={() => setActiveTab(tab)}>{tab}</button>)}
+    </div>
+    <div className={`maat-live-market-viewport tab-${activeTab === "交易信号" ? "signals" : activeTab === "流动性" ? "liquidity" : "trades"}`} role="tabpanel" aria-label={`${activeTab}，自动滚动`}>
+      {activeTab === "交易动态" && <div className="maat-live-market-track maat-trades-track">
+        {[...trades, ...trades].map((trade, index) => <article className="maat-home-trade-row" key={`${trade.key}-${index}`}>
+          <div className="trade-wallet"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1 6 3.5v7L8 15l-6-3.5v-7L8 1Z"/><path d="m2 4.5 6 3.6 6-3.6M8 8.1V15"/></svg><strong>{trade.wallet}</strong><time>{trade.time}</time></div>
+          <div className="trade-info"><span className={trade.side === "买入" ? "buy" : "sell"}>{trade.side}</span><small>{trade.outcome}</small></div>
+          <strong className={`trade-amount ${trade.side === "买入" ? "buy" : "sell"}`}>{trade.amount}</strong>
+        </article>)}
+      </div>}
+      {activeTab === "交易信号" && <div className="maat-live-market-track maat-signals-track">
+        {[...liveSignals, ...liveSignals].map((signal, index) => <SignalRow key={`${signal.avatar}-${index}`} signal={signal} />)}
+      </div>}
+      {activeTab === "流动性" && <div className="maat-live-market-track maat-liquidity-track">
+        {[...liveLiquidity, ...liveLiquidity].map((item, index) => <article className="maat-home-liquidity-row" key={`${item.status}-${index}`}>
+          <span className={`liquidity-dot ${item.tone}`} />
+          <div><time>11-09 03:11 UTC+8</time><strong>{item.market}</strong><em className={item.tone}>{item.status}</em></div>
+        </article>)}
+      </div>}
+    </div>
+    <div className="maat-live-market-footer"><span>查看完整交易数据</span><button type="button" aria-label="查看完整交易数据"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M10 2h6v6M16 2 8 10M14 10v5H3V4h5"/></svg></button></div>
+  </section>;
+}
+
 export default function Component() {
   return (
     <div className="bg-white relative size-full" data-node-id="208:10684" data-name="首页">
@@ -201,10 +269,7 @@ export default function Component() {
           </div>
         </div>
       </div>
-      <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[259px] left-1/2 rounded-[16px] top-[2295px] w-[335px]" data-node-id="208:10717" />
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[16px] left-[35px] text-[14px] text-white top-[2315px] whitespace-nowrap" data-node-id="208:10718" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Live Market Activity
-      </p>
+      <LiveMarketActivity />
       <div className="-translate-x-1/2 absolute bg-[#141414] left-[calc(50%-135.5px)] rounded-[6px] size-[34px] top-[2059px]" data-node-id="208:10719" />
       <div className="-translate-x-1/2 absolute bg-[#141414] left-[calc(50%-135.5px)] rounded-[6px] size-[34px] top-[2145px]" data-node-id="208:10720" />
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[84px] text-[12px] text-white top-[1887px] whitespace-nowrap" data-node-id="208:10721" style={{ fontVariationSettings: '"wdth" 100' }}>
@@ -369,32 +434,14 @@ export default function Component() {
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[82px] text-[12px] text-white top-[2145px] whitespace-nowrap" data-node-id="208:10783" style={{ fontVariationSettings: '"wdth" 100' }}>
         Execution Engine
       </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Bold'] font-bold leading-[14px] left-[calc(50%-47.5px)] text-[12px] text-white top-[2422px] whitespace-nowrap" data-node-id="208:10784" style={{ fontVariationSettings: '"wdth" 100' }}>
-        等待交易数据接入
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[35px] text-[12px] text-white top-[2520px] whitespace-nowrap" data-node-id="208:10785" style={{ fontVariationSettings: '"wdth" 100' }}>
-        查看完整交易数据
-      </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-105.5px)] text-[#c1c1c1] text-[10px] top-[2167px] uppercase whitespace-nowrap" data-node-id="208:10786" style={{ fontVariationSettings: '"wdth" 100' }}>
         自动交易执行
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[82px] text-[#c1c1c1] text-[10px] top-[2189px] uppercase w-[256px]" data-node-id="208:10787" style={{ fontVariationSettings: '"wdth" 100' }}>
         统一管理订单提交、成交跟踪、撤单与交易结果核算
       </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-114.5px)] text-[#c1c1c1] text-[10px] top-[2446px] uppercase whitespace-nowrap" data-node-id="208:10788" style={{ fontVariationSettings: '"wdth" 100' }}>
-        已确认的预测市场成交记录将在这里按时间顺序展示
-      </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[35px] text-[12px] text-white top-[2236px] whitespace-nowrap" data-node-id="208:10789" style={{ fontVariationSettings: '"wdth" 100' }}>
         探索智能分析与引擎监控
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[35px] text-[#2a73fd] text-[12px] top-[2351px] whitespace-nowrap" data-node-id="208:10790" style={{ fontVariationSettings: '"wdth" 100' }}>
-        交易动态
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[135px] text-[#c1c1c1] text-[12px] top-[2351px] whitespace-nowrap" data-node-id="208:10791" style={{ fontVariationSettings: '"wdth" 100' }}>
-        交易信号
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[14px] left-[241px] text-[#c1c1c1] text-[12px] top-[2351px] whitespace-nowrap" data-node-id="208:10792" style={{ fontVariationSettings: '"wdth" 100' }}>
-        流动性
       </p>
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[260px] left-1/2 rounded-[16px] top-[3482px] w-[335px]" data-node-id="208:10793" />
       <div className="-translate-x-1/2 absolute bg-white left-[calc(50%-135.5px)] rounded-[6px] size-[34px] top-[3502px]" data-node-id="208:10794" />
@@ -493,11 +540,6 @@ export default function Component() {
         </div>
       </div>
       <div className="absolute h-0 left-[35px] top-[2500px] w-[305px]" data-node-id="208:10827">
-        <div className="absolute inset-[-1px_0_0_0]">
-          <img alt="" className="block max-w-none size-full" src={imgLine3} />
-        </div>
-      </div>
-      <div className="absolute h-0 left-[35px] top-[2380px] w-[305px]" data-node-id="208:10828">
         <div className="absolute inset-[-1px_0_0_0]">
           <img alt="" className="block max-w-none size-full" src={imgLine3} />
         </div>
@@ -916,7 +958,6 @@ export default function Component() {
       <div className="absolute left-[43px] size-[17.647px] top-[2685px]" data-node-id="208:10948" data-name="image 67">
         <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgImage67} />
       </div>
-      <div className="absolute bg-[#2967ff] h-[2px] left-[35px] top-[2377px] w-[48px]" data-node-id="208:10949" />
       <div className="absolute h-[122px] left-[35px] overflow-clip top-[357px] w-[305px]" data-node-id="208:10950" data-name="flow-cycle 1">
         <div className="absolute inset-[6.06%_2.79%_16.36%_4.85%]" data-node-id="208:10951" data-name="Frame">
           <div className="absolute inset-[-1.14%_-0.22%_-1.45%_-0.16%]">
@@ -1094,9 +1135,6 @@ export default function Component() {
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup36} />
       </div>
       <div className="absolute left-[316px] size-[24px] top-[1343px]" data-node-id="208:11097">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup36} />
-      </div>
-      <div className="absolute left-[316px] size-[24px] top-[2515px]" data-node-id="208:11102">
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup36} />
       </div>
       <div className="absolute left-[316px] size-[24px] top-[3202px]" data-node-id="208:11107">

@@ -30,6 +30,26 @@ import imgBattery from "../../public/assets/figma/3d361.svg";
 import imgWifi from "../../public/assets/figma/52928.svg";
 import imgCellularConnection from "../../public/assets/figma/fd94c.svg";
 
+const recentLiquidityItems = [
+  { title: 'US announces end of Iranian blockade by December 31, 2026?', status: '流动性服务已结束', tone: 'neutral' },
+  { title: 'Will the US confirm that aliens exist before 2027?', status: '流动性服务已结算', tone: 'blue' },
+  { title: 'Will the US confirm that aliens exist before 2027?', status: '流动性服务已开始', tone: 'green' },
+];
+
+function RecentLiquidityActivity() {
+  return <div className="maat-recent-liquidity-viewport" role="region" aria-label="近期流动性活动，自动滚动">
+    <div className="maat-recent-liquidity-rail" aria-hidden="true" />
+    <div className="maat-recent-liquidity-track">
+      {[...recentLiquidityItems, ...recentLiquidityItems].map((item, index) => <article className="maat-recent-liquidity-item" key={`${item.status}-${index}`}>
+        <img className="maat-recent-liquidity-dot" src={imgGroup51} alt="" />
+        <time>11-09 03:11 UTC+8</time>
+        <strong>{item.title}</strong>
+        <span className={`maat-recent-liquidity-status ${item.tone}`}>{item.status}</span>
+      </article>)}
+    </div>
+  </div>;
+}
+
 export default function DiscoverOverflowBehavior() {
   return (
     <div className="bg-white relative size-full" data-node-id="208:12188" data-name="Discover (overflow behavior)">
@@ -77,18 +97,10 @@ export default function DiscoverOverflowBehavior() {
         Liquidity Service
       </p>
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[404px] left-1/2 rounded-[16px] top-[2193px] w-[335px]" data-node-id="208:12209" />
-      <div className="absolute flex h-[228px] items-center justify-center left-[41.5px] top-[2259px] w-0" data-node-id="208:12210">
-        <div className="flex-none rotate-90">
-          <div className="h-0 relative w-[228px]">
-            <div className="absolute inset-[-0.5px_0]">
-              <img alt="" className="block max-w-none size-full" src={imgLine27} />
-            </div>
-          </div>
-        </div>
-      </div>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Semibold'] font-[590] leading-[14px] left-[35px] text-[14px] text-white top-[2213px] tracking-[-0.2344px] whitespace-nowrap" data-node-id="208:12211" style={{ fontVariationSettings: '"wdth" 100' }}>
         Recent Activity
       </p>
+      <RecentLiquidityActivity />
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[411px] left-1/2 rounded-[16px] top-[834px] w-[335px]" data-node-id="208:12212" />
       <div className="absolute h-[44px] left-[35px] rounded-[30px] top-[1181px] w-[305px]" data-node-id="208:12213" style={{ backgroundImage: "linear-gradient(62.335630528755885deg, rgb(41, 103, 255) 0%, rgb(47, 150, 247) 100%)" }} />
       <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[16px] left-[129px] text-[14px] text-white top-[1195px] whitespace-nowrap" data-node-id="208:12214" style={{ fontVariationSettings: '"wdth" 100' }}>
@@ -223,45 +235,6 @@ export default function DiscoverOverflowBehavior() {
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[14px] left-[calc(50%+104.5px)] text-[#c1c1c1] text-[12px] top-[1123px] uppercase whitespace-nowrap" data-node-id="208:12266" style={{ fontVariationSettings: '"wdth" 100' }}>
         盘口状态
-      </p>
-      <div className="absolute left-[35px] size-[12px] top-[2247px]" data-node-id="208:12267">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup51} />
-      </div>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-130.5px)] text-[#c1c1c1] text-[10px] top-[2247px] uppercase whitespace-nowrap" data-node-id="208:12270" style={{ fontVariationSettings: '"wdth" 100' }}>
-        11-09 03:11 UTC+8
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[18px] left-[calc(50%-130.5px)] text-[12px] text-white top-[2269px] w-[268px]" data-node-id="208:12271" style={{ fontVariationSettings: '"wdth" 100' }}>
-        US announces end of lranian blockade by December 31,2026?
-      </p>
-      <div className="absolute bg-[#2a2a2c] h-[22px] left-[57px] rounded-[20px] top-[2315px] w-[100px]" data-node-id="208:12272" />
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[calc(50%-120.5px)] text-[#c1c1c1] text-[10px] top-[2320px] uppercase whitespace-nowrap" data-node-id="208:12273" style={{ fontVariationSettings: '"wdth" 100' }}>
-        流动性服务已结束
-      </p>
-      <div className="absolute left-[35px] size-[12px] top-[2367px]" data-node-id="208:12274">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup51} />
-      </div>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-130.5px)] text-[#c1c1c1] text-[10px] top-[2367px] uppercase whitespace-nowrap" data-node-id="208:12277" style={{ fontVariationSettings: '"wdth" 100' }}>
-        11-09 03:11 UTC+8
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[18px] left-[calc(50%-130.5px)] text-[12px] text-white top-[2389px] w-[268px]" data-node-id="208:12278" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Will the US confirm that aliens exist before 2027?
-      </p>
-      <div className="absolute bg-[#162340] h-[22px] left-[57px] rounded-[20px] top-[2435px] w-[100px]" data-node-id="208:12279" />
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[calc(50%-120.5px)] text-[#2967ff] text-[10px] top-[2440px] uppercase whitespace-nowrap" data-node-id="208:12280" style={{ fontVariationSettings: '"wdth" 100' }}>
-        流动性服务已结算
-      </p>
-      <div className="absolute left-[35px] size-[12px] top-[2487px]" data-node-id="208:12281">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup51} />
-      </div>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-130.5px)] text-[#c1c1c1] text-[10px] top-[2487px] uppercase whitespace-nowrap" data-node-id="208:12284" style={{ fontVariationSettings: '"wdth" 100' }}>
-        11-09 03:11 UTC+8
-      </p>
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[18px] left-[calc(50%-130.5px)] text-[12px] text-white top-[2509px] w-[268px]" data-node-id="208:12285" style={{ fontVariationSettings: '"wdth" 100' }}>
-        Will the US confirm that aliens exist before 2027?
-      </p>
-      <div className="absolute bg-[#183120] h-[22px] left-[57px] rounded-[20px] top-[2555px] w-[100px]" data-node-id="208:12286" />
-      <p className="[word-break:break-word] absolute font-['SF_Pro:Medium'] font-[510] leading-[12px] left-[calc(50%-120.5px)] text-[#35b15a] text-[10px] top-[2560px] uppercase whitespace-nowrap" data-node-id="208:12287" style={{ fontVariationSettings: '"wdth" 100' }}>
-        流动性服务已开始
       </p>
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[90px] left-[calc(50%-87.5px)] rounded-[16px] top-[274px] w-[160px]" data-node-id="208:12288" />
       <div className="-translate-x-1/2 absolute bg-[#111] border border-[#262527] border-solid h-[90px] left-[calc(50%+87.5px)] rounded-[16px] top-[274px] w-[160px]" data-node-id="208:12289" />

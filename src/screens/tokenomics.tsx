@@ -7,7 +7,6 @@ import imgLine29 from "../../public/assets/figma/84433.svg";
 import imgPolygonLogoSvgRealCompanyAlphabetLetterPLogo1 from "../../public/assets/figma/f178a.svg";
 import imgMaskGroup from "../../public/assets/figma/a6657.svg";
 import imgEllipse14 from "../../public/assets/figma/3337a.svg";
-import imgGroup50 from "../../public/assets/figma/201b3.svg";
 import imgVector from "../../public/assets/figma/73cef.svg";
 import imgGroup45 from "../../public/assets/figma/2916d.svg";
 import imgGroup25 from "../../public/assets/figma/44cec.svg";
@@ -26,7 +25,29 @@ import imgVector3 from "../../public/assets/figma/e86e0.svg";
 import imgBattery from "../../public/assets/figma/3d361.svg";
 import imgWifi from "../../public/assets/figma/52928.svg";
 import imgCellularConnection from "../../public/assets/figma/fd94c.svg";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const initialPricePoints = [[.264,119.335],[27.539,111.705],[55.788,126.964],[83.063,103.122],[110.338,70.696],[137.612,82.14],[165.861,65.927],[193.136,45.9],[221.385,59.251],[247.685,29.687],[275.934,35.409],[304.183,23.964]] as [number, number][];
+
+function formatMarketTime(date: Date) {
+  const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(date);
+  const part = (type: string) => parts.find((item) => item.type === type)?.value ?? '00';
+  return `${part('month')}-${part('day')} ${part('hour')}:${part('minute')} UTC+8`;
+}
+
+function TokenPriceChart({ points }: { points: [number, number][] }) {
+  const line = points.map(([x, y], index) => `${index ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+  const area = `${line} L304.2 134 L.3 134 Z`;
+  const [lastX, lastY] = points[points.length - 1];
+  return <svg className="absolute inset-0 size-full" viewBox="0 0 305.3 134" preserveAspectRatio="none" aria-label="模拟实时 MAAT 价格变化曲线" role="img">
+    <defs><linearGradient id="maat-live-price-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#2967ff" stopOpacity=".27"/><stop offset="1" stopColor="#2967ff" stopOpacity="0"/></linearGradient></defs>
+    {[7.7,55.5,103.4].map((y) => <path key={y} d={`M.3 ${y}H304.3`} stroke="#262527" strokeDasharray="2.5 4" strokeWidth="1"/>)}
+    <path d="M304.3 1V134" stroke="#2f96f7" strokeDasharray="2 4" strokeWidth="1" opacity=".75"/>
+    <path d={area} fill="url(#maat-live-price-fill)"/>
+    <path d={line} fill="none" stroke="#2f96f7" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
+    <circle cx={lastX} cy={lastY} r="3.5" fill="#2f96f7"/>
+  </svg>;
+}
 
 function TokenomicsMetricCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -64,6 +85,24 @@ function TokenomicsMetricCarousel() {
 }
 
 export default function DiscoverOverflowBehavior() {
+  const [price, setPrice] = useState(0.0128);
+  const [pricePoints, setPricePoints] = useState(initialPricePoints);
+  const [marketTime, setMarketTime] = useState(() => formatMarketTime(new Date()));
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => {
+      setPrice((value) => Math.min(0.0132, Math.max(0.0124, value + (Math.random() - 0.5) * 0.00012)));
+      setPricePoints((points) => {
+        const [, previousY] = points[points.length - 1];
+        const nextY = Math.max(15, Math.min(127, previousY + (Math.random() - 0.5) * 26));
+        return [...points.slice(1).map(([, y], index) => [(index / (points.length - 1)) * 304.183, y] as [number, number]), [304.183, nextY]];
+      });
+      setMarketTime(formatMarketTime(new Date()));
+    }, 1400);
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <div className="bg-white relative size-full" data-node-id="208:11896" data-name="Discover (overflow behavior)">
       <div className="absolute contents left-0 top-0" data-node-id="208:11897" data-name="Mask group">
@@ -89,7 +128,7 @@ export default function DiscoverOverflowBehavior() {
         兑换率
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+42.5px)] text-[10px] text-white top-[915px] uppercase whitespace-nowrap" data-node-id="208:11911" style={{ fontVariationSettings: '"wdth" 100' }}>
-        1 MAAT = 0.0128 USDC
+        1 MAAT = {price.toFixed(4)} USDC
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[942px] uppercase whitespace-nowrap" data-node-id="208:11912" style={{ fontVariationSettings: '"wdth" 100' }}>
         MAAT 交易税
@@ -182,14 +221,14 @@ export default function DiscoverOverflowBehavior() {
         --
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Bold'] font-bold leading-[22px] left-[199px] text-[#34b15a] text-[20px] top-[239px] whitespace-nowrap" data-node-id="208:11939" style={{ fontVariationSettings: '"wdth" 100' }}>
-        0.0128
+        {price.toFixed(4)}
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+88.5px)] text-[#c1c1c1] text-[10px] top-[245px] uppercase whitespace-nowrap" data-node-id="208:11940" style={{ fontVariationSettings: '"wdth" 100' }}>
         USDC
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[0] left-[calc(50%-152.5px)] text-[#c1c1c1] text-[10px] top-[276px] uppercase whitespace-nowrap" data-node-id="208:11941" style={{ fontVariationSettings: '"wdth" 100' }}>
-        <span className="leading-[12px]">{`11-09 03:34 UTC+8 `}</span>
-        <span className="leading-[12px] text-white">0.0128 USDC</span>
+        <span className="leading-[12px]">{`${marketTime} `}</span>
+        <span className="leading-[12px] text-white">{price.toFixed(4)} USDC</span>
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%-125.5px)] text-[#c1c1c1] text-[10px] top-[245px] uppercase whitespace-nowrap" data-node-id="208:11942" style={{ fontVariationSettings: '"wdth" 100' }}>
         USDC
@@ -299,7 +338,7 @@ export default function DiscoverOverflowBehavior() {
         数据来源 Uniswap
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+25.5px)] text-[#c1c1c1] text-[10px] top-[513px] whitespace-nowrap" data-node-id="208:11979" style={{ fontVariationSettings: '"wdth" 100' }}>
-        更新于 11-03 00:53 UTC+8
+        更新于 {marketTime}
       </p>
       <p className="[word-break:break-word] absolute font-['SF_Pro:Regular'] font-normal leading-[12px] left-[calc(50%+66.5px)] text-[#c1c1c1] text-[10px] top-[696px] whitespace-nowrap" data-node-id="208:11980" style={{ fontVariationSettings: '"wdth" 100' }}>
         通过 Uniswap 执行
@@ -585,7 +624,7 @@ export default function DiscoverOverflowBehavior() {
       <div className="absolute bg-white left-[301px] rounded-[40px] size-[54px] top-[2849px]" data-node-id="208:12097" />
       <div className="-translate-x-1/2 absolute bg-white h-[4px] left-1/2 rounded-[10px] top-[2923px] w-[135px]" data-node-id="208:12098" />
       <div className="absolute inset-[10.49%_9.33%_84.95%_9.33%]" data-node-id="208:12099">
-        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup50} />
+        <TokenPriceChart points={pricePoints} />
       </div>
       <div className="-translate-y-1/2 absolute aspect-[186.3157958984375/186.3157958984375] left-[54.67%] right-[41.07%] top-[calc(50%-1394.5px)]" data-node-id="208:12105" data-name="Vector">
         <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} />

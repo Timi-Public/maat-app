@@ -281,3 +281,78 @@ button { font:inherit; }
 .maat-guide-data .maat-guide-link { margin-top:14px; }
 .maat-guide-link.is-quiet { font-size:13px; }
 @media(max-width:390px) { .maat-guide-page { padding-right:16px; padding-left:16px; } .maat-guide-header { padding-right:24px; padding-left:24px; } .maat-guide-flow { gap:6px; } .maat-guide-flow span { padding-right:10px; padding-left:10px; } }
+
+/* Compact live feed inside the home market activity card. */
+.maat-live-market-card { position:absolute; z-index:2; top:2295px; left:20px; display:flex; width:335px; height:259px; flex-direction:column; overflow:hidden; padding:16px 15px 0; border:1px solid #262527; border-radius:16px; background:#111; color:#f5f6f8; font-family:var(--font-sans),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+.maat-live-market-card h2 { flex:none; margin:0; color:#fff; font-size:14px; font-weight:600; line-height:18px; letter-spacing:-.2px; }
+.maat-live-market-tabs { display:flex; flex:none; height:42px; margin-top:9px; border-bottom:1px solid #2c2c2d; }
+.maat-live-market-tabs button { position:relative; display:flex; height:34px; flex:1; align-items:center; padding:0; border:0; background:transparent; color:#c1c1c1; text-align:left; font:600 12px/1 var(--font-sans),sans-serif; cursor:pointer; }
+.maat-live-market-tabs button.is-active { color:#2f96f7; }
+.maat-live-market-tabs button.is-active::after { position:absolute; bottom:-1px; left:0; width:48px; height:2px; background:#347aff; content:""; }
+.maat-live-market-tabs button:focus-visible,.maat-live-market-footer button:focus-visible { outline:2px solid #347aff; outline-offset:2px; }
+.maat-live-market-viewport { flex:none; height:115px; margin-top:5px; overflow:hidden; }
+.maat-live-market-track { display:flex; flex-direction:column; will-change:transform; }
+.maat-live-market-viewport:hover .maat-live-market-track { animation-play-state:paused; }
+.maat-trades-track { animation:maat-home-feed-scroll 16s linear infinite; }
+.maat-signals-track { animation:maat-home-feed-scroll 16s linear infinite; }
+.maat-liquidity-track { animation:maat-home-feed-scroll 15s linear infinite; }
+.maat-home-trade-row { display:grid; flex:none; height:54px; grid-template-columns:minmax(0,1fr) 43px 55px; align-items:center; gap:5px; padding:4px 2px; border-bottom:1px solid #242427; }
+.trade-wallet { display:grid; min-width:0; grid-template-columns:11px minmax(0,1fr); align-items:center; column-gap:5px; }
+.trade-wallet svg { width:11px; height:11px; fill:none; stroke:#2f96f7; stroke-width:1.2; }
+.trade-wallet strong { overflow:hidden; color:#f4f5f7; font-size:10px; font-weight:550; text-overflow:ellipsis; white-space:nowrap; }
+.trade-wallet time { grid-column:2; margin-top:3px; color:#99999e; font-size:9px; line-height:12px; white-space:nowrap; }
+.trade-info { display:flex; flex-direction:column; align-items:flex-start; gap:3px; }
+.trade-info span { min-width:38px; padding:3px 6px; border-radius:10px; text-align:center; font-size:9px; font-weight:600; line-height:12px; }
+.trade-info small { color:#99999e; font-size:8px; line-height:10px; white-space:nowrap; }
+.trade-info .buy,.trade-amount.buy { color:#35b15a; }
+.trade-info .buy { background:#10291a; }
+.trade-info .sell,.trade-amount.sell { color:#ff406b; }
+.trade-info .sell { background:#351720; }
+.trade-amount { justify-self:end; font-size:10px; font-weight:600; }
+.maat-home-signal-row { display:flex; flex:none; height:108px; flex-direction:column; gap:3px; padding:4px 2px; border-bottom:1px solid #242427; }
+.maat-home-signal-heading { display:flex; min-height:22px; align-items:center; gap:6px; }
+.maat-home-signal-heading strong { display:-webkit-box; overflow:hidden; color:#f4f5f7; font-size:10px; font-weight:600; line-height:12px; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+.maat-signal-iran-flag,.maat-signal-david { flex:none; width:20px; height:20px; overflow:hidden; border-radius:5px; object-fit:cover; }
+.maat-home-signal-direction { display:grid; height:13px; grid-template-columns:1fr 42px 42px; align-items:center; color:#aaa; font-size:9px; }
+.maat-home-signal-direction b { justify-self:center; padding:2px 6px; border-radius:6px; font-size:8px; font-weight:600; }
+.maat-home-signal-direction .yes-pill { background:#10291a; color:#35b15a; }
+.maat-home-signal-direction .no-pill { background:#351720; color:#ff406b; }
+.maat-home-signal-metrics { display:grid; grid-template-columns:minmax(92px,1fr) 42px 42px; align-items:center; row-gap:2px; color:#b8b8bc; font-size:8px; line-height:11px; }
+.maat-home-signal-metrics strong { justify-self:center; color:#f3f4f6; font-size:9px; font-weight:600; }
+.maat-home-signal-metrics .model-blue { color:#2f96f7; }
+.maat-home-signal-metrics .signal-score { width:42px; height:3px; overflow:hidden; border-radius:5px; background:#29292c; }
+.maat-home-signal-metrics .signal-score i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#2967ff,#2f96f7); }
+.maat-home-signal-metrics .score-number { grid-column:3; white-space:nowrap; }
+.maat-home-signal-time { overflow:hidden; color:#929298; font-size:8px; line-height:10px; text-overflow:ellipsis; white-space:nowrap; }
+.maat-home-liquidity-row { display:flex; flex:none; height:72px; align-items:flex-start; gap:10px; padding:7px 2px; border-bottom:1px solid #242427; }
+.maat-home-liquidity-row > div { display:flex; min-width:0; flex-direction:column; gap:3px; }
+.maat-home-liquidity-row time { color:#aaa; font-size:9px; line-height:11px; }
+.maat-home-liquidity-row strong { display:-webkit-box; overflow:hidden; color:#f3f4f6; font-size:10px; font-weight:600; line-height:12px; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+.maat-home-liquidity-row em { width:max-content; padding:3px 8px; border-radius:20px; font-size:8px; font-style:normal; font-weight:600; line-height:10px; }
+.liquidity-dot { position:relative; flex:none; width:10px; height:10px; margin-top:1px; border:3px solid #183b83; border-radius:50%; background:#347aff; }
+.maat-home-liquidity-row .neutral { background:#2a2a2c; color:#c1c1c1; }
+.maat-home-liquidity-row .blue { background:#162340; color:#347aff; }
+.maat-home-liquidity-row .green { background:#183120; color:#35b15a; }
+.maat-live-market-footer { display:flex; flex:1; min-height:39px; align-items:center; justify-content:space-between; color:#fff; font-size:12px; font-weight:600; }
+.maat-live-market-footer button { display:grid; width:24px; height:24px; place-items:center; padding:0; border:0; border-radius:50%; background:#242427; color:#f4f5f7; }
+.maat-live-market-footer svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+@keyframes maat-home-feed-scroll { from { transform:translateY(0); } to { transform:translateY(-50%); } }
+
+/* The liquidity page reuses the same chronological activity feed and loops it upward. */
+.maat-recent-liquidity-viewport { position:absolute; z-index:2; top:2247px; left:35px; width:305px; height:336px; overflow:hidden; }
+.maat-recent-liquidity-rail { position:absolute; top:6px; bottom:4px; left:5px; z-index:1; border-left:1px dashed #29292c; }
+.maat-recent-liquidity-track { position:relative; display:flex; flex-direction:column; animation:maat-liquidity-feed-scroll 12s linear infinite; will-change:transform; }
+.maat-recent-liquidity-viewport:hover .maat-recent-liquidity-track { animation-play-state:paused; }
+.maat-recent-liquidity-item { position:relative; flex:none; height:120px; padding-left:21px; }
+.maat-recent-liquidity-dot { position:absolute; z-index:2; top:0; left:0; width:12px; height:12px; }
+.maat-recent-liquidity-item time { display:block; color:#c1c1c1; font-size:10px; line-height:12px; }
+.maat-recent-liquidity-item strong { display:block; max-width:268px; margin-top:8px; color:#fff; font-size:12px; font-weight:550; line-height:18px; }
+.maat-recent-liquidity-status { display:block; width:max-content; margin-top:12px; padding:5px 10px; border-radius:20px; font-size:10px; font-weight:600; line-height:12px; }
+.maat-recent-liquidity-status.neutral { background:#2a2a2c; color:#c1c1c1; }
+.maat-recent-liquidity-status.blue { background:#162340; color:#347aff; }
+.maat-recent-liquidity-status.green { background:#183120; color:#35b15a; }
+@keyframes maat-liquidity-feed-scroll { from { transform:translateY(0); } to { transform:translateY(-50%); } }
+
+@media(prefers-reduced-motion:reduce) {
+  .maat-live-market-track,.maat-recent-liquidity-track { animation:none!important; transform:none!important; }
+}

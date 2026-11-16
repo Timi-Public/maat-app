@@ -78,3 +78,17 @@
 .wallet-nick{font-size:.82em;color:var(--muted);min-height:1.2em;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* Leo PRD 11-14 §2.6.2: back-to-top sits above the bottom menu, not on it */
 @media(max-width:1023px){.to-top{bottom:calc(106px + env(safe-area-inset-bottom,0px))}}
+
+/* Leo PRD 11-14 §6: centred confirm sheets with one centred action */
+.sheet[data-sheet="agent-start"] .sheet-head,.sheet[data-sheet="service-apply"] .sheet-head{position:relative;justify-content:center}
+.sheet[data-sheet="agent-start"] .sheet-head h2,.sheet[data-sheet="service-apply"] .sheet-head h2{text-align:center;flex:1}
+.sheet[data-sheet="agent-start"] .sheet-head .icon-btn,.sheet[data-sheet="service-apply"] .sheet-head .icon-btn{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+.confirm-list{margin-top:18px}
+.confirm-actions.single{justify-content:center}.confirm-actions.single .btn{flex:0 1 220px;min-width:180px}
+/* a start button whose checks fail looks off but still answers with the reason */
+.btn.primary.blocked{opacity:.45;filter:saturate(.4)}
+/* Leo PRD 11-14 §6: the custody product looks different from the standard one */
+.my-agent[data-product="custody"]{border-color:rgba(124,92,255,.55);background:linear-gradient(180deg,rgba(124,92,255,.16),transparent 140px),var(--panel)}
+.my-agent[data-product="custody"] .agent-title h2{color:#b9a6ff}
+.my-agent[data-product="custody"] .progress>span{background:linear-gradient(90deg,#7c5cff,#b18cff)}
+.my-agent[data-product="custody"] .btn.primary{background:linear-gradient(62deg,#6d4dff,#9b6bff)}

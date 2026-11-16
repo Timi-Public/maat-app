@@ -706,5 +706,11 @@ I18N.data.ko={
 "Implied":"내재 확률",
 "More trades":"거래 더 보기",
 "More signals":"시그널 더 보기",
-"of locked funds":"잠금 자금 기준"
+"of locked funds":"잠금 자금 기준",
+"Custody fee 3%":"위탁 수수료 3%",
+"Agent balance":"Agent 잔액",
+"Not enough USDC in your wallet":"지갑 USDC 잔액 부족",
+"Agent balance is too low. Deposit MAAT in Tokenomics first":"Agent 잔액이 부족합니다. 먼저 Tokenomics에서 MAAT를 충전하세요",
+"The fee is taken at the start and is not refunded if you stop early":"수수료는 시작 시 차감되며 조기 중지 시 환불되지 않습니다",
+"Resuming custody":"위탁 재개 중"
 };

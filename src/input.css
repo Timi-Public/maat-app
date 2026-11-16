@@ -283,12 +283,12 @@ button { font:inherit; }
 @media(max-width:390px) { .maat-guide-page { padding-right:16px; padding-left:16px; } .maat-guide-header { padding-right:24px; padding-left:24px; } .maat-guide-flow { gap:6px; } .maat-guide-flow span { padding-right:10px; padding-left:10px; } }
 
 /* Compact live feed inside the home market activity card. */
-.maat-live-market-card { position:absolute; z-index:15; top:2295px; left:20px; display:flex; width:335px; height:259px; flex-direction:column; overflow:hidden; padding:16px 15px 0; border:1px solid #262527; border-radius:16px; background:#111; color:#f5f6f8; font-family:var(--font-sans),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+.maat-live-market-card { position:absolute; z-index:15; top:2295px; left:20px; display:flex; width:335px; height:259px; flex-direction:column; overflow:hidden; padding:16px 15px 0; border:1px solid #262527; border-radius:16px; background:#111; color:#f5f6f8; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif; }
 .maat-live-market-card h2 { flex:none; margin:0; color:#fff; font-size:14px; font-weight:600; line-height:18px; letter-spacing:-.2px; }
 .maat-live-market-tabs { position:relative; z-index:1; display:flex; flex:none; height:42px; margin-top:9px; border-bottom:1px solid #2c2c2d; pointer-events:auto; }
-.maat-live-market-tabs button { position:relative; display:flex; height:34px; flex:1; align-items:center; padding:0; border:0; background:transparent; color:#c1c1c1; text-align:left; font:400 12px/14px var(--font-sans),sans-serif; cursor:pointer; pointer-events:auto; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.maat-live-market-tabs button { position:relative; display:flex; height:34px; flex:1; align-items:center; padding:0; border:0; background:transparent; color:#c1c1c1; text-align:left; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Helvetica Neue",Arial,sans-serif; font-size:12px; font-style:normal; font-weight:400; line-height:14px; letter-spacing:normal; cursor:pointer; pointer-events:auto; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
 .maat-live-market-tabs button.is-active { color:#3096f7; }
-.maat-live-market-tabs button.is-active::after { position:absolute; bottom:-1px; left:0; width:48px; height:2px; background:#2967ff; content:""; }
+.maat-live-market-tabs button.is-active::after { position:absolute; bottom:-1px; left:0; width:24px; height:2px; background:#2967ff; content:""; }
 .maat-live-market-tabs button:focus-visible,.maat-live-market-footer button:focus-visible { outline:2px solid #347aff; outline-offset:2px; }
 .maat-live-market-viewport { flex:none; height:115px; margin-top:5px; overflow:hidden; }
 .maat-live-market-track { display:flex; flex-direction:column; will-change:transform; }

@@ -71,3 +71,10 @@
 .mobile-nav>a.nav-special .nav-tile .icon{width:25px;height:25px;stroke-width:1.8}
 .cw-logo.demo{background:var(--brand-grad);color:#fff}
 .ov-status .ov-live{background:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+
+/* Leo PRD 11-14 §2.6.1: wallet address on top, nickname line under it (kept even when the nickname is empty) */
+.wallet-id{display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;min-width:0}
+.wallet-addr{font-variant-numeric:tabular-nums;white-space:nowrap}
+.wallet-nick{font-size:.82em;color:var(--muted);min-height:1.2em;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Leo PRD 11-14 §2.6.2: back-to-top sits above the bottom menu, not on it */
+@media(max-width:1023px){.to-top{bottom:calc(106px + env(safe-area-inset-bottom,0px))}}

@@ -52,7 +52,7 @@ window.Overview=(()=>{
     const {money}=U,eligible=D.summary.eligibleEventCount??D.markets.filter(U.eligible).length;
     const agent=`<article class="panel ov-product" data-card="ov-agent">${productHead('agent','Agent Trading',t('AI Agent 交易','AI agent trading'),'#agent')}<h4>${t('自动交易预测市场','Trades prediction markets automatically')}</h4><p>${t('Agent 持续分析 Polymarket 行情，识别信号后自动下单，全程受风控约束','The Agent analyses Polymarket data, trades on its signals automatically and stays within risk limits')}</p>${signalArt()}`
       +`<div class="ov-spec"><div class="between ov-spec-head"><span>${t('智能交易系统','Trading system')}</span></div><div class="ov-spec-grid">`
-      +`<div><span class="label">${t('监测盘口','Markets monitored')}</span><b>${money(Engine.monitored()??D.markets.length,false,0)}</b><small>${t('个','markets')}</small></div>`
+      +`<div><span class="label">${t('监测市场','Markets monitored')}</span><b>${money(Engine.monitored()??D.markets.length,false,0)}</b><small>${t('个','markets')}</small></div>`
       +`<div><span class="label">${t('候选信号','Candidate signals')}</span><b data-engine="candidates">${Engine.candidates()}</b><small>${t('条','signals')}</small></div>`
       +`<div><span class="label">${t('有效信号','Valid signals')}</span><b data-engine="signals">${Engine.signals()}</b><small>${t('条','signals')}</small></div></div>`
       +`<div class="between ov-spec-foot"><span class="row">${icon('clock','',15)}${t('8 小时运行周期','8H run cycle')}</span><span class="ov-chip">${t('自动化交易','Automated')}</span></div></div>`

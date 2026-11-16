@@ -700,5 +700,8 @@ I18N.data.vi={
 "Custody stopped. Closing started":"Đã dừng ủy thác. Bắt đầu đóng vị thế",
 "updated every 30 min":"cập nhật mỗi 30 phút",
 "Funds in custody":"Vốn ủy thác",
-"Trades prediction markets automatically":"Tự động giao dịch thị trường dự đoán"
+"Trades prediction markets automatically":"Tự động giao dịch thị trường dự đoán",
+"No nickname":"Chưa đặt biệt danh",
+"Model probability":"Xác suất mô hình",
+"Implied":"Ngầm định"
 };

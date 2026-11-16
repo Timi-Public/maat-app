@@ -700,5 +700,8 @@ I18N.data.ko={
 "Custody stopped. Closing started":"위탁이 중지되었습니다. 포지션 정리를 시작합니다",
 "updated every 30 min":"30분마다 업데이트",
 "Funds in custody":"위탁 자금",
-"Trades prediction markets automatically":"예측 마켓을 자동으로 트레이딩"
+"Trades prediction markets automatically":"예측 마켓을 자동으로 트레이딩",
+"No nickname":"닉네임 없음",
+"Model probability":"모델 확률",
+"Implied":"내재 확률"
 };

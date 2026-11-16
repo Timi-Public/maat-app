@@ -192,12 +192,12 @@ window.Wallet=(()=>{
   function suggested(){const r=store.get('maat-ref');return valid(r)&&lower(r)!==lower(S.walletAddress)?r:OFFICIAL}
   function nickname(a){
     if(lower(a)===OFFICIAL)return t(`${U.brand} 官方`,`${U.brand} Official`,{vi:`${U.brand} chính thức`,ko:`${U.brand} 공식`});
-    try{const p=JSON.parse(localStorage.getItem('forea-profile-'+lower(a))||'{}');if(p.nickname)return String(p.nickname).slice(0,24)}catch{}
+    try{const p=JSON.parse(localStorage.getItem('forea-profile-'+lower(a))||'{}');if(p.nickname)return String(p.nickname).slice(0,8)}catch{}
     return Account.defaultName(a);
   }
   function person(a){
     const off=lower(a)===OFFICIAL;
-    return `<span class="personal-avatar ref-avatar">${off?`<img src="assets/mark.svg" alt="">`:Account.avatar(Account.seed(a))}</span><div class="ref-id"><b>${U.esc(nickname(a))}</b><code>${U.esc(a.slice(0,8)+'…'+a.slice(-6))}</code></div>`;
+    return `<span class="personal-avatar ref-avatar">${off?`<img src="assets/mark.svg" alt="">`:Account.avatar(Account.seed(a))}</span><div class="ref-id">${nickname(a)?`<b>${U.esc(nickname(a))}</b>`:''}<code>${U.esc(a.slice(0,8)+'…'+a.slice(-6))}</code></div>`;
   }
   function referrer(gate=false,error=''){
     if(!S.connected)return;

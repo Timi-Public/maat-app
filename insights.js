@@ -17,7 +17,7 @@ window.Insights = (() => {
     const rows = [
       [t('监测市场', 'Markets monitored'), Engine.monitored(), 'monitored', false],
       [t('候选信号', 'Candidate signals'), Engine.candidates(), 'candidates', true],
-      [t('有效交易信号', 'Valid signals'), Engine.signals(), 'signals', true],
+      [t('有效信号', 'Valid signals'), Engine.signals(), 'signals', true],
       [t('通过风控', 'Passed risk checks'), Engine.passed(), 'passed', true]
     ];
     return `<article class="panel ins-funnel" data-card="signal-funnel">

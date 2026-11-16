@@ -153,7 +153,7 @@ button.more-item:hover,button.more-item:focus-visible{background:var(--panel2)}
 
 /* 11-06 Leo #27: Recent Activity is a vertical timeline that scrolls slowly; pauses on touch/hover */
 .activity-feed{position:relative;height:300px;overflow:hidden;mask-image:linear-gradient(transparent,#000 8%,#000 88%,transparent)}
-.activity-feed .activity-scroll{display:flex;flex-direction:column;gap:0;max-height:none;overflow:visible;animation:activity-scroll 48s linear infinite}
+.activity-feed .activity-scroll{display:flex;flex-direction:column;gap:0;max-height:none;overflow:visible;animation:activity-scroll 36s linear infinite}
 .activity-feed .activity-loop{display:flex;flex-direction:column}
 .activity-feed .timeline-item{padding:0 0 22px 22px}
 .activity-feed:hover .activity-scroll,.activity-feed:active .activity-scroll{animation-play-state:paused}

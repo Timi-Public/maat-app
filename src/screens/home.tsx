@@ -1,6 +1,7 @@
 import imgAbstractBackgroundBluePalette2 from "../../public/assets/figma/f6a4c.png";
 import imgExecC676EbceB2664D67A47FAd0Eb056068A1 from "../../public/assets/figma/7fd49.png";
 import imgImage49 from "../../public/assets/figma/d26b2.png";
+import imgMayorOfCannesDavidLisnardDeliversASpeechDuringACeremonyToR1 from "../../public/assets/figma/60b32.png";
 import imgGoogleSearch2 from "../../public/assets/figma/a6ddc.png";
 import imgPolygonLogoSvgRealCompanyAlphabetLetterPLogo1 from "../../public/assets/figma/cac17.png";
 import imgImage45 from "../../public/assets/figma/749f4.png";

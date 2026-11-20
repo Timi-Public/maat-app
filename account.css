@@ -72,3 +72,23 @@
 .portfolio-group-head>b{font-size:15px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .portfolio-group-head small{font-size:10px;font-weight:450;color:var(--muted)}
 .profile-address>span{overflow-wrap:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* 11-20 Leo PRD 11-14 §9: My Portfolio restyle — split bar under the total, one tile per group, coin marks on rows */
+.portfolio-card{background:linear-gradient(180deg,color-mix(in oklab,var(--accent) 7%,var(--panel)) 0,var(--panel) 150px)}
+.portfolio-total>strong{font-size:36px;font-variant-numeric:tabular-nums}
+.pf-split{display:flex;height:6px;border-radius:999px;background:color-mix(in oklab,var(--accent) 28%,var(--panel2));overflow:hidden;margin-top:16px}
+.pf-split>span{display:block;border-radius:999px;background:var(--accent);min-width:6px}
+.pf-legend{display:flex;justify-content:space-between;gap:12px;margin-top:9px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pf-legend span{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.pf-legend i,.portfolio-group-head h3 i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.pf-legend .contract i,.portfolio-group.contract .portfolio-group-head h3 i{background:color-mix(in oklab,var(--accent) 38%,var(--panel2))}
+.portfolio-card .portfolio-group{border:1px solid var(--line);border-radius:14px;background:var(--panel2);padding:14px 14px 6px;margin-top:14px}
+.portfolio-group-head{align-items:center;padding-bottom:10px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.portfolio-group-head h3{display:flex;align-items:center;gap:8px;font-size:13px}
+.portfolio-card .portfolio-line{display:flex;align-items:center;gap:10px;min-height:40px}
+.portfolio-card .portfolio-line>span:not(.pf-coin){flex:1;min-width:0}
+.portfolio-card .portfolio-line>b{text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.pf-coin{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:12px;font-weight:700;line-height:1}
+.pf-coin.usdc{background:#2775ca;color:#fff}
+.pf-coin.maat img{display:block;width:22px;height:22px;border-radius:50%}
+.portfolio-card .portfolio-line>.pf-coin{flex:0 0 22px;width:22px}

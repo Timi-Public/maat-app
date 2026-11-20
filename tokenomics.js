@@ -4,6 +4,10 @@ window.Tokenomics=(()=>{
   const demoRate=.0128;
   const demoImpact=.0012;
   const chartEnd=()=>Math.floor(Date.now()/60000)*60000;
+  // Leo PRD 11-14 §7 卡片1 第 4 条「更新频率…及时一些」: the demo price moves every 3 s around the 0.0128 anchor
+  // (a slow drift within ±1.2% plus a small step), the same value on every page and after a reload.
+  const TICK=3000;
+  const live=(t=Date.now())=>Number((demoRate*(1+Engine.walk('tk-px',600000,-.012,.012,t)+(Engine.rnd('tk-px-step',Math.floor(t/TICK))-.5)*.004)).toFixed(6));
   let pendingDeposit=false,pendingSwap=null;
   const ranges={
     '24H':[.0108,.011,.0106,.0112,.0118,.0115,.0119,.0123,.012,.0127,.0125,.0128],
@@ -35,7 +39,7 @@ window.Tokenomics=(()=>{
     const at=f=>{const x=f*(a.length-1),k=Math.min(a.length-2,Math.floor(x));return a[k]+(a[k+1]-a[k])*(x-k)};
     let prev=a[0]*(1-.004);
     for(let i=0;i<N;i++){
-      const r=k=>Engine.rnd('tk-c:'+range+':'+k,i),c=i===N-1?demoRate:at(i/(N-1))*(1+(r('n')-.5)*.012),o=prev;
+      const r=k=>Engine.rnd('tk-c:'+range+':'+k,i),c=i===N-1?live():at(i/(N-1))*(1+(r('n')-.5)*.012),o=prev;
       out.push({t:end-step*(N-1-i),o,c,h:Math.max(o,c)*(1+r('h')*.009),l:Math.min(o,c)*(1-r('l')*.009),v:.25+r('v')*.75});prev=c;
     }
     return out;
@@ -48,7 +52,7 @@ window.Tokenomics=(()=>{
   }
   function caption(i,range=S.tokenRange){
     const c=candles(range)[i],f=n=>U.money(n,false,4),up=c.c>=c.o;
-    return `<span id="token-chart-time">${U.stamp(c.t)} UTC+8</span><span id="token-chart-price" class="tk-ohlc ${up?'positive':'negative'}"><b>${f(c.c)}</b> <small>O ${f(c.o)} · H ${f(c.h)} · L ${f(c.l)}</small></span>`;
+    return `<span id="token-chart-time">${U.stamp(c.t)} UTC+8</span><span id="token-chart-price" class="tk-ohlc ${up?'positive':'negative'}"><b>${U.money(c.c,false,i===N-1?5:4)}</b> <small>O ${f(c.o)} · H ${f(c.h)} · L ${f(c.l)}</small></span>`;
   }
   function chart(){
     const g=geometry(),{cs,x,y}=g,sel=Number.isInteger(S.tokenChartPoint)&&S.tokenChartPoint<N?S.tokenChartPoint:N-1;
@@ -59,7 +63,7 @@ window.Tokenomics=(()=>{
   }
   function marketCard(){
     const {t}=U;
-    return `<article class="panel tk-market"><div class="tk-market-heading"><div class="row">${tokenMark()}<div><h2>MAAT</h2></div></div><span class="tk-network"><img src="assets/chain-polygon.svg" alt="" width="14" height="14"> Polygon</span></div><div class="tk-prices"><div><span class="label">${t('发行价格','Issue price')}</span><strong>— <small>USDC</small></strong></div><div data-row="current-price"><span class="label">${t('当前价格','Current price')}</span><strong>${U.money(demoRate,false,4)} <small>USDC</small></strong></div></div>${chart()}<div class="tk-market-source"><span>${t('行情来源','Price source')} <a href="https://app.uniswap.org/" target="_blank" rel="noopener noreferrer">Uniswap ${icon('external','',10)}</a></span><time>${t('更新于','Updated')} ${U.stamp(chartEnd())} UTC+8</time></div></article>`;
+    return `<article class="panel tk-market"><div class="tk-market-heading"><div class="row">${tokenMark()}<div><h2>MAAT</h2></div></div><span class="tk-network"><img src="assets/chain-polygon.svg" alt="" width="14" height="14"> Polygon</span></div><div class="tk-prices"><div><span class="label">${t('发行价格','Issue price')}</span><strong>— <small>USDC</small></strong></div><div data-row="current-price"><span class="label">${t('当前价格','Current price')}</span><strong><span data-live-price="5">${U.money(live(),false,5)}</span> <small>USDC</small></strong></div></div>${chart()}<div class="tk-market-source"><span>${t('行情来源','Price source')} <a href="https://app.uniswap.org/" target="_blank" rel="noopener noreferrer">Uniswap ${icon('external','',10)}</a></span><time>${t('更新于','Updated')} <span id="token-updated">${U.stamp(Date.now(),true)}</span> UTC+8</time></div></article>`;
   }
   // echo 11-06: token figures shown like the platform figures. One source for the six cards, Buyback & Burn and Home,
   // so they always agree: burned grows ~42 MAAT/h from 10-01; total = 21M − burned; circulating = liquidity 25% +
@@ -69,7 +73,7 @@ window.Tokenomics=(()=>{
     const hours=Math.max(0,(t-LAUNCH)/3600000),days=hours/24;
     const burned=Math.round(168000+hours*42),total=INITIAL-burned;
     const circulating=Math.round(INITIAL*.25+INITIAL*.4*Math.min(1,days/1461)-burned);
-    return {burned,total,circulating,bought:Math.round(burned*.88),cap:Math.round(circulating*demoRate), // bought back ≈ 88% of burns, the rest is trading tax (demo)
+    return {burned,total,circulating,bought:Math.round(burned*.88),cap:Math.round(circulating*live(t)), // bought back ≈ 88% of burns, the rest is trading tax (demo)
       pool:Math.round(Engine.walk('tk-pool',3600000,46000,54000,t)),volume:Math.round(Engine.walk('tk-vol',3600000,11000,18000,t)),ratio:burned/INITIAL};
   }
   function history(kind,t=Date.now()){
@@ -80,7 +84,7 @@ window.Tokenomics=(()=>{
   // Leo PRD 11-14 §7 卡片2. Burns destroy supply for good and minting is disabled, so max supply = 21M − burned.
   function metrics(){
     const {t,money}=U,s=stats();
-    return `<article class="panel tk-supply-card">${[[t('流通供应量','Circulating supply'),s.circulating,'MAAT'],[t('市值','Market cap'),s.cap,'USDC'],[t('最大供应量','Max supply'),s.total,'MAAT'],[t('稀释估值','Fully diluted value'),Math.round(s.total*demoRate),'USDC']].map(([label,v,unit])=>`<div><span class="label">${label}</span><strong>${money(v,false,0)}</strong><small>${unit}</small></div>`).join('')}</article>`;
+    return `<article class="panel tk-supply-card">${[[t('流通供应量','Circulating supply'),s.circulating,'MAAT'],[t('市值','Market cap'),s.cap,'USDC','token-cap'],[t('最大供应量','Max supply'),s.total,'MAAT'],[t('稀释估值','Fully diluted value'),Math.round(s.total*live()),'USDC','token-fdv']].map(([label,v,unit,id])=>`<div><span class="label">${label}</span><strong${id?` id="${id}"`:''}>${money(v,false,0)}</strong><small>${unit}</small></div>`).join('')}</article>`;
   }
   function quote(){
     ensure();
@@ -90,8 +94,8 @@ window.Tokenomics=(()=>{
     // Demo assumptions: MAAT incurs a 5% token tax on both buy and sell.
     // Buy: USDC -> MAAT after price impact -> token tax. Sell: token tax -> USDC after price impact.
     const amount=Number.isFinite(n)&&n>0?n:0;
-    const taxableTokens=reverse?amount:amount/demoRate*(1-demoImpact);
-    const tax=taxableTokens*.05,output=reverse?(amount-tax)*demoRate*(1-demoImpact):taxableTokens-tax;
+    const rate=live(),taxableTokens=reverse?amount:amount/rate*(1-demoImpact);
+    const tax=taxableTokens*.05,output=reverse?(amount-tax)*rate*(1-demoImpact):taxableTokens-tax;
     const minimum=output*(1-S.tokenSlippage/100);
     const valid=withinBalance&&Number.isFinite(output)&&Number.isFinite(tax)&&Number.isFinite(minimum);
     return {n,reverse,balance,valid,tax,output,minimum,taxUnit:'MAAT',from:reverse?'MAAT':'USDC',to:reverse?'USDC':'MAAT'};
@@ -99,7 +103,7 @@ window.Tokenomics=(()=>{
   function swapMarkup(){
     ensure();const {t,money}=U,q=quote();
     const message=q.n>0&&q.n>=q.balance?t('输入金额须小于钱包余额','Amount must be less than wallet balance'):q.n<0?t('请输入有效金额','Enter a valid amount'):'';
-    return `<article class="panel tk-swap"><div class="panel-head"><h2>Quick Swap</h2><span class="tk-via">${t('通过 Uniswap 执行','Executed on Uniswap')}</span></div><div class="tk-swap-box"><div class="between label"><label for="token-swap-amount">${t('支付','You pay')}</label><span>${t('余额','Balance')} <span id="token-swap-balance">${money(q.balance)}</span> ${q.from}</span></div><div class="tk-swap-value"><input id="token-swap-amount" type="number" inputmode="decimal" min="0" step="any" value="${S.tokenSwapAmount||''}" placeholder="0.00" aria-describedby="token-swap-error"><span class="tk-token-chip"><span class="token ${q.reverse?'':'usdc'}">${q.reverse?icon('spark','',14):'$'}</span>${q.from}</span></div></div><div class="tk-swap-switch"><button data-action="token-reverse" aria-label="${t('切换兑换方向','Reverse swap direction')}">${icon('swap','',21)}</button></div><div class="tk-swap-box"><div class="between label"><span>${t('预计获得','You receive')}</span><span>${t('余额','Balance')} ${money(q.reverse?S.walletBalance:S.tokenWalletBalance)} ${q.to}</span></div><div class="tk-swap-value"><strong id="token-swap-output">${money(q.output)}</strong><span class="tk-token-chip"><span class="token ${q.reverse?'usdc':''}">${q.reverse?'$':icon('spark','',14)}</span>${q.to}</span></div></div><p id="token-swap-error" class="field-error" role="status">${message}</p><div class="tk-swap-details"><div><span>${t('兑换率','Rate')}</span><b>1 MAAT = 0.0128 USDC</b></div><div><span>${t('MAAT 交易税','MAAT transaction tax')}</span><b>5% <span id="token-swap-tax">(${money(q.tax)} MAAT)</span></b></div><div><span>${t('价格影响','Price impact')}</span><b>0.12%</b></div><div><span>${t('最少获得','Minimum received')}</span><b id="token-swap-minimum">${money(q.minimum)} ${q.to}</b></div><div><span>${t('预计网络费','Estimated network fee')}</span><b>0.02 POL</b></div><div><span>${t('滑点容忍度','Slippage tolerance')}</span><button data-action="token-slippage">${S.tokenSlippage}% ${icon('settings','',12)}</button></div></div><button id="token-swap-submit" class="btn primary block" data-action="token-swap-review" ${q.valid?'':'disabled'}>${t('预览兑换','Preview swap')}${icon('arrow','',14)}</button></article>`;
+    return `<article class="panel tk-swap"><div class="panel-head"><h2>Quick Swap</h2><span class="tk-via">${t('通过 Uniswap 执行','Executed on Uniswap')}</span></div><div class="tk-swap-box"><div class="between label"><label for="token-swap-amount">${t('支付','You pay')}</label><span>${t('余额','Balance')} <span id="token-swap-balance">${money(q.balance)}</span> ${q.from}</span></div><div class="tk-swap-value"><input id="token-swap-amount" type="number" inputmode="decimal" min="0" step="any" value="${S.tokenSwapAmount||''}" placeholder="0.00" aria-describedby="token-swap-error"><span class="tk-token-chip"><span class="token ${q.reverse?'':'usdc'}">${q.reverse?icon('spark','',14):'$'}</span>${q.from}</span></div></div><div class="tk-swap-switch"><button data-action="token-reverse" aria-label="${t('切换兑换方向','Reverse swap direction')}">${icon('swap','',21)}</button></div><div class="tk-swap-box"><div class="between label"><span>${t('预计获得','You receive')}</span><span>${t('余额','Balance')} ${money(q.reverse?S.walletBalance:S.tokenWalletBalance)} ${q.to}</span></div><div class="tk-swap-value"><strong id="token-swap-output">${money(q.output)}</strong><span class="tk-token-chip"><span class="token ${q.reverse?'usdc':''}">${q.reverse?'$':icon('spark','',14)}</span>${q.to}</span></div></div><p id="token-swap-error" class="field-error" role="status">${message}</p><div class="tk-swap-details"><div><span>${t('兑换率','Rate')}</span><b>1 MAAT = <span data-live-price="5">${money(live(),false,5)}</span> USDC</b></div><div><span>${t('MAAT 交易税','MAAT transaction tax')}</span><b>5% <span id="token-swap-tax">(${money(q.tax)} MAAT)</span></b></div><div><span>${t('价格影响','Price impact')}</span><b>0.12%</b></div><div><span>${t('最少获得','Minimum received')}</span><b id="token-swap-minimum">${money(q.minimum)} ${q.to}</b></div><div><span>${t('预计网络费','Estimated network fee')}</span><b>0.02 POL</b></div><div><span>${t('滑点容忍度','Slippage tolerance')}</span><button data-action="token-slippage">${S.tokenSlippage}% ${icon('settings','',12)}</button></div></div><button id="token-swap-submit" class="btn primary block" data-action="token-swap-review" ${q.valid?'':'disabled'}>${t('预览兑换','Preview swap')}${icon('arrow','',14)}</button></article>`;
   }
   function consumption(){
     const {t,money}=U;
@@ -147,7 +151,8 @@ window.Tokenomics=(()=>{
   }
   function swapConfirm(){
     if(!pendingSwap||S.overlay!=='token-swap')return;
-    const q=quote();if(!q.valid||pendingSwap.account!==S.account||pendingSwap.n!==q.n||pendingSwap.reverse!==q.reverse||pendingSwap.output!==q.output)return;
+    // The price keeps moving while the sheet is open; the swap settles at the quote the user reviewed.
+    const now=quote(),q=pendingSwap;if(!now.valid||q.account!==S.account||q.n!==now.n||q.reverse!==now.reverse)return;
     pendingSwap=null;
     if(q.reverse){S.tokenWalletBalance-=q.n;S.walletBalance+=q.output}else{S.walletBalance-=q.n;S.tokenWalletBalance+=q.output}
     S.walletBalance=Number(S.walletBalance.toFixed(8));S.tokenWalletBalance=Number(S.tokenWalletBalance.toFixed(8));
@@ -171,6 +176,23 @@ window.Tokenomics=(()=>{
       const h=document.getElementById('token-chart-hguide');h?.setAttribute('y1',g.y(c.c));h?.setAttribute('y2',g.y(c.c));
     }
   }
+  // Every 3 s: price figures, the last candle, market cap and the swap quote follow the price. Nothing re-renders,
+  // so scroll position, the chart cursor and a half-typed amount stay as they are.
+  let shown=live();
+  function tick(){
+    const p=live(),dir=p>shown?'up':p<shown?'down':'';shown=p;
+    document.querySelectorAll('[data-live-price]').forEach(el=>{const v=U.money(p,false,Number(el.dataset.livePrice));if(el.textContent===v)return;el.textContent=v;if(dir){el.classList.remove('tick-up','tick-down');void el.offsetWidth;el.classList.add('tick-'+dir)}});
+    const set=(id,v)=>{const el=document.getElementById(id);if(el&&el.textContent!==v)el.textContent=v};
+    const s=stats();set('token-cap',U.money(s.cap,false,0));set('token-fdv',U.money(Math.round(s.total*p),false,0));set('ov-token-cap',U.money(s.cap,false,0));
+    const svg=document.querySelector('.tk-kline svg');
+    if(svg){
+      const tmp=document.createElement('div');tmp.innerHTML=chart();svg.replaceWith(tmp.querySelector('svg'));
+      const sel=Number.isInteger(S.tokenChartPoint)&&S.tokenChartPoint<N?S.tokenChartPoint:N-1,cap=document.querySelector('.tk-chart-caption');if(cap&&sel===N-1)cap.innerHTML=caption(sel);
+      set('token-updated',U.stamp(Date.now(),true));
+    }
+    if(document.getElementById('token-swap-output')&&S.overlay!=='token-swap')updateQuote();
+  }
+  setInterval(()=>{if(!document.hidden)tick()},TICK);
   const actions={
     'token-range':range=>{if(!ranges[range])return;S.tokenRange=range;S.tokenChartPoint=N-1;render({preserve:true})},
     'token-history':tab=>{if(!['burn','buyback'].includes(tab))return;S.tokenHistoryTab=tab;render({preserve:true})},
@@ -180,5 +202,5 @@ window.Tokenomics=(()=>{
     'token-swap-review':v=>Wallet.gate()||swapReview(v),'token-swap-confirm':swapConfirm,'token-deposit':v=>Wallet.gate()||deposit(v),'token-deposit-confirm':confirmDeposit,
     'token-consumption-details':()=>{location.hash='account/consumption'}
   };
-  return {stats,render:renderPage,swapMarkup,actions,onInput,ensure,quote,depositToProject,price:demoRate,tokenValue:amount=>amount*demoRate};
+  return {stats,render:renderPage,swapMarkup,actions,onInput,ensure,quote,depositToProject,get price(){return live()},tokenValue:amount=>amount*live()};
 })();

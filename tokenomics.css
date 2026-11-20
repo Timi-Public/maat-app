@@ -21,3 +21,11 @@
 .tk-history-row span>b{display:block;font-weight:600;font-variant-numeric:tabular-nums}
 .tk-history-row span>small{display:block;font-size:10px;color:var(--quiet);margin-top:2px}
 .tk-history-link{display:grid;place-items:center;width:28px;height:28px;border:1px solid var(--line);border-radius:8px;color:var(--muted);opacity:.55}
+
+/* 11-20 live price: a short colour pulse when the figure changes */
+[data-live-price]{font-variant-numeric:tabular-nums}
+[data-live-price].tick-up{animation:tk-tick-up .9s ease-out}
+[data-live-price].tick-down{animation:tk-tick-down .9s ease-out}
+@keyframes tk-tick-up{0%{color:var(--green)}100%{color:inherit}}
+@keyframes tk-tick-down{0%{color:var(--red)}100%{color:inherit}}
+@media(prefers-reduced-motion:reduce){[data-live-price].tick-up,[data-live-price].tick-down{animation:none}}

@@ -1,0 +1,82 @@
+/* Leo PRD §2.3 多设备适配. Loaded last; phone rules stay in the other files.
+   Tablet (640–1023px): the phone layout in a wider column, bottom navigation.
+   Desktop (≥1024px): top navigation, a 1200px page, cards arranged in columns. */
+
+@media(min-width:640px) and (max-width:1023px){
+  body{max-width:none}
+  .top-inner{max-width:808px;margin:0 auto;padding:0 24px}
+  .main{padding-left:max(24px,calc((100vw - 760px)/2));padding-right:max(24px,calc((100vw - 760px)/2))}
+  .scrim,.sheet-wrap,.more-layer{max-width:none}
+  .sheet-wrap{display:flex;align-items:center;justify-content:center;padding:24px}
+  .sheet-wrap .sheet{width:460px;max-width:100%;max-height:88dvh;border-radius:20px;margin:0}
+  .lang-page-inner{width:380px}
+  .ov-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(min-width:1024px){
+  .top-inner{max-width:1248px;padding:0 24px}
+  .main{padding:32px max(24px,calc((100vw - 1200px)/2)) 56px}
+  .more-popover{right:max(24px,calc((100vw - 1200px)/2))}
+
+  /* Reading and single-task pages keep a narrow column. */
+  .main>section,.main>footer{max-width:780px;margin-left:auto;margin-right:auto}
+  .main[data-route="home"]>*,.main[data-route="agent"]>*,.main[data-route="liquidity"]>*,
+  .main[data-route="tokenomics"]>*,.main[data-route="account"]:not([data-sub])>*{max-width:none}
+
+  /* Overview */
+  .ov-page{gap:20px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ov-page>*{grid-column:1/-1}
+  .ov-hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:auto auto auto auto;align-content:center;column-gap:48px;padding:40px 44px;min-height:420px}
+  .ov-hero h1{grid-column:1;grid-row:2;font-size:clamp(32px,3.3vw,44px);line-height:1.18;letter-spacing:-1.2px;margin:0 0 16px}
+  .ov-hero>p{grid-column:1;grid-row:3;font-size:16px}
+  .ov-hero-actions{grid-column:1;grid-row:4;margin-top:32px}
+  .ov-visual{grid-column:2;grid-row:1/-1;align-self:center;margin-top:0}
+  .ov-emblem{position:static;grid-column:1;grid-row:1;align-self:end;width:72px;margin-bottom:24px}
+  .ov-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .ov-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .ov-infra{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:24px}
+  .ov-infra>.ov-row-link{grid-column:1/-1}
+  .ov-page>.ov-section:nth-last-of-type(2),.ov-page>.ov-section:nth-last-of-type(1){grid-column:auto;display:grid;grid-template-rows:auto 1fr;align-content:start}
+  .ov-token-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .ov-rules{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ov-footer{max-width:none}
+
+  /* Agent Trading · overview */
+  .agent-layout{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;align-items:stretch}
+  .agent-layout>*{grid-column:1/-1;margin:0}
+  .agent-layout>.my-agent{grid-column:1/8;grid-row:1/3}
+  .agent-layout>.metrics-grid{grid-column:8/13;grid-row:1}
+  .agent-layout>.engine-panel{grid-column:8/13;grid-row:2}
+  .agent-layout>.signals-panel{grid-column:1/7}
+  .agent-layout>.monitor-panel{grid-column:7/13}
+  /* Agent Trading · analysis and monitoring */
+  .ins-layout{gap:20px}
+  .ins-layout>.ins-health{grid-column:1}
+  .ins-layout>.ins-health+.ins-log{grid-column:2}
+
+  /* Liquidity Marketplace */
+  .main[data-route="liquidity"]>section{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:20px;align-items:stretch}
+  .main[data-route="liquidity"]>section>*{grid-column:1/-1}
+  .main[data-route="liquidity"] .liquidity-stats{grid-column:1/6}
+  .main[data-route="liquidity"] .service-offer{grid-column:6/13;margin-top:0}
+  .market-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .services-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+
+  /* Tokenomics */
+  .tk-stack{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;align-items:stretch}
+  .tk-stack>*{grid-column:1/-1;margin:0}
+  .tk-stack>.tk-market{grid-column:1/9}
+  .tk-stack>.tk-swap{grid-column:9/13;grid-row:1}
+  .tk-stack>.tk-supply-card{grid-column:1/9;grid-row:2}
+  .tk-stack>.tk-consumption{grid-column:9/13;grid-row:2}
+  .tk-stack>.tk-burn{grid-column:1/8}
+  .tk-stack>.tk-allocation{grid-column:8/13}
+
+  .main[data-route="swap"]>section{max-width:520px}
+
+  /* Account */
+  .account-layout>.stack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+  .account-layout>.stack>*{margin:0}
+  .main[data-route="account"] .account-gate.login,.main[data-route="account"] .login-after{max-width:560px;margin-left:auto;margin-right:auto}
+}
